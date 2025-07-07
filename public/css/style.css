@@ -1,0 +1,626 @@
+h1, h2, form, html, p, div, span, table, tbody, td, tr, img {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    color: #FFFFFF;
+    margin: 0 auto;
+    max-width: 480px;
+    background-color: #333333;
+}
+
+body, table, td, th, input, textarea, select {
+    font-family: Verdana, Arial, sans-serif;
+}
+
+body {
+    background-color: #333333;
+}
+
+h1 {
+    font-size: medium;
+    font-weight: normal;
+    color: #ff6600;
+}
+
+h2 {
+    font-size: medium;
+    font-weight: normal;
+    color: #ff6600;
+    padding-top: 6px;
+}
+
+a {
+    color: #ffff33;
+    outline: none;
+    text-decoration: underline;
+}
+
+table {
+    border: 0;
+    border-collapse: collapse;
+}
+
+img {
+    border: 0;
+    vertical-align: middle;
+}
+
+.pt {
+    padding-top: 6px;
+}
+
+.pb {
+    padding-bottom: 6px;
+}
+
+.p2 {
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+span.pag {
+    color: #999999;
+}
+
+.pag {
+    color: #FFFF33;
+}
+
+ul.feedbackPanel {
+    list-style: none;
+    margin: 0;
+    display: block;
+    padding: 0;
+}
+
+ul.feedbackPanel li {
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+ol, li {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    list-style-type: none;
+}
+
+.body {
+    background-color: #000033;
+    padding: 4px;
+    overflow-x: hidden;
+}
+
+.header, .footer {
+    background-color: #333366;
+    padding: 4px;
+}
+
+a.headerButton {
+    background-color: #333366;
+    text-align: center;
+    width: 100%;
+    display: inline-block;
+    text-decoration: underline !important;
+    padding: 2px 0;
+    border-top: 1px solid #669;
+    border-bottom: 1px solid #000;
+}
+
+span.headerButton {
+    background-color: #333366;
+    text-align: center;
+    width: 100%;
+    display: inline-block;
+    text-decoration: none;
+    border-radius: 5px;
+    color: #999999
+}
+
+/* Disabled button */
+a.headerButtonNoAlign {
+    background-color: #333366;
+    width: 99%;
+    padding: 2px;
+    display: inline-block;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+input.headerButton, button.headerButton {
+    color: #ffff33;
+    text-align: center;
+    width: 100%;
+    outline: none;
+    border: medium none;
+    cursor: pointer;
+    background-color: #333366;
+    text-decoration: underline !important;
+    padding: 2px 0;
+    border-top: 1px solid #669;
+    border-bottom: 1px solid #000;
+}
+
+.event {
+    background-color: #003300;
+    padding: 4px;
+}
+
+.back-event {
+    background-color: #003300;
+    padding: 0;
+}
+
+.major, .feedbackPanelERROR {
+    color: #FF3333;
+}
+
+.useless {
+    color: #FF3333;
+}
+
+.warn {
+    color: #FFFF33;
+}
+
+.info, .feedbackPanelINFO {
+    color: #33CC33;
+}
+
+.new {
+    color: #FFFF33;
+}
+
+.wide {
+    width: 90%;
+}
+
+.yellow {
+    color: #FFFF33;
+}
+.green {color:#33cc33;}
+.gold {
+    color: #FF9900;
+}
+
+.blue {
+    color: #0066FF;
+}
+
+.minor {
+    color: #999999;
+}
+
+.initial {
+    /*color:#999999; font-size:200%; float:left; margin-right:2px;*/
+}
+
+.iNoob {
+    color: #339933;
+}
+
+.iGood {
+    color: #339933;
+}
+
+.iSuperior {
+    color: #3366FF;
+}
+
+.iEpic {
+    color: #9933ff;
+}
+
+.iLegendary {
+    color: #ff9900;
+}
+
+.bluepost {
+    color: #33CCFF;
+}
+
+.senatepost {
+    color: #ee00ff;
+}
+
+.btn-link {
+    color: #ffff33;
+    outline: none;
+    font-size: medium;
+    padding: 0;
+    text-decoration: underline;
+    border-style: none;
+    background-color: transparent;
+    padding: 0;
+    cursor: pointer;
+}
+
+.description {
+    color: #FFFF33;
+    font-size: small;
+    padding-bottom: 6px;
+}
+
+.small {
+    font-size: small;
+}
+
+.eOld {
+    color: #999999;
+}
+
+.eSimple {
+    color: #33cc33;
+}
+
+.eRare {
+    color: #0066ff;
+}
+
+.eEpic {
+    color: #9933ff;
+}
+
+.eInfernal {
+    color: #ff9900;
+}
+
+.brmargin {
+    margin: 0 4px 4px 0;
+}
+
+.icon {
+    height: 12px;
+    width: 12px;
+}
+
+.ident {
+    text-indent: 8px
+}
+
+.block-border {
+    border: 1px solid #999999;
+}
+.block-border-top {
+    border-top: 1px solid #999999;
+}
+.block-border-bottom {
+    border-bottom: 1px solid #999999;
+}
+
+.panel {
+    margin: 2px;
+    padding: 3px;
+    background-color: #191948
+}
+
+.notify-inner {
+    font-size: small;
+}
+
+.link-icon {
+    margin-right: .4em;
+    height: 12px;
+    width: 12px;
+}
+
+.panel-inner {
+    font-size: small;
+}
+
+
+.img-npc {
+    float: left;
+    margin-right:8px;
+}
+
+.fright {
+    float: right;
+}
+.c-red {
+    color: red;
+}
+
+.mb5 { margin-bottom: 5px !important; }
+.ml5 { margin-left: 5px !important; }
+
+.mr5 { margin-right: 5px !important; }
+.mt5 { margin-top: 5px !important; }
+
+.ml10 { margin-left: 10px; }
+
+.text-right { text-align: right !important; }
+.text-left { text-align: left !important; }
+.text-bold { font-weight: bold !important; }
+
+.b-expa {
+    height: 5px;
+    background: #444;
+}
+
+.expa-fill {
+    height: 5px;
+    background: #067;
+}
+
+.center {text-align: center !important;}
+
+.b-progress-hp {
+    width: 100%;
+    height: 6px;
+    background: #1b1b1b;
+}
+.hp-fill {
+    float: right;
+    height: 6px;
+    background: #2b8b00;
+}
+.hp-fill-red {
+    float: right;
+    height: 6px;
+    background: #890000;
+}
+.hp-fill.enemy, .hp-fill-red.enemy {float: left !important;}
+
+.clearer {
+    clear: both;
+    height: 0;
+    font-size: 0;
+    line-height: 0;
+}
+
+.arena-avatar {
+    display: block;
+    min-width: 58px;
+    min-height: 57px;
+    margin-top: 1px;
+}
+
+.mr10 {
+    margin-right: 10px;
+}
+.mt10 {
+    margin-top: 10px;
+}
+.mt20 {
+    margin-top: 20px;
+}
+.font14 {
+    font-size: 14px;
+}
+.glow-wrap {
+    position: relative;
+    width: 46px;
+    height: 46px;
+}
+.glow-wrap img {display: block; position: absolute; top: 7px; left: 7px;}
+.glow-wrap .buff {display: block; position: absolute; height: 18px; width: 46px; bottom: -13px; background-position: 50% 0; background-repeat: no-repeat;}
+.glow-wrap.violet { background: url('/images/glow-icons/Icon_glow_violet.png') no-repeat 0 0 transparent; }
+.glow-wrap.blue { background: url('/images/glow-icons/Icon_glow_blue.png') no-repeat 0 0 transparent; }
+.glow-wrap.green { background: url('/images/glow-icons/Icon_glow_green.png') no-repeat 0 0 transparent; }
+.glow-wrap.orange { background: url('/images/glow-icons/Icon_glow_orange.png') no-repeat 0 0 transparent; }
+
+.enchants-progress {height: 4px; background: #3f3f3f; }
+.enchants-progress-fill {height: 4px; background: #3d6d9d; }
+
+.nowrap {
+    white-space: nowrap;
+}
+.progressbar-bg {
+    height: 4px;
+    background: #3f3f3f;
+}
+.progressbar-fill-blue {
+    height: 4px;
+    background: #3d6d9d;
+}
+.sep {
+    border-top: 1px solid #7373a5;
+    margin: 0 -4px;
+}
+
+.quest-hard {
+    color: #F18835;
+}
+
+.quest-impossible {
+    color: #F83434;
+}
+
+
+.mb15{
+    margin-bottom: 15px !important;
+}
+.mt15{
+    margin-top: 15px !important;
+}
+.fleft {
+    float: left;
+}
+
+.progressbar-bg {
+    position: relative;
+    height: 4px;
+    background: #3f3f3f;
+}
+
+.battle-shtandart{
+    position: absolute;
+    top: -15px;
+    right: -6px;
+    width: 32px;
+    height: 32px;
+    background: url('/images/icons/lands/flag.png') no-repeat;
+}
+
+.trans-item{
+    position: relative;
+    display: inline-block;
+    margin-left: 2px;
+    text-decoration: none;
+    height: 55px;
+    vertical-align: top;
+}
+.trans-item:first-child{
+    margin-left: 0px;
+}
+.trans-item > img {
+    display: inline-block;
+}
+.trans-item > div:not(.active-border) {
+    width: 100%;
+    height: 21px;
+    padding-top: 3px;
+}
+.trans-item > div > img{
+    float: right;
+    margin-right: -4px;
+}
+.trans-item > div > img:first-child{
+    margin-right: 0px;
+}
+.trans-item > .active-border{
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border: 3px solid #099b01;
+    top: -3px;
+    left: -3px;
+    x-background: url('/images/active_trans_item_border.png');
+}
+.mb10{margin-bottom: 10px !important;}
+
+.no-break{
+    white-space: nowrap;
+}
+
+.b-panel-new .panel-inner2{
+    padding: 10px 5px;
+}
+.c-gold{
+    color: #FFFF33;
+}
+/*
+.btn-red-new{
+    text-align: center;
+    background:
+        url("/images/btns/btn-red-top.png") no-repeat 50% 0,
+        url('/images/btns/btn-red-bot.png') repeat-x 0 100%;
+    background-color: #750707;
+}
+*/
+
+.plpr10{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.cr-icon {
+    display: inline-block;
+    position: relative;
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+}
+.cr-icon-count {
+    position: absolute;
+    height: 13px;
+    width: 15px;
+    padding: 1px 0;
+    bottom: -2px;
+    right: -2px;
+    background: #185272;
+    border: 1px solid #16202f;
+    border-radius: 50%;
+    font-size: 11px;
+    text-align: center;
+}
+.mt3 {margin-top: 3px !important;}
+.footer.nav.block-border-top .progressbar-bg {background: #8585a3;}
+.event.border {
+    border: 1px solid #FFF;
+}
+
+
+.b-equip {
+    margin: 5px -5px 0;
+    background: #030;
+    border: 1px solid #999;
+    padding: 4px;
+}
+.va-m {vertical-align: middle; }
+.font18 {font-size: 18px;}
+@media (min-width: 800px) and (max-width: 1200px) {@-ms-viewport {width: 640px !important;}}
+input[type="text"] {background: #fff;}
+input[type="password"] {background: #fff;}
+
+.striker {
+    display: inline-block;
+    position: relative;
+    color: #989898;
+
+}
+.striker:after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 109%;
+    top: 45%;
+    left: -2px;
+    border-top: 1px solid #989898;
+}
+.link_show {
+    display: inline-block;
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.link_show:after {
+    content: '';
+    position: absolute;
+    width: 43px;
+    height: 43px;
+    bottom: 5%;
+    right: 5%;
+    background: url('/images/profile/lupa_21.png') no-repeat 94% 94%;
+}
+.td-n {
+    text-decoration: none !important;
+}
+/*........................................
+.................tutorial.................
+........................................*/
+.content {
+    background: #333366;
+    border: 1px solid #999999;
+    padding: 4px;
+}
+
+.mt0 {margin-top: 0 !important;}
+.pt0 {padding-top: 0 !important;}
+.i_locked:after, .i_print.locked:after {
+    background: rgba(0, 0, 51, 0.7) !important;
+}
+.i_print.empty {background: #1a1a3b;}
+
+.mt-footer-inner {
+    text-align: center;
+    padding-top: 10px;
+}
+
+.b-mt-footer {
+    text-align: center;
+    padding: 10px 0;
+    font-size: 12px;
+    color: #767676;
+}
+
+.section-sep {
+    padding: 15px 0 0 0;
+}
+
