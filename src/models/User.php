@@ -11,6 +11,30 @@ class User
     }
 
     /**
+     * Проверяет, существует ли пользователь с данным именем
+     */
+    public function existsUsername($username)
+    {
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM account WHERE username = :username");
+        $stmt->execute(['username' => $username]);
+        return $stmt->fetchColumn() > 0;
+    }
+
+    /**
+     * Создаёт нового пользователя
+     */
+    public function createNewUser($username, $salt, $verifier)
+    {
+        $stmt = $this->pdo->prepare("INSERT INTO account (username, salt, verifier) VALUES (:username, :salt, :verifier)");
+        $stmt->execute([
+            'username' => $username,
+            'salt' => $salt,
+            'verifier' => $verifier
+        ]);
+        return $this->pdo->lastInsertId();
+    }
+
+    /**
      * Авторизует пользователя
      */
     public function authorizeUser($username, $password)
@@ -38,12 +62,12 @@ class User
     }
 
     /**
-     * Проверяет, существует ли пользователь с данным именем
+     * Получает ID пользователя по имени
      */
-    public function existsUsername($username)
+    public function getUserIdByUsername($username)
     {
-        $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM account WHERE username = :username");
+        $stmt = $this->pdo->prepare("SELECT id FROM account WHERE username = :username");
         $stmt->execute(['username' => $username]);
-        return $stmt->fetchColumn() > 0;
+        return $stmt->fetchColumn();
     }
 }
