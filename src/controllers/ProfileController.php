@@ -23,12 +23,11 @@ class ProfileController
 
         // Получаем данные пользователя
         $username = $_SESSION['username'];
-        $userInfo = $this->userModel->getUserInfoByUsername($username);
 
         // Передаем данные в шаблон
         $data = [
             'contentFile' => 'pages/profile.html.php', // Передаем путь к шаблону
-            'userInfo' => $userInfo,
+            'username' => $username,
         ];
 
         // Рендерим шаблон

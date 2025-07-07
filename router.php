@@ -13,6 +13,7 @@ require_once __DIR__ . '/src/controllers/ErrorController.php';
 
 // Подключаем модели
 require_once __DIR__ . '/src/models/User.php';
+require_once __DIR__ . '/src/models/Auth.php'; // Подключаем модель авторизации
 require_once __DIR__ . '/src/models/Character.php'; // Подключаем модель персонажей
 
 // Сервис подключения к базе данных
@@ -20,6 +21,7 @@ require_once __DIR__ . '/src/services/DatabaseConnection.php';
 
 // Экземпляры моделей
 $userModel = new User(DatabaseConnection::getAuthConnection()); // Подключение к auth базе
+$authModel = new Auth(DatabaseConnection::getAuthConnection()); // Подключение к auth базе
 $characterModel = new Character(DatabaseConnection::getCharactersConnection()); // Подключение к базе персонажей
 
 // Получаем URI запроса
@@ -44,10 +46,10 @@ switch ($uri) {
 
     case '/login': // Вход
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $controller = new LoginController($userModel);
+            $controller = new LoginController($authModel);
             $controller->processLogin();
         } else {
-            $controller = new LoginController($userModel);
+            $controller = new LoginController($authModel);
             $controller->index();
         }
         break;

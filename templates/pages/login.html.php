@@ -1,43 +1,47 @@
-<?php
-// templates/pages/login.html.php
-
-?>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
 
 <div class="body">
-    <h2>Вход</h2>
-    <div style="text-align:center;" class="p2">
-        <img src="/images/rasporyaditel_310.jpg" width="310" height="103">
+
+    <h1>Вход</h1>
+
+    <div class="pt" style="text-align:center">
+        <img src="/images/rasporyaditel_310.jpg" width="310" height="103" alt="?">
     </div>
 
     <?php if (!empty($errors)): ?>
-        <div class="alert alert-danger">
-            <?php foreach ($errors as $error): ?>
-                <p><?= $error ?></p>
-            <?php endforeach; ?>
+        <div class="alert alert-danger" style="margin-top: 20px;">
+            <p><?= $errors[0] ?></p>
         </div>
     <?php endif; ?>
 
-    <form action="/login" method="POST">
-        <label for="char_name" class="green">Имя персонажа:</label><br>
-        <input type="text" id="char_name" name="char_name" required><br>
-        <label for="password" class="green">Пароль:</label><br>
-        <input type="password" id="password" name="password" required><br>
-
+    <form id="loginForm" action="/login" method="post">
+        <div>
+            <label for="email"><span class="info">Email</span>:</label><br>
+            <input id="email" type="email" value="" name="email" required>
+        </div>
+        <div class="pt">
+            <label for="password"><span class="info">Пароль</span>:</label><br>
+            <input id="password" type="password" value="" name="password" required>
+        </div>
         <div class="pt">
             <input id="submit" type="submit" class="headerButton _c-pointer" name="p::submit" value="Войти">
         </div>
     </form>
 
-    <div class="smail pt">
-        <img src="/images/icons/rasp.png" alt="*" style="float:left;margin-right:8px;" class="ic32" width="32" height="32">
-        Есть аккаунт в одной из социальных сетей? Авторизуйся и управляй несколькими персонажами из своего личного кабинета.
-        <div style="clear: both;"></div>
-    </div>
-
     <div class="pt">
-        <a class="headerButton" href="/reset_password">
-            <img src="/images/icons/book_red.png" width="12" height="12" alt="." class="link-icon">Забыли пароль?
-        </a>
+        <span class="small"><span>Есть аккаунт в одной из социальных сетей? Авторизуйся и управляй несколькими персонажами из своего личного кабинета.</span> </span>
+        <div class="small">
+            <a href="#"><img src="/images/icons/FB24x24r.png" width="24" height="24" alt="FB"></a>
+            <a href="#"><img src="/images/icons/VK24x24r.png" width="24" height="24" alt="ВКонтакте"></a>
+            <a href="#"><img src="/images/icons/OK24x24r.png" width="24" height="24" alt="Одноклассники"></a>
+        </div>
     </div>
 
 </div>
@@ -52,3 +56,6 @@
         </li>
     </ol>
 </div>
+
+</body>
+</html>

@@ -23,15 +23,26 @@ class User
     /**
      * Создаёт нового пользователя
      */
-    public function createNewUser($username, $salt, $verifier)
+    public function createNewUser($username, $email, $salt, $verifier)
     {
-        $stmt = $this->pdo->prepare("INSERT INTO account (username, salt, verifier) VALUES (:username, :salt, :verifier)");
+        $stmt = $this->pdo->prepare("INSERT INTO account (username, email, salt, verifier) VALUES (:username, :email, :salt, :verifier)");
         $stmt->execute([
             'username' => $username,
+            'email' => $email,
             'salt' => $salt,
             'verifier' => $verifier
         ]);
         return $this->pdo->lastInsertId();
+    }
+
+    /**
+     * Извлекает данные пользователя (соль и верификатор)
+     */
+    public function retrieveUserData($username)
+    {
+        $stmt = $this->pdo->prepare("SELECT salt, verifier FROM account WHERE username = :username");
+        $stmt->execute(['username' => $username]);
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
     /**
@@ -45,20 +56,17 @@ class User
         }
 
         // Получаем соль и верификатор
-        $stmt = $this->pdo->prepare("SELECT salt, verifier FROM account WHERE username = :username");
-        $stmt->execute(['username' => $username]);
-        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        $userData = $this->retrieveUserData($username);
 
-        // Если нет данных, прекращаем авторизацию
-        if (!$result) {
+        if (!$userData) {
             return false;
         }
 
         // Рассчитываем хэш для сравнения
-        $calculatedVerifier = calculateSRP6Verifier($username, $password, $result['salt']);
+        $calculatedVerifier = calculateSRP6Verifier($username, $password, $userData['salt']);
 
         // Сравниваем верификаторы
-        return $calculatedVerifier === $result['verifier'];
+        return $calculatedVerifier === $userData['verifier'];
     }
 
     /**

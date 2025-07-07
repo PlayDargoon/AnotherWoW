@@ -33,10 +33,11 @@ class RegisterController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = trim($_POST['username']);
+            $email = trim($_POST['email']);
             $password = trim($_POST['password']);
 
             // Проверяем валидность полей
-            if (empty($username) || empty($password)) {
+            if (empty($username) || empty($email) || empty($password)) {
                 renderTemplate('pages/register.html.php', ['error' => 'Все поля обязательны для заполнения.']);
                 return;
             }
@@ -52,7 +53,7 @@ class RegisterController
             $verifier = calculateSRP6Verifier($username, $password, $salt);
 
             // Регистрируем пользователя
-            $newUserId = $this->userModel->createNewUser($username, $salt, $verifier);
+            $newUserId = $this->userModel->createNewUser($username, $email, $salt, $verifier);
 
             if ($newUserId) {
                 header('Location: /'); // Перенаправляем на главную страницу

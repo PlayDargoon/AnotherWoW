@@ -3,11 +3,11 @@
 
 class LoginController
 {
-    private $userModel;
+    private $authModel;
 
-    public function __construct(User $userModel)
+    public function __construct(Auth $authModel)
     {
-        $this->userModel = $userModel;
+        $this->authModel = $authModel;
     }
 
     /**
@@ -30,24 +30,24 @@ class LoginController
     public function processLogin()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $username = trim($_POST['username']);
+            $email = trim($_POST['email']);
             $password = trim($_POST['password']);
 
             // Проверяем валидность полей
-            if (empty($username) || empty($password)) {
+            if (empty($email) || empty($password)) {
                 renderTemplate('pages/login.html.php', ['errors' => ['Все поля обязательны для заполнения.']]);
                 return;
             }
 
             // Пробуем авторизоваться
-            if ($this->userModel->authorizeUser($username, $password)) {
+            if ($this->authModel->authorizeUser($email, $password)) {
                 session_start();
                 $_SESSION['logged_in'] = true;
-                $_SESSION['username'] = $username;
-                header('Location: /profile'); // Перенаправляем на страницу кабинета
+                $_SESSION['email'] = $email;
+                header('Location: /profile'); // Перенаправляем на страницу профиля
                 exit;
             } else {
-                renderTemplate('pages/login.html.php', ['errors' => ['Неверное имя пользователя или пароль.']]);
+                renderTemplate('pages/login.html.php', ['errors' => ['Неверный email или пароль.']]);
             }
         }
     }

@@ -1,7 +1,3 @@
-<?php
-// templates/pages/register.html.php
-
-?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -28,7 +24,11 @@
     <form id="loginForm" action="/register" method="post">
         <div>
             <label for="username"><span class="info">Имя персонажа</span>:</label><br>
-            <input id="username" type="text" value="" name="username" required> <!-- Исправлено имя атрибута -->
+            <input id="username" type="text" value="" name="username" required>
+        </div>
+        <div>
+            <label for="email"><span class="info">Email</span>:</label><br>
+            <input id="email" type="email" value="" name="email" required>
         </div>
         <div class="pt">
             <label for="password"><span class="info">Пароль</span>:</label><br>
