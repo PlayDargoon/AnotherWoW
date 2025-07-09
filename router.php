@@ -8,7 +8,7 @@ require_once __DIR__ . '/bootstrap.php';
 require_once __DIR__ . '/src/controllers/IndexController.php';
 require_once __DIR__ . '/src/controllers/RegisterController.php';
 require_once __DIR__ . '/src/controllers/LoginController.php';
-require_once __DIR__ . '/src/controllers/ProfileController.php';
+require_once __DIR__ . '/src/controllers/CabinetController.php'; // Подключаем контроллер кабинета
 require_once __DIR__ . '/src/controllers/ErrorController.php';
 
 // Подключаем модели
@@ -54,9 +54,9 @@ switch ($uri) {
         }
         break;
 
-    case '/profile': // Кабинет пользователя
+    case '/cabinet': // Кабинет пользователя
         if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']) {
-            $controller = new ProfileController($userModel);
+            $controller = new CabinetController($userModel);
             $controller->index();
         } else {
             header('Location: /login');

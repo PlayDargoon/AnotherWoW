@@ -1,7 +1,7 @@
 <?php
-// src/controllers/ProfileController.php
+// src/controllers/CabinetController.php
 
-class ProfileController
+class CabinetController
 {
     private $userModel;
 
@@ -11,7 +11,7 @@ class ProfileController
     }
 
     /**
-     * Отображает страницу профиля
+     * Отображает страницу кабинета
      */
     public function index()
     {
@@ -25,9 +25,12 @@ class ProfileController
         $username = $_SESSION['username'];
         $userInfo = $this->userModel->getUserInfoByUsername($username);
 
+        // Диагностика: выводим данные пользователя
+        var_dump($userInfo); // DEBUG: смотрим данные пользователя
+
         // Передаем данные в шаблон
         $data = [
-            'contentFile' => 'pages/profile.html.php', // Передаем путь к шаблону
+            'contentFile' => 'pages/cabinet.html.php', // Передаем путь к шаблону
             'userInfo' => $userInfo,
         ];
 

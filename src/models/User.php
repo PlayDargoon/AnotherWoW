@@ -70,6 +70,16 @@ class User
     }
 
     /**
+     * Получает информацию о пользователе по имени
+     */
+    public function getUserInfoByUsername($username)
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM account WHERE username = :username");
+        $stmt->execute(['username' => $username]);
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
+
+    /**
      * Получает ID пользователя по имени
      */
     public function getUserIdByUsername($username)

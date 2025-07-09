@@ -31,3 +31,13 @@ function calculateSRP6Verifier($username, $password, $salt) {
 function generateSalt() {
     return random_bytes(32);
 }
+
+// Функция VerifySRP6Login
+function VerifySRP6Login($username, $password, $salt, $verifier)
+{
+    // Пересчитываем верификатор с использованием предоставленного имени пользователя + пароль и сохранённой соли
+    $checkVerifier = calculateSRP6Verifier($username, $password, $salt);
+
+    // Сравниваем его с сохранённым верификатором
+    return ($verifier === $checkVerifier);
+}

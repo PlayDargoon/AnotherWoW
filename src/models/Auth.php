@@ -11,23 +11,43 @@ class Auth
     }
 
     /**
-     * Авторизует пользователя по email
+     * Проверяет, существует ли пользователь с данным логином
      */
-    public function authorizeUser($email, $password)
+    public function existsUsername($username)
     {
-        // Проверяем, существует ли пользователь с данным email
-        $stmt = $this->pdo->prepare("SELECT salt, verifier FROM account WHERE email = :email");
-        $stmt->execute(['email' => $email]);
-        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM account WHERE username = :username");
+        $stmt->execute(['username' => $username]);
+        return $stmt->fetchColumn() > 0;
+    }
 
-        if (!$result) {
+    /**
+     * Извлекает данные пользователя (соль и верификатор)
+     */
+    public function retrieveUserData($username)
+    {
+        $stmt = $this->pdo->prepare("SELECT salt, verifier FROM account WHERE username = :username");
+        $stmt->execute(['username' => $username]);
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Авторизует пользователя по логину
+     */
+    public function authorizeUser($username, $password)
+    {
+        // Проверяем, существует ли пользователь с данным логином
+        if (!$this->existsUsername($username)) {
             return false;
         }
 
-        // Рассчитываем хэш для сравнения
-        $calculatedVerifier = calculateSRP6Verifier($email, $password, $result['salt']);
+        // Получаем соль и верификатор
+        $userData = $this->retrieveUserData($username);
 
-        // Сравниваем верификаторы
-        return $calculatedVerifier === $result['verifier'];
+        if (!$userData) {
+            return false;
+        }
+
+        // Проверяем пароль
+        return VerifySRP6Login($username, $password, $userData['salt'], $userData['verifier']);
     }
 }

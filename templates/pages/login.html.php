@@ -23,8 +23,8 @@
 
     <form id="loginForm" action="/login" method="post">
         <div>
-            <label for="email"><span class="info">Email</span>:</label><br>
-            <input id="email" type="email" value="" name="email" required>
+            <label for="username"><span class="info">Логин</span>:</label><br>
+            <input id="username" type="text" value="" name="username" required>
         </div>
         <div class="pt">
             <label for="password"><span class="info">Пароль</span>:</label><br>
