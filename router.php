@@ -55,13 +55,8 @@ switch ($uri) {
         break;
 
     case '/cabinet': // Кабинет пользователя
-        if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']) {
-            $controller = new CabinetController($userModel);
-            $controller->index();
-        } else {
-            header('Location: /login');
-            exit;
-        }
+        $controller = new CabinetController($userModel);
+        $controller->index();
         break;
 
     default:
