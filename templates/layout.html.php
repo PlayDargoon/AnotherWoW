@@ -12,7 +12,11 @@
 
 <div class="touch-influence block-border">
 
-    <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']): ?>
+    <?php if (
+        isset($_SESSION['logged_in']) &&
+        $_SESSION['logged_in'] &&
+        $contentFile != 'pages/cabinet.html.php' // Исключение кабинета
+    ): ?>
         <div class="header small block-border-bottom">
             <?php include 'partials/header.html.php'; ?> <!-- Шапка -->
         </div>
@@ -22,9 +26,12 @@
         <?php include $contentFile; ?> <!-- Здесь отображается контент конкретной страницы -->
     <?php endif; ?>
 
-    <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']): ?>
+    <?php if (
+        isset($_SESSION['logged_in']) &&
+        $_SESSION['logged_in'] &&
+        $contentFile != 'pages/cabinet.html.php' // Исключение кабинета
+    ): ?>
         <div class="footer block-border-top"></div>   <!-- Специальный отступ -->
-
         <?php include 'partials/logged_footer.html.php'; ?> <!-- Логинный футер -->
     <?php endif; ?>
 </div>

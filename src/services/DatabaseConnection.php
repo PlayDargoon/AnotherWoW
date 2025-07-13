@@ -31,7 +31,8 @@ class DatabaseConnection
         if (!isset(self::$connections[$database])) {
             $config = require __DIR__ . '/../../config/database.php';
 
-            $dsn = "{$config['driver']}:host={$config['host']};dbname=$database";
+            // Включаем кодировку UTF-8 в строку подключения
+            $dsn = "{$config['driver']}:host={$config['host']};dbname=$database;charset=utf8";
 
             self::$connections[$database] = new PDO(
                 $dsn,
@@ -43,6 +44,9 @@ class DatabaseConnection
                     PDO::ATTR_EMULATE_PREPARES => false,
                 ]
             );
+            
+            // Альтернативный вариант (можно выбрать один из способов):
+            // self::$connections[$database]->exec("SET NAMES 'utf8'");
         }
 
         return self::$connections[$database];

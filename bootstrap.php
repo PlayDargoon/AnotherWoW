@@ -1,6 +1,9 @@
 <?php
 // bootstrap.php
 
+// Запускаем сессию
+session_start();
+
 // Подключаем автозагрузку классов (PSR-4)
 spl_autoload_register(function ($className) {
     $filePath = __DIR__ . '/src/' . str_replace('\\', '/', $className) . '.php';

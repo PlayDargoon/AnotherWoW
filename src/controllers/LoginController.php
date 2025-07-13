@@ -3,16 +3,15 @@
 
 class LoginController
 {
-    private $authModel;
+    private $userModel;
 
-    public function __construct(Auth $authModel)
+    public function __construct(User $userModel)
     {
-        $this->authModel = $authModel;
+        $this->userModel = $userModel;
     }
 
     public function index()
     {
-        // Отображение формы входа
         renderTemplate('layout.html.php', ['contentFile' => 'pages/login.html.php']);
     }
 
@@ -23,8 +22,8 @@ class LoginController
             $password = trim($_POST['password']);
 
             // Проверяем пароль
-            if ($this->authModel->authorizeUser($username, $password)) {
-                session_start();
+            if ($this->userModel->authorizeUser($username, $password)) {
+                // Сессия уже запущена в bootstrap.php, поэтому запускать её здесь не нужно
                 $_SESSION['logged_in'] = true;
                 $_SESSION['username'] = $username;
                 header('Location: /cabinet');

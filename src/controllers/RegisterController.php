@@ -1,7 +1,6 @@
 <?php
 // src/controllers/RegisterController.php
 
-require_once __DIR__ . '/../helpers/srp_helpers.php';
 
 class RegisterController
 {

@@ -4,16 +4,21 @@
 // Загружаем среду
 require_once __DIR__ . '/bootstrap.php';
 
+// Подключаем вспомогательный файл
+require_once __DIR__ . '/src/helpers/srp_helpers.php';
+require_once __DIR__ . '/src/helpers/convertMoney.php';
+
 // Подключаем контроллеры
 require_once __DIR__ . '/src/controllers/IndexController.php';
 require_once __DIR__ . '/src/controllers/RegisterController.php';
 require_once __DIR__ . '/src/controllers/LoginController.php';
 require_once __DIR__ . '/src/controllers/CabinetController.php'; // Подключаем контроллер кабинета
+require_once __DIR__ . '/src/controllers/CharacterPageController.php'; // Подключаем контроллер персонажа
 require_once __DIR__ . '/src/controllers/ErrorController.php';
+require_once __DIR__ . '/src/controllers/LogoutController.php'; // Подключаем контроллер выхода
 
 // Подключаем модели
 require_once __DIR__ . '/src/models/User.php';
-require_once __DIR__ . '/src/models/Auth.php'; // Подключаем модель авторизации
 require_once __DIR__ . '/src/models/Character.php'; // Подключаем модель персонажей
 
 // Сервис подключения к базе данных
@@ -21,7 +26,6 @@ require_once __DIR__ . '/src/services/DatabaseConnection.php';
 
 // Экземпляры моделей
 $userModel = new User(DatabaseConnection::getAuthConnection()); // Подключение к auth базе
-$authModel = new Auth(DatabaseConnection::getAuthConnection()); // Подключение к auth базе
 $characterModel = new Character(DatabaseConnection::getCharactersConnection()); // Подключение к базе персонажей
 
 // Получаем URI запроса
@@ -46,16 +50,33 @@ switch ($uri) {
 
     case '/login': // Вход
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $controller = new LoginController($authModel);
+            $controller = new LoginController($userModel);
             $controller->processLogin();
         } else {
-            $controller = new LoginController($authModel);
+            $controller = new LoginController($userModel);
             $controller->index();
         }
         break;
 
     case '/cabinet': // Кабинет пользователя
-        $controller = new CabinetController($userModel);
+        $controller = new CabinetController($userModel, $characterModel);
+        $controller->index();
+        break;
+
+   case '/play': // Страница персонажа
+        // Получаем GUID персонажа из параметров GET
+        $characterGuid = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+        if ($characterGuid !== null) {
+            $controller = new CharacterPageController($characterModel);
+            $controller->showCharacter($characterGuid);
+        } else {
+            // Если параметр не найден, показываем ошибку
+            $controller = new ErrorController();
+            $controller->notFound();
+        }
+        break;
+    case '/logout': // Выход из системы
+        $controller = new LogoutController();
         $controller->index();
         break;
 
