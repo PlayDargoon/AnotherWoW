@@ -36,6 +36,20 @@ class Character
         return $result['count'];
     }
 
+
+    /**
+     * Получает статистику персонажа по GUID
+     */
+    public function getStatsByGuid($guid)
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM character_stats WHERE guid = :guid");
+        $stmt->execute(['guid' => $guid]);
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
+
+
+     
+    
     /**
      * Получает персонажей пользователя по ID
      */

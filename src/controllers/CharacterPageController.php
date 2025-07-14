@@ -58,9 +58,14 @@ class CharacterPageController
         // Определяем изображение фракции
         $factionImage = getFactionImage($character['race']);
 
+        // Получаем статистику персонажа
+        $stats = $this->characterModel->getStatsByGuid($characterGuid);
+
         // Обновляем уровень GM персонажа из таблицы account_access
         $gmLevel = $this->userModel->getGmLevelForCharacter($character['name']);
         $roleText = getGMRole($gmLevel);
+
+        
 
         // Передаем данные в шаблон
         $data = [
@@ -72,6 +77,7 @@ class CharacterPageController
             'classes' => $classes, // Передаем массив класса
             'factionImage' => $factionImage, // Передаем изображение фракции
             'roleText' => $roleText, // Передаем текст роли
+            'stats' => $stats, // Передаем статистику персонажа
         ];
 
         // Рендерим шаблон

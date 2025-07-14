@@ -22,8 +22,37 @@
         </div>
     <?php endif; ?>
 
-    <div class="pt">
-        <p>Здоровье: <?= $character['health'] ?></p>
+   <div class="pb pt">
+        <h2><a href="#">Характеристики</a></h2>
+        <div>
+            <ol class="mt3">
+                <li>
+                    <img src="/images/icons/health.png" alt="." width="12" height="12" class="link-icon">
+                    <span class="minor">Выносливость:</span> <span><?= $stats['stamina'] ?></span> (<span><?= $stats['maxhealth'] ?></span> здоровья)
+                </li>
+                <li>
+                    <img src="/images/icons/strength.png" alt="." width="12" height="12" class="link-icon">
+                    <span class="minor">Сила:</span> <span><?= $stats['strength'] ?></span> (сила атаки ~<span><?= $stats['attackPower'] ?></span>)
+                </li>
+                <li>
+                    <img src="/images/icons/crit.png" alt="." width="12" height="12" class="link-icon">
+                    <span class="minor">Крит:</span> <span><?= $stats['critPct'] ?>%</span> 
+                </li>
+                <li>
+                    <img src="/images/icons/armor.png" alt="." width="12" height="12" class="link-icon">
+                    <span class="minor">Броня:</span> <span><?= $stats['armor'] ?></span>
+                </li>
+                <li>
+                    <img src="/images/icons/effectEvade.png" class="link-icon">
+                    <span class="minor">Ловкость:</span> <span><?= $stats['agility'] ?></span>
+                </li>
+                <li>
+                    <img src="/images/icons/experience_stroke.png" alt="" class="link-icon">
+                    <span class="minor">Опыт:</span> <span><?= $character['xp'] ?></span>
+                </li>
+               
+            </ol>
+        </div>
     </div>
 
     <div>
