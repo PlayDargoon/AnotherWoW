@@ -28,11 +28,21 @@ class CabinetController
         // Получаем персонажей пользователя
         $characters = $this->characterModel->getCharactersByUserId($userInfo['id']);
 
+        // Формируем массив персонажей с указанием фракции и ролей
+        $formattedCharacters = [];
+        foreach ($characters as $char) {
+            $formattedChar = $char;
+            $formattedChar['factionImage'] = getFactionImage($char['race']); // Добавляем изображение фракции
+            $gmLevel = $this->userModel->getGmLevelForCharacter($char['name']); // Проверяем по имени персонажа
+            $formattedChar['roleText'] = getGMRole($gmLevel); // Добавляем текст роли
+            $formattedCharacters[] = $formattedChar;
+        }
+
         // Передаем данные в шаблон
         $data = [
             'contentFile' => 'pages/cabinet.html.php', // Передаем путь к шаблону
             'userInfo' => $userInfo,
-            'characters' => $characters,
+            'characters' => $formattedCharacters, // Передаем массив персонажей с дополнительными данными
             'characterModel' => $this->characterModel, // Передаем модель персонажей
         ];
 

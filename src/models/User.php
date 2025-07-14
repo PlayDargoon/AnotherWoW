@@ -10,6 +10,40 @@ class User
         $this->pdo = $pdo;
     }
 
+ /**
+     * Получает название сервера по его ID
+     */
+    public function getRealmNameById($realmId)
+    {
+        $stmt = $this->pdo->prepare("SELECT name FROM realmlist WHERE id = :realmId");
+        $stmt->execute(['realmId' => $realmId]);
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $result['name'] ?? '';
+    }
+
+    
+    /**
+     * Получает уровень GM для указанного персонажа
+     */
+    public function getGmLevelForCharacter($characterName)
+    {
+        $stmt = $this->pdo->prepare("SELECT gmlevel FROM account_access WHERE comment = :characterName AND gmlevel > 1");
+        $stmt->execute(['characterName' => $characterName]);
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $result['gmlevel'] ?? 0;
+    }
+    
+ /**
+     * Получает название первого сервера из таблицы realmlist
+     */
+    public function getDefaultRealmName()
+    {
+        $stmt = $this->pdo->prepare("SELECT name FROM realmlist LIMIT 1");
+        $stmt->execute();
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $result['name'] ?? ''; // Возвращаем название сервера или пустую строку, если сервер не найден
+    }
+    
     /**
      * Проверяет, существует ли пользователь с данным именем
      */

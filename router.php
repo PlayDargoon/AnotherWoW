@@ -7,6 +7,9 @@ require_once __DIR__ . '/bootstrap.php';
 // Подключаем вспомогательный файл
 require_once __DIR__ . '/src/helpers/srp_helpers.php';
 require_once __DIR__ . '/src/helpers/convertMoney.php';
+require_once __DIR__ . '/src/helpers/getFactionImage.php';
+require_once __DIR__ . '/src/helpers/formatCreationDate.php';
+require_once __DIR__ . '/src/helpers/getGMRole.php';
 
 // Подключаем контроллеры
 require_once __DIR__ . '/src/controllers/IndexController.php';
@@ -63,11 +66,11 @@ switch ($uri) {
         $controller->index();
         break;
 
-   case '/play': // Страница персонажа
+    case '/play': // Страница персонажа
         // Получаем GUID персонажа из параметров GET
         $characterGuid = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
         if ($characterGuid !== null) {
-            $controller = new CharacterPageController($characterModel);
+            $controller = new CharacterPageController($characterModel, $userModel); // Передаем обе модели
             $controller->showCharacter($characterGuid);
         } else {
             // Если параметр не найден, показываем ошибку
@@ -75,6 +78,7 @@ switch ($uri) {
             $controller->notFound();
         }
         break;
+
     case '/logout': // Выход из системы
         $controller = new LogoutController();
         $controller->index();

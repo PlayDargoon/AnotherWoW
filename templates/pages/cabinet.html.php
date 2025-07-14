@@ -19,7 +19,7 @@
 
     <div class="pt">
         <div class="small">
-            Продолжи свое путешествие  и стань легендарным героем!<br/>
+            Продолжи свое путешествие и стань легендарным героем!<br/>
             Выбери персонажа, которым ты хочешь управлять:
         </div>
         <br>
@@ -30,20 +30,22 @@
             <?php foreach ($characters as $char): ?>
                 <div>
                     <span>
+                        <img src="<?= $char['factionImage'] ?>" alt="Фракция" >
                         <img src="/images/small/<?= $char['race'].'-'.$char['gender'].'.gif' ?>" alt="расса" class="u12img" >
                         <img src="/images/small/<?= $char['class'].'.gif' ?>" alt="класс">
-                        <a class="btn" href="<?= '/play?id='.$char['guid'] ?>"><span><?= htmlspecialchars($char['name'], ENT_QUOTES, 'UTF-8') ?></span></a>,
-                         <span><?= $char['level'] ?></span> ур.<br>
-                        <span style="display: inline-block;">
-                            
-                            
-                        </span>
+                        
+                        <a class="btn" href="<?= '/play?id='.$char['guid'] ?>">
+                            <span><?= htmlspecialchars($char['name'], ENT_QUOTES, 'UTF-8') ?></a></span>
+                         <?php if (!empty($char['roleText'])): ?>
+                            <span class="bluepost">[<?= substr($char['roleText'], strpos($char['roleText'], '[')+1, -1) ?>]</span>
+                        <?php endif; ?>,
+                        <span><?= $char['level'] ?> ур.</span>
                     </span>
                 </div>
             <?php endforeach; ?>
         <?php endif; ?>
 
-         </div>
+    </div>
 
     <div class="pt">
         <div>
