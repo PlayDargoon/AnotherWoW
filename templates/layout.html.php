@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AnotherWoW - <?= $pageTitle ?? 'Главная страница' ?></title>
+    <title>Azeroth PlayerBots 3.3.5 - <?= $pageTitle ?? 'Главная страница' ?></title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="icon" href="/favicon.png" type="image/x-icon">
 </head>
@@ -39,6 +39,12 @@
 <div class="b-mt-footer">
     <?php include 'partials/footer.html.php'; ?>
 </div>
+
+
+<div style='display:inline-block; position:fixed; bottom:0; right:0;'><a href="https://wow.mmotop.ru/servers/36327/votes/new" target="_blank">
+  <img src="https://mmotop.ru/uploads/rating_img/mmo_36327.png" border="0" id="mmotopratingimg" alt="Рейтинг серверов mmotop">
+</a></div>
+
 
 </body>
 </html>

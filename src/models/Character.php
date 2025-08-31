@@ -66,4 +66,27 @@ class Character
     }
 
     // Методы getRaceName() и getClassName() больше не нужны, так как мы будем отображать изображения.
+
+    /**
+     * Получает количество игроков онлайн
+     */
+    public function getOnlinePlayerCount()
+    {
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) AS count FROM characters WHERE online = 1");
+        $stmt->execute();
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $result['count'];
+    }
+
+    /**
+     * Получает количество всех игроков и количество игроков онлайн
+     */
+    public function getPlayerCounts()
+    {
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) AS total_players, SUM(online) AS online_players FROM characters");
+        $stmt->execute();
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
+    
+    
 }
