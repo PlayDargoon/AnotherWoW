@@ -29,9 +29,10 @@ class MaintenanceController
         $startTime = $uptimeModel->getLastStartTime();
         $uptime = $this->calculateUptime($startTime);
 
-          // Получаем количество игроков и игроков онлайн
+         // Получаем количество игроков и игроков онлайн
         $characterModel = new Character(DatabaseConnection::getCharactersConnection());
         $playerCounts = $characterModel->getPlayerCounts();
+        $playerCountsByFaction = $characterModel->getPlayerCountsByFaction();
 
         // Получаем информацию о игровом мире
         $realmInfo = $uptimeModel->getRealmInfo();
@@ -46,7 +47,7 @@ class MaintenanceController
             'uptime' => $uptime, // Передаем аптайм сервера
             'playerCounts' => $playerCounts, // Передаем количество игроков и игроков онлайн
             'realmInfo' => $realmInfo, // Передаем информацию о игровом мире
-            
+            'playerCountsByFaction' => $playerCountsByFaction, // Передаем количество игроков по фракциям
         ];
 
         // Рендерим шаблон

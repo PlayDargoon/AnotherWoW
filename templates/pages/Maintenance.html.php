@@ -19,10 +19,17 @@
             <span class="<?php echo $statusClass; ?>" id="id1e"><span><?php echo $serverStatus; ?></span></span>
 
 </br>            
-            Игроков: 
+           Игроков в сети: 
             <img src="/images/icons/guilds.png" alt="." width="12" height="12"> 
             <span class="info"><?php echo $playerCounts['online_players']; ?></span>
 
+        
+           <span class="minor">  <img src="/images/small/alliance.png" alt="." width="15" height="15">  
+           <?php echo $playerCountsByFaction['alliance_players']; ?> </span>
+          <span> vs </span>
+           <span class="minor"> <img src="/images/small/orda.png" alt="." width="15" height="15"> 
+           <?php echo $playerCountsByFaction['horde_players']; ?> </span>
+        
 </br>
             Время работы: 
             <img src="/images/icons/clock.png" alt=".">  
@@ -55,7 +62,7 @@
 </br>
 
   <div style="text-align: center;">
-    <a class="iLegendary" href="#" style="display: inline-block; margin-right: 10px;">
+    <a class="iLegendary" href="https://cloud.mail.ru/public/ej91/Bzmxrc6Bm" style="display: inline-block; margin-right: 10px;">
         <h1 style="text-align: center;">Скачать клиент</h1>
     </a>
     <a class="iLegendary" href="/register" style="display: inline-block;">
@@ -63,12 +70,35 @@
     </a>
 </div> </div> </div>
 
-
+<!--
  <div style="text-align:center;" class="p2">
-        <img src="/images/icon.png" width="550" height="174" alt="Логотип"> 
+        <img src="/images/icon.png" width="400" height="174" alt="Логотип"> 
     </div>
+-->
+</br>
 
+<table>
+<tbody><tr>
+<td align="left" width="40" valign="top"><img src="/images/icons/rare-vendor_32x32.png" alt=""></td>
+<td>
+<span class="bluepost" style="word-wrap: break-word;">
+    <p class="text-center"> 
+        Этот проект всё ещё находится в разработке. Если вы столкнётесь с какими-либо ошибками или сбоями, 
+        пожалуйста, 
+        сообщайте о них в тикет в игре. 
+        Ваши ценные отзывы помогут нам улучшить этот проект совместными усилиями.
+    </p>
 
+     <p class="text-center"> 
+     У нас есть <a href="https://t.me/+Y6-arC5q8WliNGRi" class="">группа в телеграм</a>, где вы можете обсуждать проект, задавать вопросы и участвовать в жизни сообщества!
+    </p>
+</span>
+
+</td>
+</tr>
+</tbody></table>
+
+</br>
 <h2 style="color:#ff6600">Особенности сервера включают в себя:</h2>
 
 
@@ -99,29 +129,5 @@
 
 
 </br>
-
-
-<table>
-<tbody><tr>
-<td align="left" width="40" valign="top"><img src="/images/icons/rare-vendor_32x32.png" alt=""></td>
-<td>
-<span class="bluepost" style="word-wrap: break-word;">
-    <p class="text-center"> 
-        Этот проект всё ещё находится в разработке. Если вы столкнётесь с какими-либо ошибками или сбоями, 
-        пожалуйста, 
-        сообщайте о них в тикет в игре. 
-        Ваши ценные отзывы помогут нам улучшить этот проект совместными усилиями.
-    </p>
-
-     <p class="text-center"> 
-     У нас есть <a href="https://t.me/+Y6-arC5q8WliNGRi" class="">группа в телеграм</a>, где вы можете обсуждать проект, задавать вопросы и участвовать в жизни сообщества!
-    </p>
-</span>
-
-</td>
-</tr>
-</tbody></table>
-
-
 
 </div>
