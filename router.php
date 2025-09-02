@@ -11,6 +11,11 @@ require_once __DIR__ . '/src/helpers/getFactionImage.php';
 require_once __DIR__ . '/src/helpers/formatCreationDate.php';
 require_once __DIR__ . '/src/helpers/getGMRole.php';
 
+// Подключаем PHPMailer
+require_once __DIR__ . '/src/libs/phpmailer/Exception.php';
+require_once __DIR__ . '/src/libs/phpmailer/PHPMailer.php';
+require_once __DIR__ . '/src/libs/phpmailer/SMTP.php';
+
 // Подключаем контроллеры
 require_once __DIR__ . '/src/controllers/IndexController.php';
 require_once __DIR__ . '/src/controllers/RegisterController.php';
@@ -20,6 +25,7 @@ require_once __DIR__ . '/src/controllers/CharacterPageController.php'; // Под
 require_once __DIR__ . '/src/controllers/ErrorController.php';
 require_once __DIR__ . '/src/controllers/LogoutController.php'; // Подключаем контроллер выхода
 require_once __DIR__ . '/src/controllers/MaintenanceController.php'; // Подключаем контроллер технического обслуживания
+require_once __DIR__ . '/src/controllers/RestorePasswordController.php'; // Подключаем контроллер восстановления пароля
 
 // Подключаем модели
 require_once __DIR__ . '/src/models/User.php';
@@ -37,7 +43,7 @@ $characterModel = new Character(DatabaseConnection::getCharactersConnection()); 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 // Проверка технического обслуживания
-$maintenanceMode = true; // Установите в true, чтобы включить режим технического обслуживания
+$maintenanceMode = false; // Установите в true, чтобы включить режим технического обслуживания
 
 if ($maintenanceMode && $uri !== '/register') {
     // Отображаем страницу технического обслуживания, если это не страница регистрации
@@ -95,6 +101,23 @@ switch ($uri) {
         $controller = new LogoutController();
         $controller->index();
         break;
+
+ case '/restore-password':
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $controller = new RestorePasswordController($userModel, $authConnection); // Передаем PDO
+        $controller->processResetPassword();
+    } else {
+        $token = filter_input(INPUT_GET, 'token', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $controller = new RestorePasswordController($userModel, $authConnection); // Передаем PDO
+        $controller->resetPassword($token);
+    }
+    break;
+
+        case '/reset-password':
+    $token = filter_input(INPUT_GET, 'token', FILTER_SANITIZE_STRING);
+    $controller = new RestorePasswordController($userModel, $authConnection); // Передаем PDO
+    $controller->resetPassword($token);
+    break;
 
     default:
         // Обработка 404 ошибки

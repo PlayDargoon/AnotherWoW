@@ -49,11 +49,11 @@
 <div class="minor mt5 small">
                 <img src="/images/icons/question_blue.png" width="12" height="12" alt="VIP" class="ml5"> <span class="va-m">Уже сейчас вы можете принять участие в тестировании игрового сервера, 
                     для этого вам понадобиться скачать клиент WoW 3.3.5 по ссылке ниже, 
-                    либой использовать свой клиент 3.3.5, необходимо будет заменить данные в realmlist на нашиши set realmlist logon.azeroth.su. 
+                    либой использовать свой клиент 3.3.5, необходимо будет заменить данные в realmlist на наш set realmlist logon.azeroth.su. 
                     После установки/изменении данных подключения, зарегистрируйтесь на нашем сайте. </span>
 </br>
                     <img src="/images/icons/question_blue.png" width="12" height="12" alt="VIP" class="ml5"> <span class="va-m">Для более гибкого управления своими ботами и комфортной игры скачайте Аддон 
-                         <a href="https://cloud.mail.ru/public/vEob/NNLGfCd2t" class="">MultiBot</a>  </span>
+                         <a href="https://cloud.mail.ru/public/RZ3Z/GA636MRSK" class="">MultiBot</a>  </span>
             </div>
 
              

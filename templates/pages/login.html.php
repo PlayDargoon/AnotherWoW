@@ -57,5 +57,10 @@
     </ol>
 </div>
 
+<div class="pt">
+<a class="headerButton" href="/restore-password"><img src="/images/icons/book_red.png" width="12" height="12" alt="." class="link-icon">Забыли пароль?</a>
+</div>
+
+
 </body>
 </html>

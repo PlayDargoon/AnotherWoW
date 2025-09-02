@@ -1,6 +1,9 @@
 <?php
 // bootstrap.php
 
+// Устанавливаем кодировку UTF-8
+header('Content-Type: text/html; charset=utf-8');
+
 // Запускаем сессию
 session_start();
 
@@ -29,5 +32,8 @@ $worldConnection = DatabaseConnection::getWorldConnection();
 
 // Соединение с базой персонажей
 $charactersConnection = DatabaseConnection::getCharactersConnection();
+
+// Определение переменной $site_url
+$GLOBALS['site_url'] = 'https://azeroth.su'; // Замените на ваш реальный домен
 
 // Всё готово к дальнейшей работе

@@ -4,10 +4,12 @@
 class RestorePasswordController
 {
     private $userModel;
+    private $pdo;
 
-    public function __construct(User $userModel)
+    public function __construct(User $userModel, \PDO $pdo)
     {
         $this->userModel = $userModel;
+        $this->pdo = $pdo;
     }
 
     public function requestPasswordRecovery()
@@ -86,10 +88,10 @@ class RestorePasswordController
         }
     }
 
-   public function resetPassword($token)
+    public function resetPassword($token)
 {
     // Проверка токена
-    $stmt = $this->userModel->pdo->prepare("
+    $stmt = $this->pdo->prepare("
         SELECT pr.user_id, acc.username
         FROM password_reset_tokens pr
         JOIN account acc ON pr.user_id = acc.id
@@ -110,6 +112,29 @@ class RestorePasswordController
     // Отображаем форму для ввода нового пароля
     renderTemplate('layout.html.php', ['contentFile' => 'pages/reset_password.html.php', 'data' => ['userId' => $row['user_id']]]);
 }
+
+    protected function deleteUsedToken($token)
+    {
+        $stmt = $this->pdo->prepare("DELETE FROM password_reset_tokens WHERE token = :token");
+        $stmt->execute(['token' => $token]);
+    }
+
+    public function processResetPassword()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userId = $_POST['userId'];
+            $newPassword = $_POST['newPassword'];
+
+            // Обновление пароля пользователя
+            $this->updatePassword($userId, $newPassword);
+
+            // Уведомление пользователя о том, что пароль успешно изменен
+            renderTemplate('layout.html.php', ['contentFile' => 'pages/password_reset_success.html.php']);
+        } else {
+            // Отображение формы для ввода нового пароля
+            renderTemplate('layout.html.php', ['contentFile' => 'pages/reset_password.html.php']);
+        }
+    }
 
     protected function updatePassword($userId, $newPassword)
     {
