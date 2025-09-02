@@ -15,7 +15,7 @@
 
         <div class="mt-footer-inner">
 
-            <div><span>Игра "Иной Мир" © 2025, <span class="minor">PlayDragon</span></span>
+            <div><span>Игровой сервер World of Warcraft проект "Azeroth PlayerBots" © 2025, <span class="minor">PlayDragon</span></span>
                 12+
             </div>
 

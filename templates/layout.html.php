@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AnotherWoW - <?= $pageTitle ?? 'Главная страница' ?></title>
+    <title>Azeroth PlayerBots 3.3.5 - <?= $pageTitle ?? 'Главная страница' ?></title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="icon" href="/favicon.png" type="image/x-icon">
 </head>
@@ -39,6 +39,26 @@
 <div class="b-mt-footer">
     <?php include 'partials/footer.html.php'; ?>
 </div>
+
+
+<div style='display:inline-block; position:fixed; bottom:0; right:0;'><a href="https://wow.mmotop.ru/servers/36327/votes/new" target="_blank">
+  <img src="https://mmotop.ru/uploads/rating_img/mmo_36327.png" border="0" id="mmotopratingimg" alt="Рейтинг серверов mmotop">
+</a></div>
+
+
+
+<!--LiveInternet counter--><a href="https://www.liveinternet.ru/click"
+target="_blank"><img id="licnt3C87" width="88" height="15" style="border:0" 
+title="LiveInternet: показано число посетителей за сегодня"
+src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+alt=""/></a><script>(function(d,s){d.getElementById("licnt3C87").src=
+"https://counter.yadro.ru/hit?t24.6;r"+escape(d.referrer)+
+((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+(s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+";h"+escape(d.title.substring(0,150))+";"+Math.random()})
+(document,screen)</script><!--/LiveInternet-->
+
+
 
 </body>
 </html>

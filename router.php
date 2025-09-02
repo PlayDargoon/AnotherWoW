@@ -19,10 +19,12 @@ require_once __DIR__ . '/src/controllers/CabinetController.php'; // Подклю
 require_once __DIR__ . '/src/controllers/CharacterPageController.php'; // Подключаем контроллер персонажа
 require_once __DIR__ . '/src/controllers/ErrorController.php';
 require_once __DIR__ . '/src/controllers/LogoutController.php'; // Подключаем контроллер выхода
+require_once __DIR__ . '/src/controllers/MaintenanceController.php'; // Подключаем контроллер технического обслуживания
 
 // Подключаем модели
 require_once __DIR__ . '/src/models/User.php';
 require_once __DIR__ . '/src/models/Character.php'; // Подключаем модель персонажей
+require_once __DIR__ . '/src/models/Uptime.php'; // Подключаем модель Uptime
 
 // Сервис подключения к базе данных
 require_once __DIR__ . '/src/services/DatabaseConnection.php';
@@ -33,6 +35,16 @@ $characterModel = new Character(DatabaseConnection::getCharactersConnection()); 
 
 // Получаем URI запроса
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+// Проверка технического обслуживания
+$maintenanceMode = true; // Установите в true, чтобы включить режим технического обслуживания
+
+if ($maintenanceMode && $uri !== '/register') {
+    // Отображаем страницу технического обслуживания, если это не страница регистрации
+    $controller = new MaintenanceController();
+    $controller->index();
+    exit;
+}
 
 // Обработчики маршрутов
 switch ($uri) {

@@ -66,4 +66,45 @@ class Character
     }
 
     // Методы getRaceName() и getClassName() больше не нужны, так как мы будем отображать изображения.
+
+    /**
+     * Получает количество игроков онлайн
+     */
+    public function getOnlinePlayerCount()
+    {
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) AS count FROM characters WHERE online = 1");
+        $stmt->execute();
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $result['count'];
+    }
+
+    /**
+     * Получает количество всех игроков и количество игроков онлайн
+     */
+    public function getPlayerCounts()
+    {
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) AS total_players, SUM(online) AS online_players FROM characters");
+        $stmt->execute();
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
+    
+
+      /**
+     * Получает количество онлайн-игроков по фракциям
+     */
+    public function getPlayerCountsByFaction()
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT 
+                SUM(CASE WHEN race IN (1, 3, 4, 7, 11) THEN 1 ELSE 0 END) AS alliance_players,
+                SUM(CASE WHEN race IN (2, 5, 6, 8, 10) THEN 1 ELSE 0 END) AS horde_players
+            FROM characters
+            WHERE online = 1
+        ");
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+
+    
 }
