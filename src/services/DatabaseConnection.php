@@ -25,6 +25,12 @@ class DatabaseConnection
         return self::getConnection('acore_characters');
     }
 
+     // НОВЫЙ метод для получения подключения к базе данных site
+    public static function getSiteConnection(): PDO
+    {
+        return self::getConnection('acore_site');
+    }
+
     // Внутренний метод для получения подключения
     private static function getConnection(string $database): PDO
     {

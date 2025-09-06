@@ -33,6 +33,9 @@ $worldConnection = DatabaseConnection::getWorldConnection();
 // Соединение с базой персонажей
 $charactersConnection = DatabaseConnection::getCharactersConnection();
 
+// СОЕДИНЕНИЕ С БАЗОЙ acore_site
+$siteConnection = DatabaseConnection::getSiteConnection();
+
 // Определение переменной $site_url
 $GLOBALS['site_url'] = 'https://azeroth.su'; // Замените на ваш реальный домен
 

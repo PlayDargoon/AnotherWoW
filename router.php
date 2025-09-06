@@ -25,12 +25,14 @@ require_once __DIR__ . '/src/controllers/CharacterPageController.php'; // Под
 require_once __DIR__ . '/src/controllers/ErrorController.php';
 require_once __DIR__ . '/src/controllers/LogoutController.php'; // Подключаем контроллер выхода
 require_once __DIR__ . '/src/controllers/MaintenanceController.php'; // Подключаем контроллер технического обслуживания
+require_once __DIR__ . '/src/controllers/SiteController.php'; // Подключаем контроллер site
 
 
 // Подключаем модели
 require_once __DIR__ . '/src/models/User.php';
 require_once __DIR__ . '/src/models/Character.php'; // Подключаем модель персонажей
 require_once __DIR__ . '/src/models/Uptime.php'; // Подключаем модель Uptime
+require_once __DIR__ . '/src/models/Site.php'; // Подключаем модель site
 
 // Сервис подключения к базе данных
 require_once __DIR__ . '/src/services/DatabaseConnection.php';
@@ -109,4 +111,6 @@ switch ($uri) {
         $controller = new ErrorController();
         $controller->notFound();
         break;
+
+        
 }
