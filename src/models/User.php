@@ -133,22 +133,7 @@ class User
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Сохранение временного токена для сброса пароля
-     */
-    public function saveResetToken($userId, $token)
-    {
-        $stmt = $this->pdo->prepare("
-            INSERT INTO password_reset_tokens (user_id, token, expires_at)
-            VALUES (:userId, :token, :expiresAt)
-        ");
-        $expiresAt = date('Y-m-d H:i:s', strtotime('+1 hour')); // Токен действителен в течение 1 часа
-        $stmt->execute([
-            'userId' => $userId,
-            'token' => $token,
-            'expiresAt' => $expiresAt
-        ]);
-    }
+    
      /**
      * Поиск пользователя по email
      */
