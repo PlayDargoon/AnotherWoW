@@ -28,7 +28,7 @@ class RegisterController
     /**
      * Обрабатывает POST-запрос и регистрирует пользователя
      */
-    public function processRegistration()
+     public function processRegistration()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = trim($_POST['username']);
@@ -37,13 +37,19 @@ class RegisterController
 
             // Проверяем валидность полей
             if (empty($username) || empty($email) || empty($password)) {
-                renderTemplate('pages/register.html.php', ['error' => 'Все поля обязательны для заполнения.']);
+                renderTemplate('layout.html.php', ['contentFile' => 'pages/register.html.php', 'error' => 'Все поля обязательны для заполнения.']);
                 return;
             }
 
             // Проверяем, занят ли логин
             if ($this->userModel->existsUsername($username)) {
-                renderTemplate('pages/register.html.php', ['error' => 'Логин уже занят.']);
+                renderTemplate('layout.html.php', ['contentFile' => 'pages/register.html.php', 'error' => 'Логин уже занят.']);
+                return;
+            }
+
+            // Проверяем, занят ли email
+            if ($this->userModel->existsEmail($email)) {
+                renderTemplate('layout.html.php', ['contentFile' => 'pages/register.html.php', 'error' => 'Такой email уже используется.']);
                 return;
             }
 
@@ -58,7 +64,7 @@ class RegisterController
                 header('Location: /'); // Перенаправляем на главную страницу
                 exit;
             } else {
-                renderTemplate('pages/register.html.php', ['error' => 'Возникла ошибка при регистрации. Попробуйте позже.']);
+                renderTemplate('layout.html.php', ['contentFile' => 'pages/register.html.php', 'error' => 'Возникла ошибка при регистрации. Попробуйте позже.']);
             }
         }
     }

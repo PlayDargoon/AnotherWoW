@@ -152,7 +152,12 @@ class User
      /**
      * Поиск пользователя по email
      */
-  
+   public function existsEmail($email)
+    {
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM account WHERE email = :email");
+        $stmt->execute(['email' => $email]);
+        return $stmt->fetchColumn() > 0;
+    }
 
 
 }

@@ -7,6 +7,23 @@
 </head>
 <body>
 
+
+   <div class="small">
+<ul class="feedbackPanel">
+<li class="feedbackPanelERROR">
+<span class="feedbackPanelERROR">
+
+<?php if (!empty($error)): ?>
+        
+            <?= htmlspecialchars($error) ?>
+        
+    <?php endif; ?>
+
+</span>
+</li>
+</ul>
+</div>
+
 <div class="body">
 
     <h1>Регистрация</h1>
