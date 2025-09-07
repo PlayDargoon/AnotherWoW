@@ -21,6 +21,12 @@ class LoginController
             $username = trim($_POST['username']);
             $password = trim($_POST['password']);
 
+            // Проверяем, существует ли такой логин
+            if (!$this->userModel->existsUsername($username)) {
+                renderTemplate('layout.html.php', ['contentFile' => 'pages/login.html.php', 'message' => 'Логин не найден.']);
+                return;
+            }
+
             // Проверяем пароль
             if ($this->userModel->authorizeUser($username, $password)) {
                 // Сессия уже запущена в bootstrap.php, поэтому запускать её здесь не нужно
@@ -29,7 +35,7 @@ class LoginController
                 header('Location: /cabinet');
                 exit;
             } else {
-                renderTemplate('pages/login.html.php', ['errors' => ['Неверный логин или пароль.']]);
+                renderTemplate('layout.html.php', ['contentFile' => 'pages/login.html.php', 'message' => 'Неверный пароль.']);
             }
         }
     }

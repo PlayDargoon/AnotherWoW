@@ -1,9 +1,5 @@
 <?php
-// models/Site.php
-
-namespace App\Models;
-
-use PDO;
+// src/models/Site.php
 
 class Site
 {
@@ -14,13 +10,34 @@ class Site
         $this->pdo = $pdo;
     }
 
-    // Пример метода для выборки всей информации из таблицы site_info
-    public function getSiteInfo()
+    /**
+     * Сохраняет временный токен для восстановления пароля
+     */
+    public function saveResetToken($userId, $token)
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM site_info");
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        // Удаляем старые токены для этого пользователя
+        $this->pdo->exec("DELETE FROM password_reset_tokens WHERE user_id = '$userId'");
+
+        // Сохраняем новый токен
+        $stmt = $this->pdo->prepare("INSERT INTO password_reset_tokens (user_id, token, expires_at) VALUES (:user_id, :token, DATE_ADD(NOW(), INTERVAL 1 HOUR))");
+        $stmt->execute(['user_id' => $userId, 'token' => $token]);
     }
 
-    // Остальные методы...
+    /**
+     * Проверяет токен восстановления пароля и возвращает пользователя, если токен верный
+     */
+    public function validateResetToken($token)
+    {
+        $stmt = $this->pdo->prepare("SELECT u.*, t.expires_at FROM acore_auth.account u INNER JOIN password_reset_tokens t ON u.id = t.user_id WHERE t.token = :token AND t.expires_at > NOW()");
+        $stmt->execute(['token' => $token]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Удаляет токен восстановления пароля
+     */
+    public function clearResetToken($userId)
+    {
+        $this->pdo->exec("DELETE FROM password_reset_tokens WHERE user_id = '$userId'");
+    }
 }

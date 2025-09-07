@@ -48,7 +48,7 @@ class RegisterController
             }
 
             // Проверяем, занят ли email
-            if ($this->userModel->existsEmail($email)) {
+            if ($this->userModel->findByEmail($email)) {
                 renderTemplate('layout.html.php', ['contentFile' => 'pages/register.html.php', 'error' => 'Такой email уже используется.']);
                 return;
             }

@@ -26,6 +26,7 @@ require_once __DIR__ . '/src/controllers/ErrorController.php';
 require_once __DIR__ . '/src/controllers/LogoutController.php'; // Подключаем контроллер выхода
 require_once __DIR__ . '/src/controllers/MaintenanceController.php'; // Подключаем контроллер технического обслуживания
 require_once __DIR__ . '/src/controllers/SiteController.php'; // Подключаем контроллер site
+require_once __DIR__ . '/src/controllers/RestorePasswordController.php'; // Восстановление пароля
 
 
 // Подключаем модели
@@ -40,6 +41,8 @@ require_once __DIR__ . '/src/services/DatabaseConnection.php';
 // Экземпляры моделей
 $userModel = new User(DatabaseConnection::getAuthConnection()); // Подключение к auth базе
 $characterModel = new Character(DatabaseConnection::getCharactersConnection()); // Подключение к базе персонажей
+$siteModel = new Site(DatabaseConnection::getSiteConnection()); // Подключение к базе сайта
+
 
 // Получаем URI запроса
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -78,6 +81,47 @@ switch ($uri) {
         } else {
             $controller = new LoginController($userModel);
             $controller->index();
+        }
+        break;
+
+    // Маршрут для страницы восстановления пароля
+    case '/restore-password':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Пост-обработчик для отправки ссылки на восстановление
+            $controller = new RestorePasswordController($userModel, $siteModel);
+            $controller->sendResetLink();
+        } else {
+            // Просто показать страницу с формой
+            $controller = new RestorePasswordController($userModel, $siteModel);
+            $controller->index();
+        }
+        break;
+
+    // Маршрут для проверки токена
+    case '/verify-token':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Обработать пост-запрос на проверку токена
+            $controller = new RestorePasswordController($userModel, $siteModel);
+            $controller->verifyToken();
+        } else {
+            // Просто показать страницу для ввода токена
+            $controller = new RestorePasswordController($userModel, $siteModel);
+            $controller->showVerifyTokenForm();
+        }
+        break;
+
+
+    // Маршрут для установки нового пароля
+    case '/set-new-password':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Обработать пост-запрос на смену пароля
+            $token = $_POST['token']; // Получаем токен из формы
+            $controller = new RestorePasswordController($userModel, $siteModel);
+            $controller->setNewPassword($token); // Передаём токен
+        } else {
+            // Просто показать страницу для ввода нового пароля
+            $controller = new RestorePasswordController($userModel, $siteModel);
+            $controller->showSetPasswordForm($token);
         }
         break;
 

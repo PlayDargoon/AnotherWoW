@@ -12,7 +12,7 @@ class MaintenanceController
         $pageTitle = 'Техническое обслуживание';
 
         // Проверяем статус сервера
-        $serverStatus = $this->checkServerStatus('188.113.169.185', 3724);
+        $serverStatus = $this->checkServerStatus('91.199.149.28', 3724);
 
         // Определяем класс и иконку в зависимости от статуса сервера
         if ($serverStatus === 'Онлайн') {

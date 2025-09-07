@@ -133,16 +133,19 @@ class User
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
-    
-     /**
-     * Поиск пользователя по email
-     */
-   public function existsEmail($email)
-    {
-        $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM account WHERE email = :email");
-        $stmt->execute(['email' => $email]);
-        return $stmt->fetchColumn() > 0;
-    }
 
+/**
+     * Меняет пароль пользователя
+     */
+    public function changePassword($userId, $newPassword, $user)
+    {
+        // Генерация Salt и Verifier
+        $salt = generateSalt();
+        $verifier = calculateSRP6Verifier($user['username'], $newPassword, $salt);
+
+        // Обновляем пароль пользователя
+        $stmt = $this->pdo->prepare("UPDATE account SET salt = :salt, verifier = :verifier WHERE id = :user_id");
+        $stmt->execute(['salt' => $salt, 'verifier' => $verifier, 'user_id' => $userId]);
+    }
 
 }

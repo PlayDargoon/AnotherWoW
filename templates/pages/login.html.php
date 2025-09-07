@@ -7,6 +7,19 @@
 </head>
 <body>
 
+<?php if (!empty($message)): ?>
+        <div class="small">
+            <ul class="feedbackPanel">
+                <li class="feedbackPanelERROR">
+                    <span class="feedbackPanelERROR">
+                        <?= htmlspecialchars($message) ?>
+                    </span>
+                </li>
+            </ul>
+        </div>
+    <?php endif; ?>
+
+
 <div class="body">
 
     <h1>Вход</h1>
@@ -15,11 +28,7 @@
         <img src="/images/rasporyaditel_310.jpg" width="310" height="103" alt="?">
     </div>
 
-    <?php if (!empty($errors)): ?>
-        <div class="alert alert-danger" style="margin-top: 20px;">
-            <p><?= $errors[0] ?></p>
-        </div>
-    <?php endif; ?>
+   
 
     <form id="loginForm" action="/login" method="post">
         <div>
@@ -34,7 +43,7 @@
             <input id="submit" type="submit" class="headerButton _c-pointer" name="p::submit" value="Войти">
         </div>
     </form>
-
+<!--
     <div class="pt">
         <span class="small"><span>Есть аккаунт в одной из социальных сетей? Авторизуйся и управляй несколькими персонажами из своего личного кабинета.</span> </span>
         <div class="small">
@@ -42,7 +51,12 @@
             <a href="#"><img src="/images/icons/VK24x24r.png" width="24" height="24" alt="ВКонтакте"></a>
             <a href="#"><img src="/images/icons/OK24x24r.png" width="24" height="24" alt="Одноклассники"></a>
         </div>
-    </div>
+    </div> -->
+
+
+    <div class="pt">
+<a class="headerButton" href="/restore-password"><img src="/images/icons/book_red.png" width="12" height="12" alt="." class="link-icon">Забыли пароль?</a>
+</div>
 
 </div>
 
@@ -57,9 +71,7 @@
     </ol>
 </div>
 
-<div class="pt">
-<a class="headerButton" href="/restore-password"><img src="/images/icons/book_red.png" width="12" height="12" alt="." class="link-icon">Забыли пароль?</a>
-</div>
+
 
 
 </body>

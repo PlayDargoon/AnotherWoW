@@ -21,6 +21,13 @@ require_once __DIR__ . '/src/utils.php'; // Импортируем полезн�
 // Подключаем службу подключения к базе данных
 require_once __DIR__ . '/src/services/DatabaseConnection.php';
 
+// Подключаем PHPMailer
+require_once __DIR__ . '/src/libs/phpmailer/Exception.php';
+require_once __DIR__ . '/src/libs/phpmailer/PHPMailer.php';
+require_once __DIR__ . '/src/libs/phpmailer/SMTP.php';
+
+
+
 // Получаем экземпляры подключений к базам данных
 global $authConnection, $worldConnection, $charactersConnection;
 
