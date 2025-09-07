@@ -38,12 +38,16 @@ class CabinetController
             $formattedCharacters[] = $formattedChar;
         }
 
+        // Получаем уровень доступа пользователя
+        $userAccessLevel = $this->userModel->getUserAccessLevel($userInfo['id']);
+
         // Передаем данные в шаблон
         $data = [
             'contentFile' => 'pages/cabinet.html.php', // Передаем путь к шаблону
             'userInfo' => $userInfo,
             'characters' => $formattedCharacters, // Передаем массив персонажей с дополнительными данными
             'characterModel' => $this->characterModel, // Передаем модель персонажей
+            'userAccessLevel' => $userAccessLevel, // Передаем уровень доступа пользователя
         ];
 
         // Рендерим шаблон

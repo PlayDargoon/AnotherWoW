@@ -65,7 +65,7 @@ class RestorePasswordController
         $mail->Username = 'system@azeroth.su';
         $mail->Password = 'Vongola@530';
         $mail->SMTPSecure = 'tls';
-        $mail->Port = 2525;
+        $mail->Port = 587;
 
         // Данные письма
         $mail->setFrom('system@azeroth.su', 'Azeroth Support');

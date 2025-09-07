@@ -23,7 +23,14 @@
             Выбери персонажа, которым ты хочешь управлять:
         </div>
         <br>
+<div class="small">
 
+
+<span>Фракция</span> | <span>Расса</span> | <span>Класс</span> | <span>Имя персонажа</span> | <span>Уровень</span>
+
+
+
+</div>
         <?php if (empty($characters)): ?>
             <p>У вас нет созданных персонажей.</p>
         <?php else: ?>
@@ -47,7 +54,19 @@
 
     </div>
 
+    
+
     <div class="pt">
+
+    <?php if ($userAccessLevel > 0): ?>
+        <div>
+            <a href="/admin-panel">
+                <img src="/images/icons/arr.png" width="12" height="12" alt="*">
+                Админ Панель
+            </a>
+        </div>
+    <?php endif; ?>
+
         <div>
             <a href="#">
                 <img src="/images/icons/arr.png" width="12" height="12" alt="*">

@@ -32,6 +32,8 @@ class User
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
         return $result['gmlevel'] ?? 0;
     }
+
+    
     
  /**
      * Получает название первого сервера из таблицы realmlist
@@ -147,5 +149,20 @@ class User
         $stmt = $this->pdo->prepare("UPDATE account SET salt = :salt, verifier = :verifier WHERE id = :user_id");
         $stmt->execute(['salt' => $salt, 'verifier' => $verifier, 'user_id' => $userId]);
     }
+
+    /**
+     * Проверяет уровень доступа пользователя (GM level)
+     *
+     * @param integer $userId ID пользователя
+     * @return integer Уровень доступа (gmlevel) или 0, если не найден
+     */
+    public function getUserAccessLevel($userId)
+    {
+        $stmt = $this->pdo->prepare("SELECT gmlevel FROM account_access WHERE id = :user_id");
+        $stmt->execute(['user_id' => $userId]);
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return isset($result['gmlevel']) ? intval($result['gmlevel']) : 0;
+    }
+
 
 }

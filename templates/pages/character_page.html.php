@@ -55,20 +55,27 @@
         </div>
     </div>
 
-    <div>
-        <img src="/images/icons/clock.png" alt="."> 
-        <span>Игровое время: <?= gmdate("H:i:s", $character['totaltime']) ?></span>
-    </div>
+   
 
-    <div class="pt small minor">
-        <span class="minor">Статус: <?= $character['online'] ? 'Онлайн' : 'Оффлайн' ?></span>
-    </div>
+    
 
-    <div>
-        <span class="minor"><?= formatCreationDate($character['creation_date']) ?></span>
-    </div>
+<div class="pt">
 
-    <div class="pt small minor">
+<div>
+<img src="/images/icons/clock.png" alt="."> <span>Игровое время: <?= gmdate("H:i:s", $character['totaltime']) ?></span>
+</div>
+<div>
+<span><?= $character['online'] ? 'Онлайн' : 'Оффлайн' ?>, Локация</span>
+</div>
+<div>
+<span class="minor"><?= formatCreationDate($character['creation_date']) ?></span>
+</div>
+
+
+
+</div>
+
+<div class="pt small minor">
         <img src="/images/icons/game_master.png" alt="." width="12" height="12"> ID персонажа: <span><?= $character['guid'] ?></span>
     </div>
 

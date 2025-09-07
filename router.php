@@ -27,7 +27,7 @@ require_once __DIR__ . '/src/controllers/LogoutController.php'; // Подклю�
 require_once __DIR__ . '/src/controllers/MaintenanceController.php'; // Подключаем контроллер технического обслуживания
 require_once __DIR__ . '/src/controllers/SiteController.php'; // Подключаем контроллер site
 require_once __DIR__ . '/src/controllers/RestorePasswordController.php'; // Восстановление пароля
-
+require_once __DIR__ . '/src/controllers/AdminPanelController.php'; // Админ панель
 
 // Подключаем модели
 require_once __DIR__ . '/src/models/User.php';
@@ -46,6 +46,7 @@ $siteModel = new Site(DatabaseConnection::getSiteConnection()); // Подклю�
 
 // Получаем URI запроса
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
 
 // Проверка технического обслуживания
 $maintenanceMode = false; // Установите в true, чтобы включить режим технического обслуживания
@@ -129,6 +130,13 @@ switch ($uri) {
         $controller = new CabinetController($userModel, $characterModel);
         $controller->index();
         break;
+
+        // Маршрут для админ-панели
+    case '/admin-panel':
+        $controller = new AdminPanelController($userModel);
+        $controller->index();
+        break;
+        
 
     case '/play': // Страница персонажа
         // Получаем GUID персонажа из параметров GET
