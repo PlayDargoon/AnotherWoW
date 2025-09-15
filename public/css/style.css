@@ -1,3 +1,13 @@
+/* Правый блок для голосования, смещённый на 10px ниже стандартного test2 */
+.vote {
+  background-color: #000033;
+  width: 280px;
+  height: 200px;
+  position: absolute;
+  right: -290px;
+  top: 240px; /* На 10px ниже, чем у .test2 */
+  z-index: 1;
+}
 h1, h2, form, html, p, div, span, table, tbody, td, tr, img {
     margin: 0;
     padding: 0;

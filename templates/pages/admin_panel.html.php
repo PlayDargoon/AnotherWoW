@@ -39,6 +39,12 @@
                 Настройки сайта
             </a>
         </div>
+        <div>
+            <a href="/admin-online">
+                <img src="/images/icons/health.png" width="12" height="12" alt="*">
+                Игроки онлайн
+            </a>
+        </div>
     </div>
 
     <div class="pt">
@@ -46,7 +52,10 @@
             <img src="/images/icons/question_blue.png" width="12" height="12" alt="*">
             <a href="#">Справка и поддержка</a>
         </div>
-
+        <div>
+            <img src="/images/icons/home.png" width="12" height="12">
+            <a href="/cabinet">В кабинет</a>
+        </div>
         <div>
             <img src="/images/icons/cross.png" alt="." width="12" height="12">
             <a href="/logout">Выйти из аккаунта</a>

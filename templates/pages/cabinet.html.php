@@ -58,7 +58,7 @@
 
     <div class="pt">
 
-    <?php if ($userAccessLevel > 0): ?>
+    <?php if ($userAccessLevel >= 4): ?>
         <div>
             <a href="/admin-panel">
                 <img src="/images/icons/arr.png" width="12" height="12" alt="*">

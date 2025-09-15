@@ -32,6 +32,9 @@ class LoginController
                 // Сессия уже запущена в bootstrap.php, поэтому запускать её здесь не нужно
                 $_SESSION['logged_in'] = true;
                 $_SESSION['username'] = $username;
+                // Получаем user_id и сохраняем в сессию
+                $userId = $this->userModel->getUserIdByUsername($username);
+                $_SESSION['user_id'] = $userId;
                 header('Location: /cabinet');
                 exit;
             } else {

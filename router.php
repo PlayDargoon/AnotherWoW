@@ -27,7 +27,9 @@ require_once __DIR__ . '/src/controllers/LogoutController.php'; // Подклю�
 require_once __DIR__ . '/src/controllers/MaintenanceController.php'; // Подключаем контроллер технического обслуживания
 require_once __DIR__ . '/src/controllers/SiteController.php'; // Подключаем контроллер site
 require_once __DIR__ . '/src/controllers/RestorePasswordController.php'; // Восстановление пароля
+
 require_once __DIR__ . '/src/controllers/AdminPanelController.php'; // Админ панель
+require_once __DIR__ . '/src/controllers/AdminOnlineController.php'; // Игроки онлайн (админ)
 
 
 // Подключаем модели
@@ -61,6 +63,17 @@ if ($maintenanceMode && $uri !== '/register') {
 
 // Обработчики маршрутов
 switch ($uri) {
+
+    case '/admin-online':
+        $controller = new AdminOnlineController();
+        $controller->index();
+        break;
+    case '/about':
+        renderTemplate('layout.html.php', [
+            'contentFile' => 'pages/about.html.php',
+            'pageTitle' => 'О проекте',
+        ]);
+        break;
     case '/': // Главная страница
         $controller = new IndexController($characterModel, $uptimeModel); // Передаем модель персонажей
         $controller->index();

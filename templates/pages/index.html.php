@@ -9,7 +9,9 @@
     <div style="text-align:center;" class="p2">
         <img src="/images/logo.jpg" width="310" height="103" alt="Логотип"> <!-- ВАШ ЛОГОТИП -->
     </div>
+
     <h1 style="text-align: center;">Добро пожаловать на игровой сервер World of Warcraft 3.3.5!</h1>
+
 
 
 

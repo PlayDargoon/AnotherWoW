@@ -30,9 +30,24 @@
         <?php include 'partials/left_block.html.php'; ?>
     </div>
 
+
+
     <div class="test2 block-border">
-        
-        <?php include 'partials/right_block.html.php'; ?>
+        <?php
+        // Получаем реальные данные о сервере для блока right_block на всех страницах
+        require_once __DIR__ . '/../src/helpers/serverInfo_helper.php';
+        require_once __DIR__ . '/../src/models/Character.php';
+        require_once __DIR__ . '/../src/models/Uptime.php';
+        $characterModel = new Character(DatabaseConnection::getCharactersConnection());
+        $uptimeModel = new Uptime(DatabaseConnection::getAuthConnection());
+        $serverInfo = getServerInfo($characterModel, $uptimeModel);
+        extract($serverInfo);
+        include 'partials/right_block.html.php';
+        ?>
+    </div>
+
+    <div class="vote block-border">
+        <?php include 'partials/vote_block.html.php'; ?>
     </div>
 
     

@@ -7,19 +7,21 @@
                 <tr>
                     <td>
                         <img class="i12img" src="/images/icons/health.png" alt="хп" width="12px" height="12px">
-                        <span class="info"><?= $character['health'] ?></span>
+                        <span class="info">
+                            <?= isset($character['health']) ? htmlspecialchars($character['health']) : '-' ?>
+                        </span>
                     </td>
 
                     <td align="right">
                         <span>
                             <img src="/images/icons/gold.webp" class="i12img" width="12" height="12">
-                             <?= $currency['gold'] ?> <!-- Используем переменную currency -->
+                            <?= isset($currency['gold']) ? (int)$currency['gold'] : 0 ?>
 
                             <img src="/images/icons/silver.webp" class="i12img" width="12" height="12">
-                             <?= $currency['silver'] ?> <!-- Используем переменную currency -->
+                            <?= isset($currency['silver']) ? (int)$currency['silver'] : 0 ?>
 
                             <img src="/images/icons/copper.webp" class="i12img" width="12" height="12">
-                             <?= $currency['copper'] ?> <!-- Используем переменную currency -->
+                            <?= isset($currency['copper']) ? (int)$currency['copper'] : 0 ?>
                         </span>
                     </td>
 
