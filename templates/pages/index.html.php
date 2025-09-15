@@ -3,6 +3,9 @@
 
 
 <div class="body">
+
+
+
     <div style="text-align:center;" class="p2">
         <img src="/images/logo.jpg" width="310" height="103" alt="Логотип"> <!-- ВАШ ЛОГОТИП -->
     </div>

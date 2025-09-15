@@ -1,7 +1,7 @@
 <?php
 // src/controllers/LoginController.php
 
-class LoginController
+class LoginController 
 {
     private $userModel;
 

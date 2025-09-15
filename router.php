@@ -29,6 +29,7 @@ require_once __DIR__ . '/src/controllers/SiteController.php'; // Подключ�
 require_once __DIR__ . '/src/controllers/RestorePasswordController.php'; // Восстановление пароля
 require_once __DIR__ . '/src/controllers/AdminPanelController.php'; // Админ панель
 
+
 // Подключаем модели
 require_once __DIR__ . '/src/models/User.php';
 require_once __DIR__ . '/src/models/Character.php'; // Подключаем модель персонажей
@@ -42,7 +43,7 @@ require_once __DIR__ . '/src/services/DatabaseConnection.php';
 $userModel = new User(DatabaseConnection::getAuthConnection()); // Подключение к auth базе
 $characterModel = new Character(DatabaseConnection::getCharactersConnection()); // Подключение к базе персонажей
 $siteModel = new Site(DatabaseConnection::getSiteConnection()); // Подключение к базе сайта
-
+$uptimeModel = new Uptime(DatabaseConnection::getAuthConnection());
 
 // Получаем URI запроса
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -61,7 +62,7 @@ if ($maintenanceMode && $uri !== '/register') {
 // Обработчики маршрутов
 switch ($uri) {
     case '/': // Главная страница
-        $controller = new IndexController($characterModel); // Передаем модель персонажей
+        $controller = new IndexController($characterModel, $uptimeModel); // Передаем модель персонажей
         $controller->index();
         break;
 
