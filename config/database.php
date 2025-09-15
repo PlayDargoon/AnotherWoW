@@ -3,7 +3,7 @@
 
 return [
     'driver' => 'mysql',
-    'host' => '127.0.0.1',
+    'host' => '91.199.149.28',
     'port' => [
         'acore_auth' => 8085,
         'acore_world' => 3306,
