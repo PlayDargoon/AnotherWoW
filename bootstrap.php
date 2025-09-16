@@ -15,6 +15,7 @@ spl_autoload_register(function ($className) {
     }
 });
 
+require_once __DIR__ . '/src/helpers/csrf.php'; // CSRF helper
 // Полезные функции
 require_once __DIR__ . '/src/utils.php'; // Импортируем полезные функции
 

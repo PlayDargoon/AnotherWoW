@@ -31,6 +31,7 @@
    
 
     <form id="loginForm" action="/login" method="post">
+        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generate_csrf_token()) ?>">
         <div>
             <label for="username"><span class="info">Логин</span>:</label><br>
             <input id="username" type="text" value="" name="username" required>

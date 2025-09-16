@@ -35,12 +35,37 @@ class AdminOnlineController
             $charsByAccount[$char['account']][] = $char;
         }
 
-        // 4. Собираем результат
+        // 4. Собираем результат с форматированием персонажей
+        $classColors = [
+            1 => '#C69B6D', // Воин
+            2 => '#F48CBA', // Паладин
+            3 => '#AAD372', // Охотник
+            4 => '#FFF468', // Разбойник
+            5 => '#FFFFFF', // Жрец
+            6 => '#C41E3A', // Рыцарь Смерти
+            7 => '#0070DD', // Шаман
+            8 => '#3FC7EB', // Маг
+            9 => '#8788EE', // Чернокнижник
+            10 => '#00FF98', // Монах
+            11 => '#FF7C0A', // Друид
+            12 => '#A330C9', // Охотник на Демонов
+            13 => '#33937F', // Пробуждающий (Evoker)
+        ];
         $result = [];
         foreach ($accounts as $acc) {
             $accId = $acc['id'];
             if (!empty($charsByAccount[$accId])) {
-                $acc['characters'] = $charsByAccount[$accId];
+                $chars = [];
+                foreach ($charsByAccount[$accId] as $char) {
+                    $char['classColor'] = isset($classColors[$char['class']]) ? $classColors[$char['class']] : '#FFF';
+                    $tt = isset($char['totaltime']) ? (int)$char['totaltime'] : 0;
+                    $days = floor($tt / 86400);
+                    $hours = floor(($tt % 86400) / 3600);
+                    $minutes = floor(($tt % 3600) / 60);
+                    $char['playtime'] = ($days > 0 ? $days.'д ' : '') . ($hours > 0 ? $hours.'ч ' : '') . $minutes.'м';
+                    $chars[] = $char;
+                }
+                $acc['characters'] = $chars;
                 $result[] = $acc;
             }
         }

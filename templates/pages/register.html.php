@@ -34,11 +34,12 @@
 
     <?php if (!empty($error)): ?>
         <div class="alert alert-danger" style="margin-top: 20px;">
-            <p><?= $error ?></p>
+            <p><?= htmlspecialchars($error) ?></p>
         </div>
     <?php endif; ?>
 
     <form id="loginForm" action="/register" method="post">
+        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generate_csrf_token()) ?>">
         <div>
             <label for="username"><span class="info">Имя персонажа</span>:</label><br>
             <input id="username" type="text" value="" name="username" required>

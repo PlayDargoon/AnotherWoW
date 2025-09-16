@@ -10,7 +10,7 @@
     <div class="small">
         <ul class="feedbackPanel">
             <li class="feedbackPanelERROR">
-                <span class="feedbackPanelERROR"><?= $error ?></span>
+                <span class="feedbackPanelERROR"><?= htmlspecialchars($error) ?></span>
             </li>
         </ul>
     </div>
@@ -20,7 +20,7 @@
     <div class="small">
         <ul class="feedbackPanel">
             <li class="feedbackPanelINFO">
-                <span class="feedbackPanelINFO"><?= $message ?></span>
+                <span class="feedbackPanelINFO"><?= htmlspecialchars($message) ?></span>
             </li>
         </ul>
     </div>
@@ -40,6 +40,7 @@
     </div>
     <div class="pt">
         <form action="/restore-password" method="post">
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generate_csrf_token()) ?>">
             <label for="email"><span class="info">Email адрес</span>:</label><br>
             <input id="email" type="email" name="email" required>
             <br>

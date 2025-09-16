@@ -18,6 +18,24 @@
 
 
 <body>
+<?php
+// Эмуляция cron: запускать sync_mmotop_votes.php не чаще раза в 10 минут
+$syncFile = __DIR__ . '/../../last_sync_mmotop.txt';
+$now = time();
+$needSync = false;
+if (!file_exists($syncFile)) {
+    $needSync = true;
+} else {
+    $last = (int)@file_get_contents($syncFile);
+    if ($now - $last > 600) { // 600 секунд = 10 минут
+        $needSync = true;
+    }
+}
+if ($needSync) {
+    file_put_contents($syncFile, $now);
+    @include __DIR__ . '/../../sync_mmotop_votes.php';
+}
+?>
     <!--
     <div class="header-navigation block-border">
          include 'partials/header_navigation.html.php'; 
@@ -29,8 +47,6 @@
     <div class="test3 block-border">
         <?php include 'partials/left_block.html.php'; ?>
     </div>
-
-
 
     <div class="test2 block-border">
         <?php
@@ -46,20 +62,16 @@
         ?>
     </div>
 
-    <div class="vote block-border">
-        <?php include 'partials/vote_block.html.php'; ?>
-    </div>
 
     
   
-            <?php if (
-                     isset($_SESSION['logged_in']) && $_SESSION['logged_in'] && $contentFile != 'pages/cabinet.html.php' // Исключение кабинета
-            ): ?>
-
+        <?php if (
+        isset($_SESSION['logged_in']) && $_SESSION['logged_in'] && $contentFile == 'pages/character_page.html.php'
+        ): ?>
     <div class="header small block-border-bottom">
-            <?php include 'partials/header.html.php'; ?> <!-- Шапка -->
+    <?php include 'partials/header.html.php'; ?> <!-- Шапка -->
     </div>
-            <?php endif; ?>
+        <?php endif; ?>
 
 <!-- Здесь отображается контент конкретной страницы -->
             <?php if (!empty($contentFile)): ?>

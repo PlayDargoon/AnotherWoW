@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/src/controllers/VoteController.php'; // Контроллер голосования
 // router.php
 
 // Загружаем среду
@@ -30,6 +31,9 @@ require_once __DIR__ . '/src/controllers/RestorePasswordController.php'; // Во
 
 require_once __DIR__ . '/src/controllers/AdminPanelController.php'; // Админ панель
 require_once __DIR__ . '/src/controllers/AdminOnlineController.php'; // Игроки онлайн (админ)
+require_once __DIR__ . '/src/controllers/NewsController.php'; // Новости
+
+require_once __DIR__ . '/src/controllers/NewsListController.php'; // Список новостей для пользователей
 
 
 // Подключаем модели
@@ -63,6 +67,42 @@ if ($maintenanceMode && $uri !== '/register') {
 
 // Обработчики маршрутов
 switch ($uri) {
+
+    case '/forum-test':
+        renderTemplate('layout.html.php', [
+            'contentFile' => 'pages/forum_test.html.php',
+            'pageTitle' => 'Тестовый форум',
+        ]);
+        break;
+
+    case '/cabinet/coins-history':
+        $controller = new CabinetController($userModel, $characterModel);
+        $controller->coinsHistory();
+        break;
+    case '/vote':
+        $controller = new VoteController();
+        $controller->index();
+        break;
+    case '/news':
+        $controller = new NewsListController();
+        $controller->handle();
+        break;
+    case '/news/manage':
+        $controller = new NewsController();
+        $controller->manage();
+        break;
+    case '/news/create':
+        $controller = new NewsController();
+        $controller->create();
+        break;
+    case '/news/store':
+        $controller = new NewsController();
+        $controller->store();
+        break;
+    case '/news/delete':
+        $controller = new NewsController();
+        $controller->delete();
+        break;
 
     case '/admin-online':
         $controller = new AdminOnlineController();

@@ -1,16 +1,27 @@
+<div class="info">
+  <img src="/images/icons/arr.png" alt="." width="12" height="12" class="i12img">
+  <a href="/vote" class=""><span>Голосование</span></a>
+</div>
 <div class="body">
 
 <h1 style="text-align: center;">Меню</h1></br>
 
-<div class="info">
-                  <img src="/images/icons/arr.png" alt="." width="12" height="12" class="i12img">
-                <a href="/login" class=""><span>Вход</span></a>
-</div>
 
-<div class="info">
-                  <img src="/images/icons/arr.png" alt="." width="12" height="12" class="i12img">
-                <a href="/#" class=""><span>Регистрация</span></a>
-</div>
+<?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']): ?>
+  <div class="info">
+    <img src="/images/icons/arr.png" alt="." width="12" height="12" class="i12img">
+    <a href="/cabinet" class=""><span>Личный кабинет</span></a>
+  </div>
+<?php else: ?>
+  <div class="info">
+    <img src="/images/icons/arr.png" alt="." width="12" height="12" class="i12img">
+    <a href="/login" class=""><span>Вход</span></a>
+  </div>
+  <div class="info">
+    <img src="/images/icons/arr.png" alt="." width="12" height="12" class="i12img">
+    <a href="/register" class=""><span>Регистрация</span></a>
+  </div>
+<?php endif; ?>
 
 <div class="info">
                   <img src="/images/icons/arr.png" alt="." width="12" height="12" class="i12img">
@@ -24,7 +35,7 @@
 
 <div class="info">
                   <img src="/images/icons/arr.png" alt="." width="12" height="12" class="i12img">
-                <a href="/#" class=""><span>Новости</span></a>
+                <a href="/news" class=""><span>Новости</span></a>
 </div>
 
 <div class="info">

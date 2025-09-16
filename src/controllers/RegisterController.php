@@ -61,7 +61,7 @@ class RegisterController
             $newUserId = $this->userModel->createNewUser($username, $email, $salt, $verifier);
 
             if ($newUserId) {
-                header('Location: /'); // Перенаправляем на главную страницу
+                header('Location: /login'); // Перенаправляем на страницу входа
                 exit;
             } else {
                 renderTemplate('layout.html.php', ['contentFile' => 'pages/register.html.php', 'error' => 'Возникла ошибка при регистрации. Попробуйте позже.']);

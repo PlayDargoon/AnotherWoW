@@ -1,11 +1,7 @@
 <!-- templates/pages/admin_online.html.php -->
 <?php require_once __DIR__ . '/../../src/helpers/getFactionImage.php'; ?>
-<div class="touch-influenced block-border">
-    <div class="exp-head-out">
-        <div>
-            <div class="exp-head-in"></div>
-        </div>
-    </div>
+
+    
     <div class="body">
         <h1>Игроки онлайн</h1>
     </div>
@@ -52,35 +48,10 @@
                                         <img src="/images/small/<?= $char['race'] . '-' . $char['gender'] ?>.gif" alt="Раса" width="16" height="16">
                                         <img src="/images/small/<?= $char['class'] ?>.gif" alt="Класс" width="16" height="16">
                                         <img src="/images/icons/sex_<?= $char['gender'] == 1 ? 'female' : 'male' ?>.png" alt="Пол" width="14" height="14">
-                                        <?php
-                                        // Цвета классов WoW
-                                        $classColors = [
-                                            1 => '#C69B6D', // Воин
-                                            2 => '#F48CBA', // Паладин
-                                            3 => '#AAD372', // Охотник
-                                            4 => '#FFF468', // Разбойник
-                                            5 => '#FFFFFF', // Жрец
-                                            6 => '#C41E3A', // Рыцарь Смерти
-                                            7 => '#0070DD', // Шаман
-                                            8 => '#3FC7EB', // Маг
-                                            9 => '#8788EE', // Чернокнижник
-                                            10 => '#00FF98', // Монах
-                                            11 => '#FF7C0A', // Друид
-                                            12 => '#A330C9', // Охотник на Демонов
-                                            13 => '#33937F', // Пробуждающий (Evoker)
-                                        ];
-                                        $classColor = isset($classColors[$char['class']]) ? $classColors[$char['class']] : '#FFF';
-                                        // Форматируем игровое время
-                                        $tt = isset($char['totaltime']) ? (int)$char['totaltime'] : 0;
-                                        $days = floor($tt / 86400);
-                                        $hours = floor(($tt % 86400) / 3600);
-                                        $minutes = floor(($tt % 3600) / 60);
-                                        $playtime = ($days > 0 ? $days.'д ' : '') . ($hours > 0 ? $hours.'ч ' : '') . $minutes.'м';
-                                        ?>
-                                        <span style="font-weight:bold; margin-left:4px; color:<?= $classColor ?>;">
+                                        <span style="font-weight:bold; margin-left:4px; color:<?= $char['classColor'] ?>;">
                                             <?= htmlspecialchars($char['name']) ?>
                                         </span>
-                                        <span class="small" style="color:#aaa; margin-left:4px;">[<?= $char['level'] ?> ур.] <span style="color:#6cf; font-size:11px; margin-left:2px;">(<?= $playtime ?>)</span></span>
+                                        <span class="small" style="color:#aaa; margin-left:4px;">[<?= $char['level'] ?> ур.] <span style="color:#6cf; font-size:11px; margin-left:2px;">(<?= $char['playtime'] ?>)</span></span>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>
@@ -102,4 +73,4 @@
             </a>
         </div>
     </div>
-</div>
+

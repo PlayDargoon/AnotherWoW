@@ -12,7 +12,7 @@
     <div class="small">
         <ul class="feedbackPanel">
             <li class="feedbackPanelERROR">
-                <span class="feedbackPanelERROR"><?= $error ?></span>
+                <span class="feedbackPanelERROR"><?= htmlspecialchars($error) ?></span>
             </li>
         </ul>
     </div>
@@ -22,7 +22,7 @@
     <div class="small">
         <ul class="feedbackPanel">
             <li class="feedbackPanelINFO">
-                <span class="feedbackPanelINFO"><?= $message ?></span>
+                <span class="feedbackPanelINFO"><?= htmlspecialchars($message) ?></span>
             </li>
         </ul>
     </div>
@@ -41,7 +41,8 @@
     </div>
     <div class="pt">
         <form action="/set-new-password" method="post">
-            <input type="hidden" name="token" value="<?= $token ?>">
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generate_csrf_token()) ?>">
+            <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
             <label for="password"><span class="info">Новый пароль</span>:</label><br>
             <input id="password" type="password" name="password" required>
             <br>

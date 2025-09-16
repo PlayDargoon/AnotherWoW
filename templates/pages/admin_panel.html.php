@@ -1,17 +1,20 @@
 <!-- templates/pages/admin_panel.html.php -->
 
-<div class="touch-influenced block-border">
 
-<div class="exp-head-out">
-    <div>
-        <div class="exp-head-in" ></div>
-    </div>
-</div>
 
+<?php
+$userId = $_SESSION['user_id'] ?? null;
+$accessLevel = 0;
+if ($userId && class_exists('User')) {
+    $userModel = new User(DatabaseConnection::getAuthConnection());
+    $accessLevel = $userModel->getUserAccessLevel($userId);
+}
+?>
 <div class="body">
     <h1>Административная панель</h1>
 </div>
 
+<?php if ($accessLevel >= 4): ?>
 <div class="body">
     <div class="pt">
         <div class="small">
@@ -45,6 +48,12 @@
                 Игроки онлайн
             </a>
         </div>
+        <div>
+            <a href="/news/manage">
+                <img src="/images/icons/book_red.png" width="12" height="12" alt="*">
+                Управление новостями
+            </a>
+        </div>
     </div>
 
     <div class="pt">
@@ -52,17 +61,13 @@
             <img src="/images/icons/question_blue.png" width="12" height="12" alt="*">
             <a href="#">Справка и поддержка</a>
         </div>
-        <div>
-            <img src="/images/icons/home.png" width="12" height="12">
-            <a href="/cabinet">В кабинет</a>
-        </div>
-        <div>
-            <img src="/images/icons/cross.png" alt="." width="12" height="12">
-            <a href="/logout">Выйти из аккаунта</a>
-        </div>
     </div>
-
 </div>
+<?php else: ?>
+<div class="body">
+    <div class="small" style="color:red;">У вас нет прав для доступа к административной панели.</div>
+</div>
+<?php endif; ?>
 
 <div class="footer nav block-border-top">
     <ol>
@@ -71,10 +76,13 @@
             <a href="/">На главную</a>
         </li>
         <li>
-            <img class="i12img" src="/images/icons/question_blue.png" alt="." width="12px" height="12px">
-            <a href="#">Документация</a>
+            <img src="/images/icons/cross.png" alt="." width="12" height="12">
+            <a href="/logout">Выйти из аккаунта</a>
         </li>
+        <li>
+<img src="/images/icons/home.png" width="12" height="12">
+            <a href="/cabinet">В кабинет</a>
+</li>
     </ol>
 </div>
 
-</div>
