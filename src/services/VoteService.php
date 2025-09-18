@@ -3,6 +3,44 @@
 // Единый сервис для обработки голосов с mmotop.ru
 
 class VoteService {
+    /**
+     * Синхронизация голосов только для одного пользователя (быстро, с кешем)
+     */
+    public function syncVotesForUser($userId, $username = null) {
+        // Кешируем mmotop-файл на 2 минуты
+        $cacheFile = sys_get_temp_dir() . '/mmotop_votes_cache.txt';
+        $cacheTtl = 120;
+        $content = null;
+        if (file_exists($cacheFile) && filemtime($cacheFile) > time() - $cacheTtl) {
+            $content = file_get_contents($cacheFile);
+        } else {
+            $content = $this->downloadContent($this->mmotopUrl);
+            if ($content !== false) file_put_contents($cacheFile, $content);
+        }
+        if ($content === false || !$content) return ['error' => 'Не удалось загрузить файл с голосами'];
+
+        // Получаем username если не передан
+        if (!$username) {
+            $username = $this->userModel->getUsernameById($userId);
+        }
+        if (!$username) return ['error' => 'Не найден username для user_id'];
+
+        $lines = preg_split('/\r?\n/', $content, -1, PREG_SPLIT_NO_EMPTY);
+        $processed = 0;
+        $errors = [];
+        foreach ($lines as $line) {
+            $line = trim($line);
+            if (empty($line)) continue;
+            $voteData = $this->parseVoteLine($line);
+            if (!$voteData) continue;
+            // Только для нужного пользователя
+            if (strcasecmp($voteData['username'], $username) !== 0) continue;
+            if ($this->isDuplicateVote($userId, $voteData['timestamp'])) continue;
+            $this->addVote($userId, $voteData);
+            $processed++;
+        }
+        return ['processed' => $processed, 'errors' => $errors];
+    }
     private $siteDb;
     private $authDb;
     private $userModel;
@@ -12,17 +50,23 @@ class VoteService {
     private $notificationModel;
     
     // URL файла с голосами mmotop
-    private $mmotopUrl = 'https://mmotop.ru/votes/d2076181c455574872250afe4ec7fdbed943ce36.txt?3f91c4e49e449664db3da105befc39e7';
+    private $mmotopUrl;
     
     public function __construct() {
-        $this->siteDb = DatabaseConnection::getSiteConnection();
-        $this->authDb = DatabaseConnection::getAuthConnection();
+    $this->siteDb = DatabaseConnection::getSiteConnection();
+    $this->authDb = DatabaseConnection::getAuthConnection();
         
         require_once __DIR__ . '/../models/User.php';
         require_once __DIR__ . '/../models/AccountCoins.php';
         require_once __DIR__ . '/../models/VoteLog.php';
     require_once __DIR__ . '/../models/VoteReward.php';
     require_once __DIR__ . '/../models/Notification.php';
+
+    // Загружаем конфиг голосований
+    $voteCfg = @include __DIR__ . '/../../config/vote.php';
+    if (is_array($voteCfg) && !empty($voteCfg['mmotop_url'])) {
+        $this->mmotopUrl = $voteCfg['mmotop_url'];
+    }
 
     $this->userModel = new User($this->authDb);
     $this->coinsModel = new AccountCoins($this->siteDb);
@@ -86,33 +130,34 @@ class VoteService {
      */
     private function parseVoteLine($line) {
         // Формат 1: пробелы "id date time ip login result"
-        if (preg_match('/^(\d+)\s+(\d{2}\.\d{2}\.\d{4})\s+(\d{2}:\d{2}:\d{2})\s+(\S+)\s+(\S+)\s+(\d+)$/u', $line, $matches)) {
+        if (preg_match('/^(\d+)\s+(\d{2}\.\d{2}\.\d{4})\s+(\d{2}:\d{2}:\d{2})\s+(\S+)\s+(\S+)\s+(\d)$/u', $line, $matches)) {
             $date = $matches[2] . ' ' . $matches[3];
             $username = $matches[5];
-            
+            $rewardCode = $matches[6];
             // Конвертируем дату в timestamp
             $timestamp = $this->parseDate($date);
             if ($timestamp) {
                 return [
                     'username' => $username,
                     'timestamp' => $timestamp,
-                    'format' => 'space_separated'
+                    'format' => 'space_separated',
+                    'reward_code' => $rewardCode
                 ];
             }
         }
-        
         // Формат 2: табуляция "id date ip login result"
-        if (preg_match('/^(\d+)\s+(.+?)\s+(\S+)\s+(\S+)\s+(.+)$/u', $line, $matches)) {
+        if (preg_match('/^(\d+)\s+(.+?)\s+(\S+)\s+(\S+)\s+(\d)$/u', $line, $matches)) {
             $date = $matches[2];
             $username = $matches[4];
-            
+            $rewardCode = $matches[5];
             // Конвертируем дату в timestamp
             $timestamp = $this->parseDate($date);
             if ($timestamp) {
                 return [
                     'username' => $username,
                     'timestamp' => $timestamp,
-                    'format' => 'tab_separated'
+                    'format' => 'tab_separated',
+                    'reward_code' => $rewardCode
                 ];
             }
         }
@@ -193,29 +238,32 @@ class VoteService {
         $username = $voteData['username'];
         $timestamp = $voteData['timestamp'];
         $format = $voteData['format'];
-        
-        // Количество монет зависит от формата или настроек
-        $coinsReward = $this->getCoinsReward($format);
-        
+        $rewardCode = isset($voteData['reward_code']) ? $voteData['reward_code'] : null;
+
+        // Количество монет зависит от кода награды
+        $coinsReward = $this->getCoinsReward($rewardCode);
+
         // Добавляем в VoteLog
         $this->voteLogModel->add(
-            $accountId, 
-            $username, 
-            $coinsReward, 
+            $accountId,
+            $username,
+            $coinsReward,
             'mmotop_' . $format
         );
-        
-        // Начисляем монеты через AccountCoins
+
+        // Преобразуем timestamp в формат DATETIME для created_at
+        $createdAt = date('Y-m-d H:i:s', $timestamp);
+
+        // Начисляем монеты через AccountCoins с точной датой
         $this->coinsModel->add(
-            $accountId, 
-            $coinsReward, 
-            'Голосование mmotop (' . $format . ')'
+            $accountId,
+            $coinsReward,
+            'Голосование mmotop (' . $format . ')',
+            $createdAt
         );
-        // Создаем уведомление, если пользователь в сессии
-        if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $accountId) {
-            $this->notificationModel->createVoteRewardNotification($accountId, $coinsReward);
-        }
-        
+        // Создаем уведомление всегда для получателя награды
+        $this->notificationModel->createVoteRewardNotification($accountId, $coinsReward);
+
         // Обновляем время последнего голоса
         $this->rewardModel->setLastVoteTime($accountId, $timestamp);
     }
@@ -257,18 +305,14 @@ class VoteService {
         
         return @file_get_contents($url, false, $context);
     }
-    private function getCoinsReward($format) {
-        // Можно настроить разные награды для разных форматов
-        switch ($format) {
-            case 'tab_separated':
-                return 1; // Стандартная награда
-            case 'pipe_separated':
-                return 1; // Стандартная награда
-            case 'username_only':
-                return 5; // Повышенная награда для ручного голосования
-            default:
-                return 1;
+    private function getCoinsReward($rewardCode) {
+        // Загружаем конфиг кодов наград
+        $rewardsCfg = @include __DIR__ . '/../../config/vote_rewards.php';
+        $default = 1;
+        if ($rewardCode && is_array($rewardsCfg) && isset($rewardsCfg[$rewardCode])) {
+            return $rewardsCfg[$rewardCode];
         }
+        return $default;
     }
     
     /**

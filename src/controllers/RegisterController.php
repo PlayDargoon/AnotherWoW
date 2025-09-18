@@ -18,10 +18,9 @@ class RegisterController
     {
         // Передаем данные в шаблон
         $data = [
-            'contentFile' => 'pages/register.html.php', // Передаем путь к шаблону
+            'contentFile' => 'pages/register.html.php',
+            'pageTitle' => 'Регистрация',
         ];
-
-        // Рендерим шаблон
         renderTemplate('layout.html.php', $data);
     }
 

@@ -19,7 +19,10 @@
 </head>
 
 
+
 <body>
+<?php if (isset($GLOBALS['viewGlobals'])) extract($GLOBALS['viewGlobals']); ?>
+
 <?php if (!empty($notificationsData['notifications'])): ?>
     <?php foreach ($notificationsData['notifications'] as $notify): ?>
         <div class="event block-border-bottom" id="notify-<?= (int)$notify['id'] ?>">
@@ -36,6 +39,11 @@
     <?php endforeach; ?>
 <?php endif; ?>
     <div class="block-border">
+
+    <?php if (!empty($userInfo) && isset($userInfo['username'])): ?>
+    <?php include 'partials/header.html.php'; ?>
+<?php endif; ?>
+
         <div class="test3 block-border">
             <?php include 'partials/left_block.html.php'; ?>
         </div>

@@ -1,13 +1,12 @@
-
+    <head>
+        <title>Кабинет пользователя <?= htmlspecialchars($userInfo['username']) ?></title>      
+    </head>
+      
 
 <div class="body">
+      
 
-    <div class="mt20 p2 small i">
-    Кабинет пользователя <strong class="yellow"><?= htmlspecialchars($userInfo['username']) ?></strong>
-    </div>
-    <div class="b-page-bg">
-        <img src="/images/cabinet_310_blue.jpg" width="310" height="103">
-    </div>
+
     <h2>Игровой кабинет</h2>
 
     <div class="pt">
@@ -60,6 +59,14 @@
             </a>
         </div>
     <?php endif; ?>
+
+    <div class="pt">
+        <div class="info">
+            <img src="/images/icons/arr.png" width="12" height="12" alt="*">
+            <a href="/vote"  width="12" height="12" alt="*">Голосовать за проект</a>
+        </div>
+    </div>
+
 
         <div>
             <a href="#">

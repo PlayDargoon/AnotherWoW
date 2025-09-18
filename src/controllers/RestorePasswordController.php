@@ -23,6 +23,10 @@ class RestorePasswordController
     public function index()
     {
         renderTemplate('layout.html.php', ['contentFile' => 'pages/restore_password.html.php']);
+        renderTemplate('layout.html.php', [
+            'contentFile' => 'pages/restore_password.html.php',
+            'pageTitle' => 'Восстановление пароля',
+        ]);
     }
 
     /**
@@ -36,7 +40,11 @@ class RestorePasswordController
             // Проверяем, существует ли такой email
             $user = $this->userModel->findByEmail($email);
             if (!$user) {
-                renderTemplate('layout.html.php', ['contentFile' => 'pages/restore_password.html.php', 'error' => 'Пользователь с таким email не зарегистрирован.']);
+                renderTemplate('layout.html.php', [
+                    'contentFile' => 'pages/restore_password.html.php',
+                    'error' => 'Пользователь с таким email не зарегистрирован.',
+                    'pageTitle' => 'Восстановление пароля',
+                ]);
                 return;
             }
 
@@ -50,7 +58,11 @@ class RestorePasswordController
             // Отправляем письмо
             $this->sendMail($email, $restoreUrl, $token, $user); // Передаём $user
 
-            renderTemplate('layout.html.php', ['contentFile' => 'pages/restore_password.html.php', 'message' => 'На указанный email отправлена инструкция по восстановлению пароля.']);
+            renderTemplate('layout.html.php', [
+                'contentFile' => 'pages/restore_password.html.php',
+                'message' => 'На указанный email отправлена инструкция по восстановлению пароля.',
+                'pageTitle' => 'Восстановление пароля',
+            ]);
         }
     }
 
@@ -133,6 +145,11 @@ class RestorePasswordController
         $mail->send();
     } catch (MailException $e) {
         renderTemplate('layout.html.php', ['contentFile' => 'pages/restore_password.html.php', 'error' => 'Ошибка отправки письма. Обратитесь в техническую поддержку.']);
+        renderTemplate('layout.html.php', [
+            'contentFile' => 'pages/restore_password.html.php',
+            'error' => 'Ошибка отправки письма. Обратитесь в техническую поддержку.',
+            'pageTitle' => 'Восстановление пароля',
+        ]);
     }
 }
 
@@ -147,25 +164,45 @@ class RestorePasswordController
             // Проверяем токен на валидность
             $user = $this->siteModel->validateResetToken($token);
             if (!$user) {
-                renderTemplate('layout.html.php', ['contentFile' => 'pages/verify_token.html.php', 'error' => 'Токен недействителен или срок действия истек.']);
+                renderTemplate('layout.html.php', [
+                    'contentFile' => 'pages/verify_token.html.php',
+                    'error' => 'Токен недействителен или срок действия истек.',
+                    'pageTitle' => 'Восстановление пароля',
+                ]);
                 return;
             }
 
             // Перенаправляем на страницу для ввода нового пароля
-            renderTemplate('layout.html.php', ['contentFile' => 'pages/set_new_password.html.php', 'token' => $token]);
+            renderTemplate('layout.html.php', [
+                'contentFile' => 'pages/set_new_password.html.php',
+                'token' => $token,
+                'pageTitle' => 'Восстановление пароля',
+            ]);
         } else {
-            renderTemplate('layout.html.php', ['contentFile' => 'pages/verify_token.html.php']);
+            renderTemplate('layout.html.php', [
+                'contentFile' => 'pages/verify_token.html.php',
+                'pageTitle' => 'Восстановление пароля',
+            ]);
         }
     }
 
     public function showVerifyTokenForm()
     {
         renderTemplate('layout.html.php', ['contentFile' => 'pages/verify_token.html.php']);
+        renderTemplate('layout.html.php', [
+            'contentFile' => 'pages/verify_token.html.php',
+            'pageTitle' => 'Восстановление пароля',
+        ]);
     }
 
     public function showSetPasswordForm($token)
     {
         renderTemplate('layout.html.php', ['contentFile' => 'pages/set_new_password.html.php', 'token' => $token]);
+        renderTemplate('layout.html.php', [
+            'contentFile' => 'pages/set_new_password.html.php',
+            'token' => $token,
+            'pageTitle' => 'Восстановление пароля',
+        ]);
     }
 
    public function setNewPassword($token)
@@ -175,14 +212,24 @@ class RestorePasswordController
         $confirmPassword = $_POST['confirm_password'];
 
         if ($password !== $confirmPassword) {
-            renderTemplate('layout.html.php', ['contentFile' => 'pages/set_new_password.html.php', 'token' => $token, 'error' => 'Пароли не совпадают.']);
+            renderTemplate('layout.html.php', [
+                'contentFile' => 'pages/set_new_password.html.php',
+                'token' => $token,
+                'error' => 'Пароли не совпадают.',
+                'pageTitle' => 'Восстановление пароля',
+            ]);
             return;
         }
 
         // Проверяем токен на валидность
         $user = $this->siteModel->validateResetToken($token);
         if (!$user) {
-            renderTemplate('layout.html.php', ['contentFile' => 'pages/set_new_password.html.php', 'token' => $token, 'error' => 'Токен недействителен или срок действия истек.']);
+            renderTemplate('layout.html.php', [
+                'contentFile' => 'pages/set_new_password.html.php',
+                'token' => $token,
+                'error' => 'Токен недействителен или срок действия истек.',
+                'pageTitle' => 'Восстановление пароля',
+            ]);
             return;
         }
 
@@ -194,6 +241,11 @@ class RestorePasswordController
         exit;
     } else {
         renderTemplate('layout.html.php', ['contentFile' => 'pages/set_new_password.html.php', 'token' => $token]);
+        renderTemplate('layout.html.php', [
+            'contentFile' => 'pages/set_new_password.html.php',
+            'token' => $token,
+            'pageTitle' => 'Восстановление пароля',
+        ]);
     }
 }
 }

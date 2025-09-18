@@ -30,9 +30,10 @@ class CabinetController
             }, $mmotopHistory);
         }
         renderTemplate('layout.html.php', [
-            'contentFile' => 'pages/account_coins_history.html.php',
-            'history' => $history,
-            'backUrl' => '/cabinet',
+    'contentFile' => 'pages/account_coins_history.html.php',
+    'history' => $history,
+    'backUrl' => '/cabinet',
+    'pageTitle' => 'История начислений',
         ]);
     }
     private $userModel;
@@ -91,12 +92,13 @@ class CabinetController
     $coinsModel = new \AccountCoins(\DatabaseConnection::getSiteConnection());
     $coins = $coinsModel->getBalance($userInfo['id']);
         $data = [
-            'contentFile' => 'pages/cabinet.html.php',
-            'userInfo' => $userInfo,
-            'characters' => $formattedCharacters,
-            'characterModel' => $this->characterModel,
-            'userAccessLevel' => $userAccessLevel,
-            'coins' => $coins,
+    'contentFile' => 'pages/cabinet.html.php',
+    'userInfo' => $userInfo,
+    'characters' => $formattedCharacters,
+    'characterModel' => $this->characterModel,
+    'userAccessLevel' => $userAccessLevel,
+    'coins' => $coins,
+    'pageTitle' => 'Личный кабинет',
         ];
         renderTemplate('layout.html.php', $data);
     }

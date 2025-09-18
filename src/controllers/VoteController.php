@@ -22,7 +22,8 @@ class VoteController {
         
         renderTemplate('layout.html.php', [
             'contentFile' => 'pages/vote.html.php',
-            'message' => $message
+            'message' => $message,
+            'pageTitle' => 'Голосование за сервер',
         ]);
     }
 }

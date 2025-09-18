@@ -1,3 +1,4 @@
+
 <?php
 require_once __DIR__ . '/../helpers/srp_helpers.php';
 // src/models/User.php
@@ -8,6 +9,16 @@ class User
     public function __construct(\PDO $pdo)
     {
         $this->pdo = $pdo;
+    }
+
+    /**
+     * Получить username по user_id
+     */
+    public function getUsernameById($userId)
+    {
+        $stmt = $this->pdo->prepare("SELECT username FROM account WHERE id = :id");
+        $stmt->execute(['id' => $userId]);
+        return $stmt->fetchColumn();
     }
 
  /**

@@ -45,10 +45,7 @@
     <a href="/about" class=""><span>О проекте</span></a>
 </div>
 
-<div class="info">
-  <img src="/images/icons/arr.png" alt="." width="12" height="12" class="i12img">
-  <a href="/vote" class=""><span>Голосование</span></a>
-</div>
+
 
 
 </div>

@@ -16,7 +16,7 @@ h1, h2, form, html, p, div, span, table, tbody, td, tr, img {
 body {
     color: #FFFFFF;
     margin: 0 auto;
-    max-width: 600px;
+    max-width: 740px;
     background-color: #333333;
     overflow-x: hidden;
     position: relative; /* Нужно для абсолютного позиционирования дочерних элементов */
@@ -141,7 +141,7 @@ li {
     width: 280px;
     height: 200px;
     position: absolute;
-    right: 610px; /* Выходит за правую границу на 100px */
+    right: 748px; /* Выходит за правую границу на 100px */
     top: 10px; /* Смещаем блок чуть ниже верхнего уровня родительского элемента */
     z-index: 1;
 }

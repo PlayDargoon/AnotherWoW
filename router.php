@@ -4,6 +4,28 @@ require_once __DIR__ . '/src/controllers/NotificationController.php';
 
 
 // Готовим уведомления и ник для layout (доступно во всех шаблонах)
+if (isset($_SESSION['user_id'])) {
+    // Синхронизируем голоса для текущего пользователя (быстро, с кешем)
+    require_once __DIR__ . '/src/services/VoteService.php';
+    $voteService = new VoteService();
+    $voteService->syncVotesForUser($_SESSION['user_id']);
+
+    require_once __DIR__ . '/src/models/Notification.php';
+    $notifyModel = new Notification();
+    $unread = $notifyModel->getUnreadByUserId($_SESSION['user_id']);
+    // Добавим текст с правильным склонением монет, если есть coins в data
+    foreach ($unread as &$n) {
+        if (!empty($n['data']) && is_array($n['data']) && isset($n['data']['coins'])) {
+            $coins = (int)$n['data']['coins'];
+            $n['coinsText'] = $coins . ' ' . NotificationController::coinsDeclension($coins);
+        }
+    }
+    unset($n);
+    $GLOBALS['viewGlobals']['notificationsData'] = [
+        'username' => $_SESSION['username'] ?? null,
+        'notifications' => $unread,
+    ];
+}
 
 
 
@@ -41,6 +63,7 @@ require_once __DIR__ . '/src/controllers/AdminOnlineController.php'; // Игро
 require_once __DIR__ . '/src/controllers/NewsController.php'; // Новости
 
 require_once __DIR__ . '/src/controllers/NewsListController.php'; // Список новостей для пользователей
+require_once __DIR__ . '/src/controllers/VoteController.php'; // Голосование
 
 
 // Подключаем модели
@@ -53,6 +76,17 @@ require_once __DIR__ . '/src/models/Site.php'; // Подключаем моде�
 require_once __DIR__ . '/src/services/DatabaseConnection.php';
 
 // Экземпляры моделей
+
+// Передача userInfo и coins для header
+if (isset($_SESSION['user_id'])) {
+    $userModel = new User(DatabaseConnection::getAuthConnection());
+    $userInfo = $userModel->getUserInfoByUsername($_SESSION['username'] ?? '');
+    require_once __DIR__ . '/src/models/AccountCoins.php';
+    $coinsModel = new AccountCoins(DatabaseConnection::getSiteConnection());
+    $coins = $coinsModel->getBalance($userInfo['id'] ?? 0);
+    $GLOBALS['viewGlobals']['userInfo'] = $userInfo;
+    $GLOBALS['viewGlobals']['coins'] = $coins;
+}
 
 // Экземпляры моделей
 $userModel = new User(DatabaseConnection::getAuthConnection()); // Подключение к auth базе
@@ -131,6 +165,13 @@ switch ($uri) {
             'contentFile' => 'pages/about.html.php',
             'pageTitle' => 'О проекте',
             'serverInfo' => $serverInfo
+        ]);
+        break;
+
+    case '/design-demo-vten':
+        renderTemplate('layout.html.php', [
+            'contentFile' => 'pages/design_demo_vten.html.php',
+            'pageTitle' => 'Достижения — демо',
         ]);
         break;
     case '/': // Главная страница

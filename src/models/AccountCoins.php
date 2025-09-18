@@ -7,9 +7,14 @@ class AccountCoins {
         $this->db = $db;
     }
     // Добавить начисление монет
-    public function add($accountId, $coins, $reason = null) {
-        $stmt = $this->db->prepare("INSERT INTO account_coins (account_id, coins, reason) VALUES (?, ?, ?)");
-        $stmt->execute([$accountId, $coins, $reason]);
+    public function add($accountId, $coins, $reason = null, $createdAt = null) {
+        if ($createdAt) {
+            $stmt = $this->db->prepare("INSERT INTO account_coins (account_id, coins, reason, created_at) VALUES (?, ?, ?, ?)");
+            $stmt->execute([$accountId, $coins, $reason, $createdAt]);
+        } else {
+            $stmt = $this->db->prepare("INSERT INTO account_coins (account_id, coins, reason) VALUES (?, ?, ?)");
+            $stmt->execute([$accountId, $coins, $reason]);
+        }
     }
     // Получить сумму монет по аккаунту
     public function getBalance($accountId) {

@@ -1,5 +1,7 @@
+
 <?php
 // src/controllers/CharacterPageController.php
+require_once __DIR__ . '/../helpers/convertMoney.php';
 
 class CharacterPageController
 {
@@ -69,18 +71,17 @@ class CharacterPageController
 
         // Передаем данные в шаблон
         $data = [
-            'contentFile' => 'pages/character_page.html.php', // Передаем путь к шаблону
+            'contentFile' => 'pages/character_page.html.php',
             'character' => $character,
             'currency' => $currency,
-            'serverName' => $serverName, // Передаем название сервера
-            'races' => $races, // Передаем массив расы
-            'classes' => $classes, // Передаем массив класса
-            'factionImage' => $factionImage, // Передаем изображение фракции
-            'roleText' => $roleText, // Передаем текст роли
-            'stats' => $stats, // Передаем статистику персонажа
+            'serverName' => $serverName,
+            'races' => $races,
+            'classes' => $classes,
+            'factionImage' => $factionImage,
+            'roleText' => $roleText,
+            'stats' => $stats,
+            'pageTitle' => 'Персонаж ' . htmlspecialchars($character['name']),
         ];
-
-        // Рендерим шаблон
         renderTemplate('layout.html.php', $data);
     }
 }
