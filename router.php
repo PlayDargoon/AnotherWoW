@@ -63,14 +63,13 @@ $uptimeModel = new Uptime(DatabaseConnection::getAuthConnection());
 // Готовим данные для блока статуса сервера (right_block)
 require_once __DIR__ . '/src/helpers/serverInfo_helper.php';
 $serverInfo = getServerInfo($characterModel, $uptimeModel);
+// Делаем serverInfo доступным во всех шаблонах через renderTemplate (см. src/utils.php)
+$GLOBALS['viewGlobals']['serverInfo'] = $serverInfo;
 
 
 
 // Получаем URI запроса
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-
-// Передаём $serverInfo в layout.html.php через extract
-extract(['serverInfo' => $serverInfo]);
 
 
 // Проверка технического обслуживания

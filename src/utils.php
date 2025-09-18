@@ -13,7 +13,13 @@ function renderTemplate(string $templatePath, array $data = []): void
         // Формируем абсолютный путь к шаблону
         $fullTemplatePath = __DIR__ . '/../templates/' . $templatePath;
 
-        // Преобразуем массив данных**: в переменные для использования в шаблонах
+        // Подмешиваем глобальные данные для всех шаблонов (например, serverInfo)
+        $shared = $GLOBALS['viewGlobals'] ?? [];
+        if (is_array($shared) && !empty($shared)) {
+            $data = array_merge($shared, $data);
+        }
+
+        // Преобразуем массив данных в переменные для использования в шаблонах
         extract($data);
 
         // Начинаем буферизацию вывода
