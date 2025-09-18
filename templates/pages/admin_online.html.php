@@ -1,5 +1,5 @@
 <!-- templates/pages/admin_online.html.php -->
-<?php require_once __DIR__ . '/../../src/helpers/getFactionImage.php'; ?>
+
 
     
     <div class="body">

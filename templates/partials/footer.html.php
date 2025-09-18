@@ -15,7 +15,7 @@
 
         <div class="mt-footer-inner">
 
-            <div><span>Игровой сервер World of Warcraft проект "Azeroth PlayerBots" © 2025, <span class="minor">PlayDragon</span></span>
+            <div><span>Совместный проект "Azeroth" и "SakhWoW" © 2018-2025, <span class="minor">by PlayDragon</span></span>
                 12+
             </div>
 
@@ -30,7 +30,8 @@
             <?php
             global $loadStart;
             $loadEnd = microtime(true);
-            $loadingTimeSeconds = number_format(($loadEnd - $loadStart), 3, ',', '');
+            $loadingTimeSeconds = sprintf('%05.2f', $loadEnd - $loadStart);
+            $loadingTimeSeconds = str_replace('.', ',', $loadingTimeSeconds);
             echo '| ' . $loadingTimeSeconds . ' сек.<br>';
             ?>
 

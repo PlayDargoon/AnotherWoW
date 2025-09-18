@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Кабинет</title>
-    <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
+
 
 <div class="body">
 
@@ -42,7 +35,8 @@
                         <img src="/images/small/<?= $char['class'].'.gif' ?>" alt="класс">
                         
                         <a class="btn" href="<?= '/play?id='.$char['guid'] ?>">
-                            <span><?= htmlspecialchars($char['name'], ENT_QUOTES, 'UTF-8') ?></a></span>
+                            <?= htmlspecialchars($char['name'], ENT_QUOTES, 'UTF-8') ?>
+                        </a>
                          <?php if (!empty($char['roleTextShort'])): ?>
                             <span class="bluepost">[<?= htmlspecialchars($char['roleTextShort'], ENT_QUOTES, 'UTF-8') ?>]</span>
                         <?php endif; ?>,
@@ -96,7 +90,7 @@
     <div class="pt">
         <div class="info">
             <img src="/images/icons/gold.png" width="16" height="16" alt="*">
-            <strong>Валюта за голосование:</strong> <span style="color:gold; font-weight:bold;\"><?= (int)$coins ?></span> монет (1 голос = 1 монета)
+            <strong>Валюта за голосование:</strong> <span style="color:gold; font-weight:bold;"><?= (int)$coins ?></span> монет (1 голос = 1 монета)
             <a href="/cabinet/coins-history" class="btn btn-sm" style="margin-left:10px;">История начислений</a>
         </div>
     </div>
@@ -104,4 +98,3 @@
 </div>
 
 </body>
-</html>

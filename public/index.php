@@ -1,4 +1,9 @@
 <?php
+// Инициализация времени начала загрузки страницы для footer
+global $loadStart;
+$loadStart = microtime(true);
+?>
+<?php
 // public/index.php
 
 // Загружаем среду

@@ -1,16 +1,23 @@
 <?php
-require_once __DIR__ . '/src/controllers/VoteController.php'; // Контроллер голосования
-// router.php
+// Подключаем контроллер уведомлений
+require_once __DIR__ . '/src/controllers/NotificationController.php';
 
-// Загружаем среду
-require_once __DIR__ . '/bootstrap.php';
 
-// Подключаем вспомогательный файл
-require_once __DIR__ . '/src/helpers/srp_helpers.php';
-require_once __DIR__ . '/src/helpers/convertMoney.php';
+// Готовим уведомления и ник для layout (доступно во всех шаблонах)
+
+
+
+// Получаем URI запроса
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+// Готовим данные для блока статуса сервера (right_block)
+
+
+
 require_once __DIR__ . '/src/helpers/getFactionImage.php';
 require_once __DIR__ . '/src/helpers/formatCreationDate.php';
 require_once __DIR__ . '/src/helpers/getGMRole.php';
+require_once __DIR__ . '/src/helpers/getFactionImage.php';
 
 // Подключаем PHPMailer
 require_once __DIR__ . '/src/libs/phpmailer/Exception.php';
@@ -46,13 +53,24 @@ require_once __DIR__ . '/src/models/Site.php'; // Подключаем моде�
 require_once __DIR__ . '/src/services/DatabaseConnection.php';
 
 // Экземпляры моделей
+
+// Экземпляры моделей
 $userModel = new User(DatabaseConnection::getAuthConnection()); // Подключение к auth базе
 $characterModel = new Character(DatabaseConnection::getCharactersConnection()); // Подключение к базе персонажей
 $siteModel = new Site(DatabaseConnection::getSiteConnection()); // Подключение к базе сайта
 $uptimeModel = new Uptime(DatabaseConnection::getAuthConnection());
 
+// Готовим данные для блока статуса сервера (right_block)
+require_once __DIR__ . '/src/helpers/serverInfo_helper.php';
+$serverInfo = getServerInfo($characterModel, $uptimeModel);
+
+
+
 // Получаем URI запроса
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+// Передаём $serverInfo в layout.html.php через extract
+extract(['serverInfo' => $serverInfo]);
 
 
 // Проверка технического обслуживания
@@ -72,6 +90,7 @@ switch ($uri) {
         renderTemplate('layout.html.php', [
             'contentFile' => 'pages/forum_test.html.php',
             'pageTitle' => 'Тестовый форум',
+            'serverInfo' => $serverInfo
         ]);
         break;
 
@@ -112,6 +131,7 @@ switch ($uri) {
         renderTemplate('layout.html.php', [
             'contentFile' => 'pages/about.html.php',
             'pageTitle' => 'О проекте',
+            'serverInfo' => $serverInfo
         ]);
         break;
     case '/': // Главная страница

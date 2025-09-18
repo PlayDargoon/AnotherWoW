@@ -1,26 +1,72 @@
-<?php
-$cacheFile = __DIR__ . '/../../cache/index.cache.html';
-if (file_exists($cacheFile) && filemtime($cacheFile) > time() - 60) {
-    readfile($cacheFile);
-    return;
-}
-ob_start();
-?>
+<!-- templates/pages/index.html.php -->
 
-<!-- templates/pages/home.html.php -->
+
+
 
 <div class="body">
-    <div style="text-align:center;" class="p2">
-        <img src="/images/logo.jpg" width="310" height="103" alt="Логотип"> <!-- ВАШ ЛОГОТИП -->
+  
+                  <!-- Логотип --> 
+<!--    
+                  <div style="text-align:center;" class="p2">
+        <img src="/images/logo.jpg" width="310" height="103" alt="Логотип"> 
     </div>
-    <h1 style="text-align: center;">Добро пожаловать на игровой сервер World of Warcraft 3.3.5!</h1>
-    <div class="smail pt">
-        <img src="/images/icons/menialo.png" alt="*" style="float:left;margin-right:8px;" class="ic32" width="32" height="32">
-        Перед тобой открывается дверь в мир, полный опасностей и сокровищ. Смелее, герой, твой путь начинается здесь!
-        <div style="clear: both;"></div>
+-->   
+    <h1 style="text-align: center;">Добро пожаловать на игровой сервер Azeroth!</h1>
+</br>
+    <div class="pt">
+        <img src="/images/icons/attention_gold.png" alt="." width="12" height="12"> <span class="bluepost" style="font-size:small;">Сайт работает в тестовом режиме и находится в процессе активной доработки.<br></span>
     </div>
-    <img src="/images/icons/xswords.png" width="12" height="12" alt=".">
-    <span class="yellow">В игре уже <?= htmlspecialchars($playerCount) ?>  игроков</span>!<br />
+
+    <div class="pt">
+        <img src="/images/icons/attention_gold.png" alt="." width="12" height="12"> <span class="bluepost" style="font-size:small;">На сервере идет Альфа-тестирование.<br><br></span>
+    </div>
+
+   <div class="event" style="padding:4px;border:1px solid #CCCCCC;">
+        
+        <div class="minor mt5 small">
+                <img src="/images/icons/question_blue.png" width="12" height="12" alt="VIP" class="ml5"> <span class="va-m">Уже сейчас вы можете принять участие в тестировании игрового сервера, 
+                    для этого вам понадобиться скачать клиент WoW 3.3.5 по ссылке ниже, 
+                    либой использовать свой клиент 3.3.5, необходимо будет заменить данные в realmlist на наш set realmlist logon.azeroth.su. 
+                    После установки/изменении данных подключения, зарегистрируйтесь на нашем сайте. </span>
+</br>
+                    <img src="/images/icons/question_blue.png" width="12" height="12" alt="VIP" class="ml5"> <span class="va-m">Для более гибкого управления своими ботами и комфортной игры скачайте Аддон 
+                         <a href="https://cloud.mail.ru/public/RZ3Z/GA636MRSK" class="">MultiBot</a>  </span>
+        <div style="text-align: center;">
+    <a class="iLegendary" href="https://cloud.mail.ru/public/ej91/Bzmxrc6Bm" style="display: inline-block; margin-right: 10px;">
+        <h1 style="text-align: center;">Скачать клиент</h1>
+    </a>
+    <a class="iLegendary" href="/register" style="display: inline-block;">
+        <h1 style="text-align: center;">Зарегистрироваться</h1>
+    </a>
+</div>
+        
+                        </div>
+   </div>
+
+   </br>
+
+<table>
+<tbody><tr>
+<td align="left" width="40" valign="top"><img src="/images/icons/rare-vendor_32x32.png" alt=""></td>
+<td>
+<span class="bluepost" style="word-wrap: break-word;">
+    <p class="text-center"> 
+        Этот проект всё ещё находится в разработке. Если вы столкнётесь с какими-либо ошибками или сбоями, 
+        пожалуйста, 
+        сообщайте о них в тикет в игре. 
+        Ваши ценные отзывы помогут нам улучшить этот проект совместными усилиями.
+    </p>
+
+     <p class="text-center"> 
+     У нас есть <a href="https://t.me/+Y6-arC5q8WliNGRi" class="">группа в телеграм</a>, где вы можете обсуждать проект, задавать вопросы и участвовать в жизни сообщества!
+    </p>
+</span>
+
+</td>
+</tr>
+</tbody></table>
+
+    
     <!-- ОПИСАНИЕ ИГРОВЫХ ЦЕННОСТЕЙ -->
     <h2 class="_font-art font16">Тебя ждет:</h2><br />
     <div class="section-sep">
@@ -40,8 +86,4 @@ ob_start();
         Походы в таинственные подземелья, полные сокровищ и опасностей
     </div><br />
 </div>
-<?php
-$content = ob_get_clean();
-file_put_contents($cacheFile, $content);
-echo $content;
-?>
+</body>

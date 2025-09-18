@@ -14,10 +14,16 @@ class IndexController
 
     public function index()
     {
-        // Проверяем статус сервера
-        $serverStatus = $this->checkServerStatus('91.199.149.28', 3724);
+        // Кэширование главной страницы
+        $cacheFile = __DIR__ . '/../../cache/index.cache.html';
+        if (file_exists($cacheFile) && filemtime($cacheFile) > time() - 60) {
+            // Если кэш актуален, просто выводим его
+            echo file_get_contents($cacheFile);
+            return;
+        }
 
-        // Определяем класс и иконку в зависимости от статуса сервера
+        // Генерируем данные для шаблона
+        $serverStatus = $this->checkServerStatus('91.199.149.28', 3724);
         if ($serverStatus === 'Онлайн') {
             $statusClass = 'info _magic _pos1 _side-light';
             $iconPath = '/images/icons/portal_green.png';
@@ -25,33 +31,31 @@ class IndexController
             $statusClass = 'info _strength _pos2 _side-dark';
             $iconPath = '/images/icons/portal_red.png';
         }
-
-        // Получаем аптайм сервера
         $startTime = $this->uptimeModel->getLastStartTime();
         $uptime = $this->calculateUptime($startTime);
-
-        // Получаем количество игроков и игроков онлайн
         $playerCounts = $this->characterModel->getPlayerCounts();
         $playerCountsByFaction = $this->characterModel->getPlayerCountsByFaction();
-
-        // Получаем информацию о игровом мире
         $realmInfo = $this->uptimeModel->getRealmInfo();
 
-        // Передаем данные в шаблон
         $data = [
             'pageTitle' => 'Главная страница',
-            'contentFile' => 'pages/index.html.php', // Добавляем путь к шаблону
+            'contentFile' => 'pages/index.html.php',
             'serverStatus' => $serverStatus,
             'statusClass' => $statusClass,
             'iconPath' => $iconPath,
             'uptime' => $uptime,
             'playerCounts' => $playerCounts,
+            'playerCount' => isset($playerCounts['total_players']) ? $playerCounts['total_players'] : 0,
             'realmInfo' => $realmInfo,
             'playerCountsByFaction' => $playerCountsByFaction,
         ];
 
-        // Рендерим шаблон
+        // Рендерим шаблон и кэшируем результат
+        ob_start();
         renderTemplate('layout.html.php', $data);
+        $content = ob_get_clean();
+        file_put_contents($cacheFile, $content);
+        echo $content;
     }
 
     // Метод для проверки статуса сервера

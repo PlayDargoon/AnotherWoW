@@ -1,4 +1,5 @@
 <!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Azeroth - Сервер WoW  <?= $pageTitle ?? 'Главная страница' ?></title>
@@ -14,85 +15,39 @@
     <link rel="icon" sizes="192x192" href="/images/game-icon.jpg">
     <link rel="icon" href="/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/notify.js"></script>
 </head>
 
 
 <body>
-<?php
-// Эмуляция cron: запускать sync_mmotop_votes.php не чаще раза в 10 минут
-$syncFile = __DIR__ . '/../../last_sync_mmotop.txt';
-$now = time();
-$needSync = false;
-if (!file_exists($syncFile)) {
-    $needSync = true;
-} else {
-    $last = (int)@file_get_contents($syncFile);
-    if ($now - $last > 600) { // 600 секунд = 10 минут
-        $needSync = true;
-    }
-}
-if ($needSync) {
-    file_put_contents($syncFile, $now);
-    @include __DIR__ . '/../../sync_mmotop_votes.php';
-}
-?>
-    <!--
-    <div class="header-navigation block-border">
-         include 'partials/header_navigation.html.php'; 
-    </div>
--->
+<?php if (!empty($notificationsData['notifications'])): ?>
+    <?php foreach ($notificationsData['notifications'] as $notify): ?>
+        <div class="event block-border-bottom" id="notify-<?= (int)$notify['id'] ?>">
+            <div class="notify-inner">
+                <img src="/images/refreshed-32x32.png" alt="" width="32" height="32" class="img-npc">
+                <b><?= htmlspecialchars($notificationsData['username']) ?></b>, ты получил <?= $notify['coinsText'] ?> за голосование!
+                <div class="mt10">Спасибо, что поддерживаешь проект.</div>
+                <div class="clearer"></div>
+            </div>
+            <div>
+                <a class="btn hide-notify-btn" data-id="<?= (int)$notify['id'] ?>" href="#"><img src="/images/icons/tick.png" alt="x" width="12" height="12" class="link-icon">Спасибо. Скрыть</a>
+            </div>
+        </div>
+    <?php endforeach; ?>
+<?php endif; ?>
     <div class="block-border">
-  
-
-    <div class="test3 block-border">
-        <?php include 'partials/left_block.html.php'; ?>
-    </div>
-
-    <div class="test2 block-border">
-        <?php
-        // Получаем реальные данные о сервере для блока right_block на всех страницах
-        require_once __DIR__ . '/../src/helpers/serverInfo_helper.php';
-        require_once __DIR__ . '/../src/models/Character.php';
-        require_once __DIR__ . '/../src/models/Uptime.php';
-        $characterModel = new Character(DatabaseConnection::getCharactersConnection());
-        $uptimeModel = new Uptime(DatabaseConnection::getAuthConnection());
-        $serverInfo = getServerInfo($characterModel, $uptimeModel);
-        extract($serverInfo);
-        include 'partials/right_block.html.php';
-        ?>
-    </div>
-
-
-    
-  
-        <?php if (
-        isset($_SESSION['logged_in']) && $_SESSION['logged_in'] && $contentFile == 'pages/character_page.html.php'
-        ): ?>
-    <div class="header small block-border-bottom">
-    <?php include 'partials/header.html.php'; ?> <!-- Шапка -->
-    </div>
+        <div class="test3 block-border">
+            <?php include 'partials/left_block.html.php'; ?>
+        </div>
+        <div class="test2 block-border">
+            <?php include 'partials/right_block.html.php'; ?>
+        </div>
+        <?php if (!empty($contentFile)): ?>
+            <?php include $contentFile; ?>
         <?php endif; ?>
-
-<!-- Здесь отображается контент конкретной страницы -->
-            <?php if (!empty($contentFile)): ?>
-     <?php include $contentFile; ?> 
-            <?php endif; ?>
-
-            
-            <?php if (
-                     isset($_SESSION['logged_in']) && $_SESSION['logged_in'] && $contentFile != 'pages/cabinet.html.php' // Исключение кабинета
-            ): ?>
-
-    <div class="footer block-border-top"></div>   <!-- Специальный отступ -->
-   
-    <div class="footer nav block-border-top"> </div> <!-- Блок навигации -->
-
-            <?php endif; ?>
     </div>
-
     <div class="b-mt-footer">
-              <?php include 'partials/footer.html.php'; ?>
+        <?php include 'partials/footer.html.php'; ?>
     </div>
-        
 </body>
 </html>
