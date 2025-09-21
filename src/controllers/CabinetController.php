@@ -12,7 +12,6 @@ class CabinetController
         }
         $username = $_SESSION['username'];
         $userInfo = $this->userModel->getUserInfoByUsername($username);
-        require_once __DIR__ . '/../models/AccountCoins.php';
         $coinsModel = new \AccountCoins(\DatabaseConnection::getSiteConnection());
         $history = $coinsModel->getHistory($userInfo['id'], 50);
         // Если начислений нет — пробуем получить историю из mmotop-файла
@@ -88,7 +87,6 @@ class CabinetController
         $userAccessLevel = $this->userModel->getUserAccessLevel($userInfo['id']);
 
     // Получаем баланс монет (coins) из account_coins
-    require_once __DIR__ . '/../models/AccountCoins.php';
     $coinsModel = new \AccountCoins(\DatabaseConnection::getSiteConnection());
     $coins = $coinsModel->getBalance($userInfo['id']);
         $data = [

@@ -1,8 +1,5 @@
-
 <?php
 // src/controllers/NotificationController.php
-require_once __DIR__ . '/../models/Notification.php';
-require_once __DIR__ . '/../models/User.php';
 require_once __DIR__ . '/../services/DatabaseConnection.php';
 
 class NotificationController {

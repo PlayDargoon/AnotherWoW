@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../models/News.php';
+// src/controllers/NewsListController.php
 
 class NewsListController {
     public function handle() {

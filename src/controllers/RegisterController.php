@@ -1,7 +1,6 @@
 <?php
 // src/controllers/RegisterController.php
 
-
 class RegisterController
 {
     private $userModel;

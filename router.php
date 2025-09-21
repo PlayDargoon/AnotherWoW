@@ -1,4 +1,18 @@
 <?php
+// Включаем буферизацию вывода для предотвращения "headers already sent"
+ob_start();
+
+// Подключаем все модели централизованно
+require_once __DIR__ . '/src/models/User.php';
+require_once __DIR__ . '/src/models/Character.php';
+require_once __DIR__ . '/src/models/Uptime.php';
+require_once __DIR__ . '/src/models/Site.php';
+require_once __DIR__ . '/src/models/Notification.php';
+require_once __DIR__ . '/src/models/AccountCoins.php';
+require_once __DIR__ . '/src/models/News.php';
+require_once __DIR__ . '/src/models/VoteLog.php';
+require_once __DIR__ . '/src/models/VoteReward.php';
+
 // Подключаем контроллер уведомлений
 require_once __DIR__ . '/src/controllers/NotificationController.php';
 
@@ -10,7 +24,6 @@ if (isset($_SESSION['user_id'])) {
     $voteService = new VoteService();
     $voteService->syncVotesForUser($_SESSION['user_id']);
 
-    require_once __DIR__ . '/src/models/Notification.php';
     $notifyModel = new Notification();
     $unread = $notifyModel->getUnreadByUserId($_SESSION['user_id']);
     // Добавим текст с правильным склонением монет, если есть coins в data
@@ -66,12 +79,6 @@ require_once __DIR__ . '/src/controllers/NewsListController.php'; // Списо�
 require_once __DIR__ . '/src/controllers/VoteController.php'; // Голосование
 
 
-// Подключаем модели
-require_once __DIR__ . '/src/models/User.php';
-require_once __DIR__ . '/src/models/Character.php'; // Подключаем модель персонажей
-require_once __DIR__ . '/src/models/Uptime.php'; // Подключаем модель Uptime
-require_once __DIR__ . '/src/models/Site.php'; // Подключаем модель site
-
 // Сервис подключения к базе данных
 require_once __DIR__ . '/src/services/DatabaseConnection.php';
 
@@ -81,7 +88,6 @@ require_once __DIR__ . '/src/services/DatabaseConnection.php';
 if (isset($_SESSION['user_id'])) {
     $userModel = new User(DatabaseConnection::getAuthConnection());
     $userInfo = $userModel->getUserInfoByUsername($_SESSION['username'] ?? '');
-    require_once __DIR__ . '/src/models/AccountCoins.php';
     $coinsModel = new AccountCoins(DatabaseConnection::getSiteConnection());
     $coins = $coinsModel->getBalance($userInfo['id'] ?? 0);
     $GLOBALS['viewGlobals']['userInfo'] = $userInfo;
@@ -280,3 +286,6 @@ switch ($uri) {
 
         
 }
+
+// Завершаем буферизацию и отправляем вывод
+ob_end_flush();
