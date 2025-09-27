@@ -1,6 +1,5 @@
 <?php
 // src/controllers/VoteController.php
-require_once __DIR__ . '/../helpers/vote_helper.php';
 require_once __DIR__ . '/../services/VoteService.php';
 
 class VoteController {

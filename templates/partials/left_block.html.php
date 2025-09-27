@@ -42,10 +42,7 @@
                 <a href="/news" class=""><span>Новости</span></a>
 </div>
 
-<div class="info">
-                  <img src="/images/icons/arr.png" alt="." width="12" height="12" class="i12img">
-                <a href="/#" class=""><span>Список изменений</span></a>
-</div>
+
 
 <div class="info">
     <img src="/images/icons/arr.png" alt="." width="12" height="12" class="i12img">
@@ -54,5 +51,9 @@
 
 
 
+<div class="info">
+    <img src="/images/icons/addfriends.png" alt="." width="12" height="12" class="i12img">
+    <a href="https://yoomoney.ru/fundraise/1D220FUHMKN.250928" class=""><span>Поддержать сервер</span></a>
+</div>
 
 </div>

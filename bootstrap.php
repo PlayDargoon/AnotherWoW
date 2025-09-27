@@ -1,6 +1,11 @@
 <?php
 // bootstrap.php
 
+// Определяем базовый путь проекта
+if (!defined('BASE_PATH')) {
+    define('BASE_PATH', __DIR__);
+}
+
 // Проверяем, не были ли уже отправлены заголовки
 if (!headers_sent()) {
     // Устанавливаем кодировку UTF-8

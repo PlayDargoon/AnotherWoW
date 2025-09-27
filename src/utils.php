@@ -38,3 +38,34 @@ function renderTemplate(string $templatePath, array $data = []): void
         die("Ошибка при рендеринге шаблона: {$th->getMessage()} в {$th->getFile()} на линии {$th->getLine()}");
     }
 }
+
+/**
+ * Функция рендеринга частичных шаблонов БЕЗ layout (для виджетов, AJAX)
+ *
+ * @param string $templatePath - Путь к шаблону относительно папки templates/.
+ * @param array $data - Массив данных, передаваемых в шаблон.
+ */
+function renderPartial(string $templatePath, array $data = []): void
+{
+    try {
+        // Формируем абсолютный путь к шаблону
+        $fullTemplatePath = __DIR__ . '/../templates/' . $templatePath;
+
+        // Подмешиваем глобальные данные для всех шаблонов (например, serverInfo)
+        $shared = $GLOBALS['viewGlobals'] ?? [];
+        if (is_array($shared) && !empty($shared)) {
+            $data = array_merge($shared, $data);
+        }
+
+        // Преобразуем массив данных в переменные для использования в шаблонах
+        extract($data);
+
+        // Подключаем шаблон напрямую БЕЗ layout
+        include $fullTemplatePath;
+    } catch (\Throwable $th) {
+        // В случае ошибки выводим сообщение об ошибке
+        echo "<div style='color: red; padding: 10px; border: 1px solid red;'>";
+        echo "Ошибка виджета: {$th->getMessage()}";
+        echo "</div>";
+    }
+}

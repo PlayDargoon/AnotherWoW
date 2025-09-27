@@ -2,6 +2,9 @@
 // Включаем буферизацию вывода для предотвращения "headers already sent"
 ob_start();
 
+// Подключаем bootstrap
+require_once __DIR__ . '/bootstrap.php';
+
 // Подключаем сервисы
 require_once __DIR__ . '/src/services/DatabaseConnection.php';
 require_once __DIR__ . '/src/services/VoteService.php';
@@ -137,6 +140,7 @@ switch ($uri) {
         $controller = new VoteTopController();
         $controller->index();
         break;
+    
     case '/news':
         $controller = new NewsListController();
         $controller->handle();
