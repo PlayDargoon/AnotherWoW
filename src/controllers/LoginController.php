@@ -12,11 +12,23 @@ class LoginController
 
     public function index()
     {
+        // Если пользователь уже залогинен, перенаправляем в кабинет
+        if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
+            header('Location: /cabinet');
+            exit;
+        }
+        
         renderTemplate('layout.html.php', ['contentFile' => 'pages/login.html.php']);
     }
 
     public function processLogin()
     {
+        // Если пользователь уже залогинен, перенаправляем в кабинет
+        if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
+            header('Location: /cabinet');
+            exit;
+        }
+        
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = trim($_POST['username']);
             $password = trim($_POST['password']);

@@ -1,20 +1,17 @@
 
-
-<body>
-
 <div class="body">
- <h1>О сервере</h1>
-<div class="section-sep"></div>
+    <h1>О сервере</h1>
+    <div class="section-sep"></div>
 
- <div class="pt" style="text-align:center">
-  <div class="block-border">
-    <img src="/images/server_info.jpg" width="725" height="400" alt="Логотип Azeroth">
-  </div>
-  </div>
+    <div class="pt" style="text-align:center">
+        <div class="block-border">
+            <img src="/images/server_info.jpg" width="725" height="400" alt="Логотип Azeroth">
+        </div>
+    </div>
 
-</br>
-<h2 class="section-title">Азерот</h2> 
-</br>
+    <br>
+    <h2 class="section-title">Азерот</h2> 
+    <br>
    <div style="margin: 0em 2em 1em;">
 <table style="border-collapse:collapse;" border="0" cellspacing="0" cellpadding="0">
 
@@ -146,5 +143,4 @@
 </div>
 </br>
 
-
-
+</div>

@@ -15,6 +15,12 @@ class RegisterController
      */
     public function index()
     {
+        // Если пользователь уже залогинен, перенаправляем в кабинет
+        if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
+            header('Location: /cabinet');
+            exit;
+        }
+        
         // Передаем данные в шаблон
         $data = [
             'contentFile' => 'pages/register.html.php',
@@ -28,6 +34,12 @@ class RegisterController
      */
      public function processRegistration()
     {
+        // Если пользователь уже залогинен, перенаправляем в кабинет
+        if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
+            header('Location: /cabinet');
+            exit;
+        }
+        
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = trim($_POST['username']);
             $email = trim($_POST['email']);
