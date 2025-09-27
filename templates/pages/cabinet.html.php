@@ -7,7 +7,21 @@
       
 
 
+
     <h2>Игровой кабинет</h2>
+
+    <?php if (isset($userInfo) && !empty($userInfo)): ?>
+    <h2 class="pb10 _font-art font16">Общие данные</h2>
+    <br>
+    <div class="pt" style="margin-left:10px;">
+        <ol>
+           <li><span class="yellow">Баланс: <span class="info"><b><?= (int)(new \AccountCoins(\DatabaseConnection::getSiteConnection()))->getBalance($userInfo['id']) ?></b></span> голосов</span> </li>
+           <li><a href="/cabinet/coins-history">История начислений</a></li>
+           <li><a href="/vote/top">Топ голосующих</a></li>
+        </ol>
+    </div>
+    <br>
+    <?php endif; ?>
 
     <div class="pt">
         <div class="small">

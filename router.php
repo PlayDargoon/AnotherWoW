@@ -16,6 +16,7 @@ require_once __DIR__ . '/src/models/AccountCoins.php';
 require_once __DIR__ . '/src/models/News.php';
 require_once __DIR__ . '/src/models/VoteLog.php';
 require_once __DIR__ . '/src/models/VoteReward.php';
+require_once __DIR__ . '/src/models/VoteTop.php';
 
 // Подключаем хелперы
 require_once __DIR__ . '/src/helpers/getFactionImage.php';
@@ -45,6 +46,7 @@ require_once __DIR__ . '/src/controllers/AdminOnlineController.php';
 require_once __DIR__ . '/src/controllers/NewsController.php';
 require_once __DIR__ . '/src/controllers/NewsListController.php';
 require_once __DIR__ . '/src/controllers/VoteController.php';
+require_once __DIR__ . '/src/controllers/VoteTopController.php';
 
 
 // Готовим уведомления и ник для layout (доступно во всех шаблонах)
@@ -128,6 +130,10 @@ switch ($uri) {
         break;
     case '/vote':
         $controller = new VoteController();
+        $controller->index();
+        break;
+    case '/vote/top':
+        $controller = new VoteTopController();
         $controller->index();
         break;
     case '/news':
