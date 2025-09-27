@@ -4,6 +4,10 @@
 <div class="body">
     <h2>Голосование</h2>
 
+    
+  
+    
+
     <div class="pt" style="text-align:center">
         <img src="/images/lavka_redkostey_blue_310.jpg" width="310" height="103" alt="?">
     </div>
@@ -24,6 +28,20 @@
 <br>
 
 
+<?php if ($isLoggedIn): ?>
+<h2 class="pb10 _font-art font16">Общие данные</h2>
+<br>
+<div class="pt" style="margin-left:10px;">
+
+<ol>
+   <li><span class="yellow">Баланс: <span class="info"><b><?= (int)$coins ?></b></span> голосов</span> </li>
+   <li><a href="/cabinet/coins-history">История начислений</a></li>
+   <li><a href="#">Топ голосующих</a></li>
+
+</ol>
+</div>
+<br>
+<?php endif; ?>
 
    <h2 class="pb10 _font-art font16">Как голосовать?</h2>
 

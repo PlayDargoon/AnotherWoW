@@ -86,16 +86,12 @@ class CabinetController
         // Получаем уровень доступа пользователя
         $userAccessLevel = $this->userModel->getUserAccessLevel($userInfo['id']);
 
-    // Получаем баланс монет (coins) из account_coins
-    $coinsModel = new \AccountCoins(\DatabaseConnection::getSiteConnection());
-    $coins = $coinsModel->getBalance($userInfo['id']);
         $data = [
     'contentFile' => 'pages/cabinet.html.php',
     'userInfo' => $userInfo,
     'characters' => $formattedCharacters,
     'characterModel' => $this->characterModel,
     'userAccessLevel' => $userAccessLevel,
-    'coins' => $coins,
     'pageTitle' => 'Личный кабинет',
         ];
         renderTemplate('layout.html.php', $data);

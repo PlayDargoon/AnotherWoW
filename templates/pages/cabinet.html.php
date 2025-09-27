@@ -94,14 +94,6 @@
         </div>
     </div>
 
-    <div class="pt">
-        <div class="info">
-            <img src="/images/icons/gold.png" width="16" height="16" alt="*">
-            <strong>Валюта за голосование:</strong> <span style="color:gold; font-weight:bold;"><?= (int)$coins ?></span> монет (1 голос = 1 монета)
-            <a href="/cabinet/coins-history" class="btn btn-sm" style="margin-left:10px;">История начислений</a>
-        </div>
-    </div>
-
 </div>
 
 </body>
