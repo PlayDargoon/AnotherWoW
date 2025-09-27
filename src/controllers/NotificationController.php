@@ -1,11 +1,16 @@
 <?php
 // src/controllers/NotificationController.php
 require_once __DIR__ . '/../services/DatabaseConnection.php';
+require_once __DIR__ . '/../models/Notification.php';
 
 class NotificationController {
     private $notificationModel;
 
     public function __construct() {
+        // Убеждаемся, что DatabaseConnection доступен для модели
+        if (!class_exists('DatabaseConnection')) {
+            require_once __DIR__ . '/../services/DatabaseConnection.php';
+        }
         $this->notificationModel = new Notification();
     }
 

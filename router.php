@@ -2,7 +2,11 @@
 // Включаем буферизацию вывода для предотвращения "headers already sent"
 ob_start();
 
-// Подключаем все модели централизованно
+// Подключаем сервисы
+require_once __DIR__ . '/src/services/DatabaseConnection.php';
+require_once __DIR__ . '/src/services/VoteService.php';
+
+// Подключаем все модели
 require_once __DIR__ . '/src/models/User.php';
 require_once __DIR__ . '/src/models/Character.php';
 require_once __DIR__ . '/src/models/Uptime.php';
@@ -13,14 +17,39 @@ require_once __DIR__ . '/src/models/News.php';
 require_once __DIR__ . '/src/models/VoteLog.php';
 require_once __DIR__ . '/src/models/VoteReward.php';
 
-// Подключаем контроллер уведомлений
+// Подключаем хелперы
+require_once __DIR__ . '/src/helpers/getFactionImage.php';
+require_once __DIR__ . '/src/helpers/formatCreationDate.php';
+require_once __DIR__ . '/src/helpers/getGMRole.php';
+require_once __DIR__ . '/src/helpers/serverInfo_helper.php';
+
+// Подключаем PHPMailer
+require_once __DIR__ . '/src/libs/phpmailer/Exception.php';
+require_once __DIR__ . '/src/libs/phpmailer/PHPMailer.php';
+require_once __DIR__ . '/src/libs/phpmailer/SMTP.php';
+
+// Подключаем контроллеры
 require_once __DIR__ . '/src/controllers/NotificationController.php';
+require_once __DIR__ . '/src/controllers/IndexController.php';
+require_once __DIR__ . '/src/controllers/RegisterController.php';
+require_once __DIR__ . '/src/controllers/LoginController.php';
+require_once __DIR__ . '/src/controllers/LogoutController.php';
+require_once __DIR__ . '/src/controllers/CabinetController.php';
+require_once __DIR__ . '/src/controllers/CharacterPageController.php';
+require_once __DIR__ . '/src/controllers/ErrorController.php';
+require_once __DIR__ . '/src/controllers/MaintenanceController.php';
+require_once __DIR__ . '/src/controllers/SiteController.php';
+require_once __DIR__ . '/src/controllers/RestorePasswordController.php';
+require_once __DIR__ . '/src/controllers/AdminPanelController.php';
+require_once __DIR__ . '/src/controllers/AdminOnlineController.php';
+require_once __DIR__ . '/src/controllers/NewsController.php';
+require_once __DIR__ . '/src/controllers/NewsListController.php';
+require_once __DIR__ . '/src/controllers/VoteController.php';
 
 
 // Готовим уведомления и ник для layout (доступно во всех шаблонах)
 if (isset($_SESSION['user_id'])) {
     // Синхронизируем голоса для текущего пользователя (быстро, с кешем)
-    require_once __DIR__ . '/src/services/VoteService.php';
     $voteService = new VoteService();
     $voteService->syncVotesForUser($_SESSION['user_id']);
 
@@ -45,45 +74,6 @@ if (isset($_SESSION['user_id'])) {
 // Получаем URI запроса
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-// Готовим данные для блока статуса сервера (right_block)
-
-
-
-require_once __DIR__ . '/src/helpers/getFactionImage.php';
-require_once __DIR__ . '/src/helpers/formatCreationDate.php';
-require_once __DIR__ . '/src/helpers/getGMRole.php';
-require_once __DIR__ . '/src/helpers/getFactionImage.php';
-
-// Подключаем PHPMailer
-require_once __DIR__ . '/src/libs/phpmailer/Exception.php';
-require_once __DIR__ . '/src/libs/phpmailer/PHPMailer.php';
-require_once __DIR__ . '/src/libs/phpmailer/SMTP.php';
-
-// Подключаем контроллеры
-require_once __DIR__ . '/src/controllers/IndexController.php';
-require_once __DIR__ . '/src/controllers/RegisterController.php';
-require_once __DIR__ . '/src/controllers/LoginController.php';
-require_once __DIR__ . '/src/controllers/CabinetController.php'; // Подключаем контроллер кабинета
-require_once __DIR__ . '/src/controllers/CharacterPageController.php'; // Подключаем контроллер персонажа
-require_once __DIR__ . '/src/controllers/ErrorController.php';
-require_once __DIR__ . '/src/controllers/LogoutController.php'; // Подключаем контроллер выхода
-require_once __DIR__ . '/src/controllers/MaintenanceController.php'; // Подключаем контроллер технического обслуживания
-require_once __DIR__ . '/src/controllers/SiteController.php'; // Подключаем контроллер site
-require_once __DIR__ . '/src/controllers/RestorePasswordController.php'; // Восстановление пароля
-
-require_once __DIR__ . '/src/controllers/AdminPanelController.php'; // Админ панель
-require_once __DIR__ . '/src/controllers/AdminOnlineController.php'; // Игроки онлайн (админ)
-require_once __DIR__ . '/src/controllers/NewsController.php'; // Новости
-
-require_once __DIR__ . '/src/controllers/NewsListController.php'; // Список новостей для пользователей
-require_once __DIR__ . '/src/controllers/VoteController.php'; // Голосование
-
-
-// Сервис подключения к базе данных
-require_once __DIR__ . '/src/services/DatabaseConnection.php';
-
-// Экземпляры моделей
-
 // Передача userInfo и coins для header
 if (isset($_SESSION['user_id'])) {
     $userModel = new User(DatabaseConnection::getAuthConnection());
@@ -101,7 +91,6 @@ $siteModel = new Site(DatabaseConnection::getSiteConnection()); // Подклю�
 $uptimeModel = new Uptime(DatabaseConnection::getAuthConnection());
 
 // Готовим данные для блока статуса сервера (right_block)
-require_once __DIR__ . '/src/helpers/serverInfo_helper.php';
 $serverInfo = getServerInfo($characterModel, $uptimeModel);
 // Делаем serverInfo доступным во всех шаблонах через renderTemplate (см. src/utils.php)
 $GLOBALS['viewGlobals']['serverInfo'] = $serverInfo;
@@ -173,13 +162,7 @@ switch ($uri) {
             'serverInfo' => $serverInfo
         ]);
         break;
-
-    case '/design-demo-vten':
-        renderTemplate('layout.html.php', [
-            'contentFile' => 'pages/design_demo_vten.html.php',
-            'pageTitle' => 'Достижения — демо',
-        ]);
-        break;
+        
     case '/': // Главная страница
         $controller = new IndexController($characterModel, $uptimeModel); // Передаем модель персонажей
         $controller->index();
@@ -207,26 +190,24 @@ switch ($uri) {
 
     // Маршрут для страницы восстановления пароля
     case '/restore-password':
+        $controller = new RestorePasswordController($userModel, $siteModel);
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Пост-обработчик для отправки ссылки на восстановление
-            $controller = new RestorePasswordController($userModel, $siteModel);
             $controller->sendResetLink();
         } else {
             // Просто показать страницу с формой
-            $controller = new RestorePasswordController($userModel, $siteModel);
             $controller->index();
         }
         break;
 
     // Маршрут для проверки токена
     case '/verify-token':
+        $controller = new RestorePasswordController($userModel, $siteModel);
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Обработать пост-запрос на проверку токена
-            $controller = new RestorePasswordController($userModel, $siteModel);
             $controller->verifyToken();
         } else {
             // Просто показать страницу для ввода токена
-            $controller = new RestorePasswordController($userModel, $siteModel);
             $controller->showVerifyTokenForm();
         }
         break;
@@ -234,14 +215,13 @@ switch ($uri) {
 
     // Маршрут для установки нового пароля
     case '/set-new-password':
+        $controller = new RestorePasswordController($userModel, $siteModel);
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Обработать пост-запрос на смену пароля
             $token = $_POST['token']; // Получаем токен из формы
-            $controller = new RestorePasswordController($userModel, $siteModel);
             $controller->setNewPassword($token); // Передаём токен
         } else {
             // Просто показать страницу для ввода нового пароля
-            $controller = new RestorePasswordController($userModel, $siteModel);
             $controller->showSetPasswordForm($token);
         }
         break;
