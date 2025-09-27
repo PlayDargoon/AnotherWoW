@@ -14,7 +14,7 @@ class Notification
     /**
      * Создать новое уведомление
      */
-    public function create($userId, $type, $message, $data = null)
+    public function create($userId, $type, $message, ?array $data = null)
     {
         $sql = "INSERT INTO notifications (user_id, type, message, data, is_read, created_at) 
                 VALUES (?, ?, ?, ?, 0, NOW())";

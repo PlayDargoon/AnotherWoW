@@ -6,7 +6,7 @@ class VoteTop
     private $sitePdo;
     private $authPdo;
 
-    public function __construct(PDO $sitePdo, PDO $authPdo = null)
+    public function __construct(PDO $sitePdo, ?PDO $authPdo = null)
     {
         $this->sitePdo = $sitePdo;
         $this->authPdo = $authPdo ?: \DatabaseConnection::getAuthConnection();

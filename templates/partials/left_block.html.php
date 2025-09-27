@@ -22,6 +22,12 @@
 
 <div class="info">
                   <img src="/images/icons/arr.png" alt="." width="12" height="12" class="i12img">
+                <a href="/vote" class=""><span>Голосовать за сервер</span></a>
+</div>
+
+
+<div class="info">
+                  <img src="/images/icons/arr.png" alt="." width="12" height="12" class="i12img">
                 <a href="/#" class=""><span>Форум</span></a>
 </div>
 
@@ -29,6 +35,7 @@
                   <img src="/images/icons/arr.png" alt="." width="12" height="12" class="i12img">
                 <a href="/#" class=""><span>Как подключиться?</span></a>
 </div>
+
 
 <div class="info">
                   <img src="/images/icons/arr.png" alt="." width="12" height="12" class="i12img">

@@ -31,8 +31,8 @@ class DatabaseConnection
         return self::getConnection('acore_site');
     }
 
-    // Внутренний метод для получения подключения
-    private static function getConnection(string $database): PDO
+    // Внутренний метод для получения подключения (теперь protected для наследования)
+    protected static function getConnection(string $database): PDO
     {
         if (!isset(self::$connections[$database])) {
             $config = require __DIR__ . '/../../config/database.php';

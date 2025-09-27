@@ -1,4 +1,3 @@
-
 <?php
 require_once __DIR__ . '/../helpers/srp_helpers.php';
 // src/models/User.php

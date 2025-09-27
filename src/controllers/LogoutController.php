@@ -1,17 +1,20 @@
 <?php
 // src/controllers/LogoutController.php
+require_once __DIR__ . '/../helpers/safe_redirect.php';
 
 class LogoutController
 {
     public function index()
     {
-        // Уничтожаем сессию
-        session_destroy();
-        unset($_SESSION['logged_in']);
-        unset($_SESSION['username']);
-
-        // Перенаправляем на главную страницу
-        header('Location: /');
-        exit;
+        // Включаем буферизацию вывода для дополнительной защиты
+        if (!ob_get_level()) {
+            ob_start();
+        }
+        
+        // Безопасное уничтожение сессии
+        safeSessionDestroy();
+        
+        // Безопасный редирект на главную страницу
+        safeRedirect('/');
     }
 }

@@ -23,6 +23,7 @@ require_once __DIR__ . '/src/helpers/getFactionImage.php';
 require_once __DIR__ . '/src/helpers/formatCreationDate.php';
 require_once __DIR__ . '/src/helpers/getGMRole.php';
 require_once __DIR__ . '/src/helpers/serverInfo_helper.php';
+require_once __DIR__ . '/src/helpers/safe_redirect.php';
 
 // Подключаем PHPMailer
 require_once __DIR__ . '/src/libs/phpmailer/Exception.php';
@@ -80,7 +81,7 @@ $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 if (isset($_SESSION['user_id'])) {
     $userModel = new User(DatabaseConnection::getAuthConnection());
     $userInfo = $userModel->getUserInfoByUsername($_SESSION['username'] ?? '');
-    $coinsModel = new AccountCoins(DatabaseConnection::getSiteConnection());
+    $coinsModel = new CachedAccountCoins(DatabaseConnection::getSiteConnection());
     $coins = $coinsModel->getBalance($userInfo['id'] ?? 0);
     $GLOBALS['viewGlobals']['userInfo'] = $userInfo;
     $GLOBALS['viewGlobals']['coins'] = $coins;

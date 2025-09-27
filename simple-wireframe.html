@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnotherWoW - Простой Wireframe</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            border: 2px solid #666;
+        }
+        
+        .page-nav {
+            background: #333;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .page-nav button {
+            margin: 5px;
+            padding: 10px 20px;
+            background: #0066cc;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        
+        .page-nav button.active {
+            background: #ff6600;
+        }
+        
+        .notifications {
+            background: #2a4d3a;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 2px solid #666;
+        }
+        
+        .header {
+            background: #0066cc;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 2px solid #666;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 250px 1fr 250px;
+            min-height: 500px;
+        }
+        
+        .sidebar {
+            background: #2a2a2a;
+            padding: 15px;
+            border-right: 2px solid #666;
+        }
+        
+        .content {
+            background: #1a1a1a;
+            padding: 20px;
+        }
+        
+        .right-sidebar {
+            background: #2a2a2a;
+            padding: 15px;
+            border-left: 2px solid #666;
+        }
+        
+        .block {
+            background: #333;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #555;
+        }
+        
+        .block h3 {
+            color: #ffd700;
+            margin: 0 0 10px 0;
+            font-size: 14px;
+        }
+        
+        .nav-item {
+            display: block;
+            padding: 8px;
+            margin: 5px 0;
+            background: #444;
+            color: #66b3ff;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 3px;
+        }
+        
+        .nav-item:hover {
+            background: #0066cc;
+        }
+        
+        .btn {
+            background: #0066cc;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        .btn:hover {
+            background: #004499;
+        }
+        
+        .vote-item {
+            background: #1a4d1a;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        .vote-cooldown {
+            background: #4d1a1a;
+        }
+        
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        .footer {
+            background: #333;
+            padding: 15px;
+            text-align: center;
+            border-top: 2px solid #666;
+        }
+        
+        .form-group {
+            margin: 10px 0;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            background: #333;
+            border: 1px solid #666;
+            color: white;
+            border-radius: 3px;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        
+        .table th,
+        .table td {
+            border: 1px solid #666;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        .table th {
+            background: #333;
+            color: #ffd700;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            .sidebar, .right-sidebar {
+                border: none;
+                border-top: 2px solid #666;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Навигация по страницам -->
+        <div class="page-nav">
+            <button onclick="showPage('home')" class="active">🏠 Главная</button>
+            <button onclick="showPage('login')">🔐 Авторизация</button>
+            <button onclick="showPage('cabinet')">👤 Кабинет</button>
+            <button onclick="showPage('vote')">🗳️ Голосование</button>
+            <button onclick="showPage('admin')">⚙️ Админ-панель</button>
+        </div>
+        
+        <!-- Уведомления -->
+        <div class="notifications">
+            🎉 <strong>PlayerName</strong>, ты получил <strong>1 монету</strong> за голосование! 
+            <button style="margin-left: 10px; padding: 5px 10px; background: #ff6600; border: none; color: white; border-radius: 3px; cursor: pointer;">Скрыть</button>
+        </div>
+        
+        <!-- Хедер -->
+        <div class="header">
+            <div>🎮 <strong>AZEROTH SERVER</strong></div>
+            <div>👤 <strong>PlayerName</strong> | 💰 <strong>150 монет</strong></div>
+        </div>
+        
+        <!-- Основной контент -->
+        <div class="main-content">
+            <!-- Левая панель -->
+            <div class="sidebar">
+                <div class="block">
+                    <h3>🧭 НАВИГАЦИЯ</h3>
+                    <a href="#" class="nav-item">🏠 Главная</a>
+                    <a href="#" class="nav-item">👤 Кабинет</a>
+                    <a href="#" class="nav-item">🗳️ Голосование</a>
+                    <a href="#" class="nav-item">📰 Новости</a>
+                    <a href="#" class="nav-item">🏆 Рейтинги</a>
+                </div>
+                
+                <div class="block">
+                    <h3>👤 ПРОФИЛЬ</h3>
+                    <div><strong>PlayerName</strong></div>
+                    <div>💰 150 монет</div>
+                    <button class="btn">Кабинет</button>
+                    <button class="btn">Выход</button>
+                </div>
+            </div>
+            
+            <!-- Центральный контент -->
+            <div class="content">
+                <!-- Главная страница -->
+                <div class="page active" id="home">
+                    <h1 style="color: #ffd700; text-align: center; margin-bottom: 30px;">
+                        🏰 Добро пожаловать на сервер Azeroth!
+                    </h1>
+                    
+                    <div class="block">
+                        <h3>⚠️ СИСТЕМНЫЕ УВЕДОМЛЕНИЯ</h3>
+                        <p>🔧 Сайт работает в тестовом режиме и находится в процессе активной доработки</p>
+                        <p>🧪 На сервере идет Альфа-тестирование</p>
+                    </div>
+                    
+                    <div class="block">
+                        <h3>ℹ️ ИНФОРМАЦИЯ О СЕРВЕРЕ</h3>
+                        <p>❓ Для подключения к серверу необходимо скачать клиент WoW 3.3.5</p>
+                        <p>🔧 В настройках realmlist укажите: <strong>set realmlist logon.azeroth.su</strong></p>
+                        <p>📥 После установки зарегистрируйтесь на нашем сайте</p>
+                    </div>
+                    
+                    <div class="block">
+                        <h3>📊 СТАТИСТИКА СЕРВЕРА</h3>
+                        <p>👥 Игроков онлайн: <strong>245</strong></p>
+                        <p>🏆 Всего персонажей: <strong>1,247</strong></p>
+                        <p>👑 Активных гильдий: <strong>23</strong></p>
+                    </div>
+                </div>
+                
+                <!-- Авторизация -->
+                <div class="page" id="login">
+                    <h2 style="color: #ffd700; text-align: center; margin-bottom: 30px;">🔐 Авторизация</h2>
+                    
+                    <div class="block" style="max-width: 400px; margin: 0 auto;">
+                        <form>
+                            <div class="form-group">
+                                <label>Логин:</label>
+                                <input type="text" placeholder="Введите ваш логин">
+                            </div>
+                            <div class="form-group">
+                                <label>Пароль:</label>
+                                <input type="password" placeholder="Введите пароль">
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox"> Запомнить меня
+                                </label>
+                            </div>
+                            <div style="text-align: center; margin-top: 20px;">
+                                <button type="submit" class="btn" style="font-size: 16px; padding: 15px 30px;">
+                                    ВОЙТИ В ИГРУ
+                                </button>
+                            </div>
+                            <div style="text-align: center; margin-top: 15px;">
+                                <a href="#" style="color: #66b3ff;">Забыли пароль?</a> | 
+                                <a href="#" style="color: #66b3ff;">Регистрация</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Кабинет -->
+                <div class="page" id="cabinet">
+                    <h2 style="color: #ffd700; margin-bottom: 20px;">👤 Кабинет игрока</h2>
+                    
+                    <div class="block">
+                        <h3>📋 ПРОФИЛЬ</h3>
+                        <p>👤 <strong>Имя:</strong> PlayerName</p>
+                        <p>📧 <strong>Email:</strong> player@example.com</p>
+                        <p>💰 <strong>Баланс монет:</strong> 150</p>
+                        <div style="margin-top: 15px;">
+                            <button class="btn">Изменить пароль</button>
+                            <button class="btn">История монет</button>
+                            <button class="btn">Настройки</button>
+                        </div>
+                    </div>
+                    
+                    <div class="block">
+                        <h3>⚔️ УПРАВЛЕНИЕ ПЕРСОНАЖАМИ</h3>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Имя</th>
+                                    <th>Уровень</th>
+                                    <th>Класс</th>
+                                    <th>Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>WarriorName</td>
+                                    <td>80</td>
+                                    <td>⚔️ Воин</td>
+                                    <td><button class="btn">Просмотр</button></td>
+                                </tr>
+                                <tr>
+                                    <td>MageName</td>
+                                    <td>75</td>
+                                    <td>🔮 Маг</td>
+                                    <td><button class="btn">Просмотр</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Голосование -->
+                <div class="page" id="vote">
+                    <h2 style="color: #ffd700; margin-bottom: 20px;">🗳️ Голосование за сервер</h2>
+                    
+                    <div class="block">
+                        <h3>🏆 СПИСОК РЕЙТИНГОВ</h3>
+                        
+                        <div class="vote-item">
+                            <h4>🥇 MMOTOP.RU</h4>
+                            <p>💰 <strong>Награда:</strong> 1 монета</p>
+                            <p>⏰ <strong>Можно голосовать:</strong> каждый день</p>
+                            <button class="btn" style="margin-top: 10px; font-size: 14px;">
+                                ГОЛОСОВАТЬ ✅
+                            </button>
+                        </div>
+                        
+                        <div class="vote-item vote-cooldown">
+                            <h4>🥈 TOP100WOW.RU</h4>
+                            <p>💰 <strong>Награда:</strong> 2 монеты</p>
+                            <p>⏰ <strong>Можно голосовать:</strong> через 12 часов</p>
+                            <button class="btn" disabled style="margin-top: 10px; opacity: 0.5;">
+                                ОЖИДАНИЕ ⏰
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="block">
+                        <h3>📊 СТАТИСТИКА ГОЛОСОВАНИЯ</h3>
+                        <p>💰 <strong>Получено монет за голосование:</strong> 45</p>
+                        <p>🗳️ <strong>Всего голосов:</strong> 67</p>
+                        <p>📅 <strong>Последний голос:</strong> 27.09.2025</p>
+                    </div>
+                </div>
+                
+                <!-- Админ-панель -->
+                <div class="page" id="admin">
+                    <h2 style="color: #ffd700; margin-bottom: 20px;">⚙️ Админ-панель</h2>
+                    
+                    <div class="block">
+                        <h3>🚀 БЫСТРЫЕ ДЕЙСТВИЯ</h3>
+                        <button class="btn">👥 Пользователи</button>
+                        <button class="btn">📰 Новости</button>
+                        <button class="btn">💰 Монеты</button>
+                        <button class="btn">🗳️ Голосование</button>
+                        <button class="btn">📊 Статистика</button>
+                    </div>
+                    
+                    <div class="block">
+                        <h3>🖥️ СИСТЕМНАЯ ИНФОРМАЦИЯ</h3>
+                        <p>🖥️ <strong>Онлайн серверов:</strong> 2/3</p>
+                        <p>👥 <strong>Игроков онлайн:</strong> 245</p>
+                        <p>💾 <strong>Использование кеша:</strong> 15MB</p>
+                        <p>📊 <strong>Производительность:</strong> 95%</p>
+                    </div>
+                    
+                    <div class="block">
+                        <h3>📋 ПОСЛЕДНИЕ ДЕЙСТВИЯ</h3>
+                        <div style="font-size: 12px;">
+                            <p>[2025-09-27 15:30] Пользователь Admin добавил 50 монет пользователю Player</p>
+                            <p>[2025-09-27 15:25] Получено 5 голосов с рейтинга mmotop.ru</p>
+                            <p>[2025-09-27 15:20] Создана новость "Обновление сервера"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Правая панель -->
+            <div class="right-sidebar">
+                <div class="block">
+                    <h3>🖥️ СЕРВЕР</h3>
+                    <p>✅ <strong>Статус:</strong> Онлайн</p>
+                    <p>👥 <strong>Онлайн:</strong> 245</p>
+                    <p>⏱️ <strong>Аптайм:</strong> 99%</p>
+                </div>
+                
+                <div class="block">
+                    <h3>🗳️ БЫСТРОЕ ГОЛОСОВАНИЕ</h3>
+                    <div style="margin: 10px 0;">
+                        <div style="font-size: 12px; margin-bottom: 5px;">🏆 MMOTOP</div>
+                        <button class="btn" style="width: 100%; font-size: 11px;">ГОЛОСОВАТЬ ✅</button>
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <div style="font-size: 12px; margin-bottom: 5px;">🏆 TOP100WOW</div>
+                        <button class="btn" disabled style="width: 100%; opacity: 0.5; font-size: 11px;">ОЖИДАНИЕ ⏰</button>
+                    </div>
+                </div>
+                
+                <div class="block">
+                    <h3>🏆 ТОП ИГРОКОВ</h3>
+                    <div style="font-size: 11px;">
+                        <p>1. PlayerOne (Lv.80)</p>
+                        <p>2. PlayerTwo (Lv.79)</p>
+                        <p>3. PlayerThree (Lv.78)</p>
+                    </div>
+                </div>
+                
+                <div class="block">
+                    <h3>📢 РЕКЛАМА</h3>
+                    <div style="text-align: center; background: #444; padding: 20px; margin: 10px 0; border-radius: 5px;">
+                        [Рекламный баннер]
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Футер -->
+        <div class="footer">
+            © 2025 Azeroth Server | <a href="#" style="color: #66b3ff;">Контакты</a> | <a href="#" style="color: #66b3ff;">Правила</a> | <a href="#" style="color: #66b3ff;">Поддержка</a>
+        </div>
+    </div>
+    
+    <script>
+        function showPage(pageId) {
+            // Скрываем все страницы
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Показываем нужную страницу
+            document.getElementById(pageId).classList.add('active');
+            
+            // Обновляем активную кнопку
+            const buttons = document.querySelectorAll('.page-nav button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+        
+        // Интерактивность
+        document.addEventListener('DOMContentLoaded', function() {
+            // Скрытие уведомлений
+            document.querySelector('.notifications button').addEventListener('click', function() {
+                this.parentElement.style.display = 'none';
+            });
+            
+            // Клики по навигации
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    alert('Переход к: ' + this.textContent);
+                });
+            });
+            
+            // Клики по кнопкам
+            document.querySelectorAll('.btn:not([disabled])').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    if (this.textContent.includes('ГОЛОСОВАТЬ')) {
+                        e.preventDefault();
+                        alert('Переход на сайт голосования: ' + this.parentElement.querySelector('h4').textContent);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

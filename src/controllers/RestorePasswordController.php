@@ -15,6 +15,7 @@ class RestorePasswordController
 {
     private $userModel;
     private $siteModel;
+    public $debugMode = false; // Публичное свойство для тестирования
 
     public function __construct(User $userModel, Site $siteModel)
     {
@@ -77,10 +78,8 @@ class RestorePasswordController
 
     private function sendMail($email, $restoreUrl, $token, $user)
 {
-    // Режим отладки отключен - реальная отправка
-    $debugMode = false; // Установить в true для эмуляции
-    
-    if ($debugMode) {
+    // Режим отладки - можно управлять из тестов через свойство класса
+    if ($this->debugMode) {
         // Эмулируем успешную отправку для тестирования
         error_log("DEBUG: Эмуляция отправки письма на $email с токеном $token");
         error_log("DEBUG: Ссылка восстановления: $restoreUrl");

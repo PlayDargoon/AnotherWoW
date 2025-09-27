@@ -7,7 +7,7 @@ class AccountCoins {
         $this->db = $db;
     }
     // Добавить начисление монет
-    public function add($accountId, $coins, $reason = null, $createdAt = null) {
+    public function add($accountId, $coins, ?string $reason = null, ?string $createdAt = null) {
         if ($createdAt) {
             $stmt = $this->db->prepare("INSERT INTO account_coins (account_id, coins, reason, created_at) VALUES (?, ?, ?, ?)");
             $stmt->execute([$accountId, $coins, $reason, $createdAt]);

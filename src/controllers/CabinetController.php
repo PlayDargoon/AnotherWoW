@@ -12,7 +12,7 @@ class CabinetController
         }
         $username = $_SESSION['username'];
         $userInfo = $this->userModel->getUserInfoByUsername($username);
-        $coinsModel = new \AccountCoins(\DatabaseConnection::getSiteConnection());
+        $coinsModel = new \CachedAccountCoins(\DatabaseConnection::getSiteConnection());
         $history = $coinsModel->getHistory($userInfo['id'], 50);
         // Если начислений нет — пробуем получить историю из mmotop-файла
         if (empty($history)) {

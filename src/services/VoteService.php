@@ -6,17 +6,15 @@ class VoteService {
     /**
      * Синхронизация голосов только для одного пользователя (быстро, с кешем)
      */
-    public function syncVotesForUser($userId, $username = null) {
-        // Кешируем mmotop-файл на 2 минуты
-        $cacheFile = sys_get_temp_dir() . '/mmotop_votes_cache.txt';
-        $cacheTtl = 120;
-        $content = null;
-        if (file_exists($cacheFile) && filemtime($cacheFile) > time() - $cacheTtl) {
-            $content = file_get_contents($cacheFile);
-        } else {
-            $content = $this->downloadContent($this->mmotopUrl);
-            if ($content !== false) file_put_contents($cacheFile, $content);
-        }
+    public function syncVotesForUser($userId, ?string $username = null) {
+        // Используем новый CacheService для кеширования mmotop-файла
+        $cache = CacheService::getInstance();
+        $cacheKey = 'mmotop_votes_content';
+        
+        $content = $cache->remember($cacheKey, function() {
+            return $this->downloadContent($this->mmotopUrl);
+        }, 120); // 2 минуты TTL
+        
         if ($content === false || !$content) return ['error' => 'Не удалось загрузить файл с голосами'];
 
         // Получаем username если не передан

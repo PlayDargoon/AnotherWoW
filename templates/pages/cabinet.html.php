@@ -15,7 +15,7 @@
     <br>
     <div class="pt" style="margin-left:10px;">
         <ol>
-           <li><span class="yellow">Баланс: <span class="info"><b><?= (int)(new \AccountCoins(\DatabaseConnection::getSiteConnection()))->getBalance($userInfo['id']) ?></b></span> голосов</span> </li>
+           <li><span class="yellow">Баланс: <span class="info"><b><?= (int)(new \CachedAccountCoins(\DatabaseConnection::getSiteConnection()))->getBalance($userInfo['id']) ?></b></span> голосов</span> </li>
            <li><a href="/cabinet/coins-history">История начислений</a></li>
            <li><a href="/vote/top">Топ голосующих</a></li>
         </ol>

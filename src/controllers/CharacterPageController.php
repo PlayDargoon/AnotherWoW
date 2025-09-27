@@ -1,4 +1,3 @@
-
 <?php
 // src/controllers/CharacterPageController.php
 require_once __DIR__ . '/../helpers/convertMoney.php';

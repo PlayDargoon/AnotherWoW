@@ -1,0 +1,470 @@
+/* Стили для wireframe-шаблонов в стиле AnotherWoW */
+
+/* Базовые стили - адаптированы из оригинального style.css */
+h1, h2, form, html, p, div, span, table, tbody, td, tr, img {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    color: #FFFFFF;
+    margin: 0 auto;
+    max-width: 740px;
+    background-color: #333333;
+    overflow-x: hidden;
+    position: relative;
+    font-family: Verdana, Arial, sans-serif;
+}
+
+h1 {
+    font-size: medium;
+    font-weight: normal;
+    color: #ff6600;
+}
+
+h2 {
+    font-size: medium;
+    font-weight: normal;
+    color: #ff6600;
+    padding-top: 6px;
+}
+
+a {
+    color: #ffff33;
+    outline: none;
+    text-decoration: underline;
+}
+
+a:hover {
+    color: #ffffff;
+}
+
+table {
+    border: 0;
+    border-collapse: collapse;
+}
+
+img {
+    border: 0;
+    vertical-align: middle;
+}
+
+/* Утилиты отступов */
+.pt { padding-top: 6px; }
+.pb { padding-bottom: 6px; }
+.p2 { padding-top: 6px; padding-bottom: 6px; }
+
+/* Основные блоки макета */
+.body {
+    background-color: #000033;
+    padding: 4px;
+}
+
+.header, .footer {
+    background-color: #333366;
+    padding: 4px;
+}
+
+/* Навигационная панель */
+.header-navigation {
+    background-color: #333366;
+    width: calc(100% + 600px);
+    margin-left: -300px;
+    margin-right: -300px;
+    padding: 0px;
+    color: white; 
+    height: 62px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Правый блок */
+.test2 {
+    background-color: #000033;
+    width: 280px;
+    min-height: 200px;
+    position: absolute;
+    right: -290px;
+    top: 10px;
+    z-index: 1;
+    padding: 4px;
+}
+
+/* Левый блок */
+.test3 {
+    background-color: #000033;
+    width: 280px;
+    min-height: 200px;
+    position: absolute;
+    right: 748px;
+    top: 10px;
+    z-index: 1;
+    padding: 4px;
+}
+
+/* Блок голосования */
+.vote {
+    background-color: #000033;
+    width: 280px;
+    min-height: 200px;
+    position: absolute;
+    right: -290px;
+    top: 240px;
+    z-index: 1;
+    padding: 4px;
+}
+
+/* Общие стили для блоков */
+.block-border {
+    border: 1px solid #666666;
+}
+
+.block-border-bottom {
+    border-bottom: 1px solid #666666;
+}
+
+/* Информационные блоки в сайдбарах */
+.info {
+    padding: 4px 0;
+    border-bottom: 1px dotted #555555;
+}
+
+.info:last-child {
+    border-bottom: none;
+}
+
+.info span {
+    color: #ffff33;
+}
+
+.info:hover span {
+    color: #ffffff;
+}
+
+/* Иконки */
+.i12img {
+    margin-right: 5px;
+}
+
+/* Кнопки */
+.headerButton, .headerButtonMy {
+    background-color: #333366;
+    color: #ffff33;
+    padding: 8px 15px;
+    text-decoration: none;
+    border: 1px solid #555555;
+    display: inline-block;
+    margin: 5px 2px;
+    text-align: center;
+    border-radius: 3px;
+}
+
+.headerButton:hover, .headerButtonMy:hover {
+    background-color: #555588;
+    color: #ffffff;
+}
+
+/* Уведомления */
+.event {
+    background-color: #1a4d1a;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #2d5d2d;
+    border-radius: 5px;
+}
+
+.notify-inner {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.notify-inner img {
+    margin-right: 10px;
+}
+
+.notify-inner b {
+    color: #ffff33;
+    margin-right: 5px;
+}
+
+.btn {
+    background-color: #333366;
+    color: #ffff33;
+    padding: 5px 10px;
+    text-decoration: none;
+    border: 1px solid #555555;
+    border-radius: 3px;
+    font-size: 12px;
+    display: inline-block;
+}
+
+.btn:hover {
+    background-color: #555588;
+    color: #ffffff;
+}
+
+.hide-notify-btn {
+    display: inline-flex;
+    align-items: center;
+}
+
+.link-icon {
+    margin-right: 5px;
+}
+
+.clearer {
+    clear: both;
+}
+
+.mt10 {
+    margin-top: 10px;
+}
+
+/* Формы */
+.form-group {
+    margin: 10px 0;
+}
+
+.form-group label {
+    display: block;
+    color: #ffff33;
+    margin-bottom: 5px;
+    font-size: 12px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group input[type="email"],
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 6px;
+    background-color: #000033;
+    border: 1px solid #555555;
+    color: #ffffff;
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 12px;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="password"]:focus,
+.form-group input[type="email"]:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #ff6600;
+    background-color: #000044;
+}
+
+.form-group input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+/* Таблицы */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+}
+
+.data-table th,
+.data-table td {
+    border: 1px solid #555555;
+    padding: 6px;
+    text-align: left;
+    font-size: 12px;
+}
+
+.data-table th {
+    background-color: #333366;
+    color: #ff6600;
+    font-weight: bold;
+}
+
+.data-table tr:nth-child(even) {
+    background-color: rgba(51, 51, 102, 0.3);
+}
+
+.data-table tr:hover {
+    background-color: rgba(255, 102, 0, 0.1);
+}
+
+/* Статистика */
+.stat-item {
+    padding: 6px;
+    margin: 3px 0;
+    background-color: rgba(51, 51, 102, 0.3);
+    border: 1px solid #555555;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+.stat-item strong {
+    color: #ffff33;
+}
+
+/* Голосование */
+.vote-item {
+    background-color: #1a4d1a;
+    border: 1px solid #2d5d2d;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.vote-item h4 {
+    color: #ff6600;
+    margin-bottom: 10px;
+}
+
+.vote-item-cooldown {
+    background-color: #4d1a1a;
+    border-color: #5d2d2d;
+}
+
+.vote-button {
+    background-color: #1a4d1a;
+    color: #ffffff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border: 2px solid #2d5d2d;
+    border-radius: 5px;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.vote-button:hover {
+    background-color: #2d6d2d;
+    color: #ffff33;
+}
+
+.vote-button:disabled,
+.vote-button-disabled {
+    background-color: #4d1a1a;
+    border-color: #5d2d2d;
+    color: #999999;
+    cursor: not-allowed;
+}
+
+/* Профиль персонажа */
+.character-info {
+    background-color: rgba(51, 51, 102, 0.3);
+    padding: 15px;
+    margin: 10px 0;
+    border: 1px solid #555555;
+    border-radius: 5px;
+}
+
+.character-info h3 {
+    color: #ff6600;
+    margin-bottom: 10px;
+}
+
+.character-stat {
+    display: flex;
+    justify-content: space-between;
+    padding: 3px 0;
+    border-bottom: 1px dotted #555555;
+}
+
+.character-stat:last-child {
+    border-bottom: none;
+}
+
+.character-stat .label {
+    color: #cccccc;
+}
+
+.character-stat .value {
+    color: #ffff33;
+    font-weight: bold;
+}
+
+/* Админ-панель */
+.admin-section {
+    background-color: rgba(102, 0, 0, 0.3);
+    border: 1px solid #660000;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+.admin-section h3 {
+    color: #ff6600;
+    margin-bottom: 15px;
+}
+
+.admin-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.admin-button {
+    background-color: #660000;
+    color: #ffff33;
+    padding: 10px 15px;
+    text-decoration: none;
+    border: 1px solid #880000;
+    border-radius: 3px;
+    font-size: 12px;
+    display: inline-block;
+}
+
+.admin-button:hover {
+    background-color: #880000;
+    color: #ffffff;
+}
+
+/* Цветовые классы */
+.bluepost {
+    color: #66b3ff;
+}
+
+.yellow {
+    color: #ffff33;
+}
+
+.minor {
+    color: #999999;
+    font-size: 11px;
+}
+
+.small {
+    font-size: 11px;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    body {
+        max-width: 100%;
+        padding: 0 10px;
+    }
+    
+    .test2, .test3, .vote {
+        position: static;
+        width: 100%;
+        margin: 10px 0;
+    }
+    
+    .header-navigation {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        height: auto;
+        padding: 10px;
+    }
+    
+    .admin-buttons {
+        flex-direction: column;
+    }
+    
+    .admin-button {
+        text-align: center;
+    }
+}
