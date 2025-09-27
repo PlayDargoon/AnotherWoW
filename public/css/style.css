@@ -177,6 +177,16 @@ a.headerButtonNoAlign {
     border-radius: 5px;
 }
 
+/* Мой */
+a.headerButtonMy {
+    background-color: #333366;
+    width: auto;
+    padding: 2px;
+    display: inline-block;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
 input.headerButton, button.headerButton {
     color: #ffff33;
     text-align: center;
