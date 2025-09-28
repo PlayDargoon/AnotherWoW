@@ -52,7 +52,11 @@ require_once __DIR__ . '/src/controllers/NewsController.php';
 require_once __DIR__ . '/src/controllers/NewsListController.php';
 require_once __DIR__ . '/src/controllers/VoteController.php';
 require_once __DIR__ . '/src/controllers/VoteTopController.php';
-
+require_once __DIR__ . '/src/controllers/TermsController.php';
+require_once __DIR__ . '/src/controllers/PrivacyController.php';
+require_once __DIR__ . '/src/controllers/RulesController.php';
+require_once __DIR__ . '/src/controllers/HelpController.php';
+require_once __DIR__ . '/src/controllers/SupportController.php';
 
 // Готовим уведомления и ник для layout (доступно во всех шаблонах)
 if (isset($_SESSION['user_id'])) {
@@ -177,6 +181,31 @@ switch ($uri) {
             'pageTitle' => 'О проекте',
             'serverInfo' => $serverInfo
         ]);
+        break;
+        
+    case '/terms': // Пользовательское соглашение
+        $controller = new TermsController();
+        $controller->index();
+        break;
+        
+    case '/privacy': // Политика конфиденциальности
+        $controller = new PrivacyController();
+        $controller->handle();
+        break;
+        
+    case '/rules': // Правила игровых миров
+        $controller = new RulesController();
+        $controller->index();
+        break;
+        
+    case '/help': // Помощь новичкам
+        $controller = new HelpController();
+        $controller->handle();
+        break;
+        
+    case '/support': // Поддержка игроков
+        $controller = new SupportController();
+        $controller->handle();
         break;
         
     case '/': // Главная страница

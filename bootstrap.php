@@ -34,6 +34,7 @@ require_once __DIR__ . '/src/services/DatabaseConnection.php';
 require_once __DIR__ . '/src/services/CacheService.php';
 require_once __DIR__ . '/src/services/OptimizedDatabaseConnection.php';
 require_once __DIR__ . '/src/services/CachedModel.php';
+require_once __DIR__ . '/src/services/CaptchaService.php';
 
 // Подключаем PHPMailer
 require_once __DIR__ . '/src/libs/phpmailer/Exception.php';

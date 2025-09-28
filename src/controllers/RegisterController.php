@@ -21,10 +21,14 @@ class RegisterController
             exit;
         }
         
+        // Генерируем новую капчу
+        $captchaQuestion = CaptchaService::generateAndStoreCaptcha();
+        
         // Передаем данные в шаблон
         $data = [
             'contentFile' => 'pages/register.html.php',
             'pageTitle' => 'Регистрация',
+            'captchaQuestion' => $captchaQuestion
         ];
         renderTemplate('layout.html.php', $data);
     }
@@ -44,22 +48,64 @@ class RegisterController
             $username = trim($_POST['username']);
             $email = trim($_POST['email']);
             $password = trim($_POST['password']);
+            $captchaAnswer = trim($_POST['captcha_answer'] ?? '');
 
             // Проверяем валидность полей
             if (empty($username) || empty($email) || empty($password)) {
-                renderTemplate('layout.html.php', ['contentFile' => 'pages/register.html.php', 'error' => 'Все поля обязательны для заполнения.']);
+                $captchaQuestion = CaptchaService::generateAndStoreCaptcha();
+                renderTemplate('layout.html.php', [
+                    'contentFile' => 'pages/register.html.php', 
+                    'error' => 'Все поля обязательны для заполнения.',
+                    'captchaQuestion' => $captchaQuestion
+                ]);
+                return;
+            }
+            
+            // Проверяем капчу
+            if (!CaptchaService::verifyCaptcha($captchaAnswer)) {
+                $captchaQuestion = CaptchaService::generateAndStoreCaptcha();
+                renderTemplate('layout.html.php', [
+                    'contentFile' => 'pages/register.html.php', 
+                    'error' => 'Неверный ответ на математический пример. Попробуйте снова.',
+                    'captchaQuestion' => $captchaQuestion
+                ]);
+                return;
+            }
+            
+            // Проверяем согласие с документами
+            $agreePrivacy = isset($_POST['agree_privacy']) && $_POST['agree_privacy'] === 'on';
+            $agreeTerms = isset($_POST['agree_terms']) && $_POST['agree_terms'] === 'on';
+            $agreeRules = isset($_POST['agree_rules']) && $_POST['agree_rules'] === 'on';
+            
+            if (!$agreePrivacy || !$agreeTerms || !$agreeRules) {
+                $captchaQuestion = CaptchaService::generateAndStoreCaptcha();
+                renderTemplate('layout.html.php', [
+                    'contentFile' => 'pages/register.html.php', 
+                    'error' => 'Необходимо согласиться со всеми условиями для завершения регистрации.',
+                    'captchaQuestion' => $captchaQuestion
+                ]);
                 return;
             }
 
             // Проверяем, занят ли логин
             if ($this->userModel->existsUsername($username)) {
-                renderTemplate('layout.html.php', ['contentFile' => 'pages/register.html.php', 'error' => 'Логин уже занят.']);
+                $captchaQuestion = CaptchaService::generateAndStoreCaptcha();
+                renderTemplate('layout.html.php', [
+                    'contentFile' => 'pages/register.html.php', 
+                    'error' => 'Логин уже занят.',
+                    'captchaQuestion' => $captchaQuestion
+                ]);
                 return;
             }
 
             // Проверяем, занят ли email
             if ($this->userModel->findByEmail($email)) {
-                renderTemplate('layout.html.php', ['contentFile' => 'pages/register.html.php', 'error' => 'Такой email уже используется.']);
+                $captchaQuestion = CaptchaService::generateAndStoreCaptcha();
+                renderTemplate('layout.html.php', [
+                    'contentFile' => 'pages/register.html.php', 
+                    'error' => 'Такой email уже используется.',
+                    'captchaQuestion' => $captchaQuestion
+                ]);
                 return;
             }
 
@@ -74,7 +120,12 @@ class RegisterController
                 header('Location: /login'); // Перенаправляем на страницу входа
                 exit;
             } else {
-                renderTemplate('layout.html.php', ['contentFile' => 'pages/register.html.php', 'error' => 'Возникла ошибка при регистрации. Попробуйте позже.']);
+                $captchaQuestion = CaptchaService::generateAndStoreCaptcha();
+                renderTemplate('layout.html.php', [
+                    'contentFile' => 'pages/register.html.php', 
+                    'error' => 'Возникла ошибка при регистрации. Попробуйте позже.',
+                    'captchaQuestion' => $captchaQuestion
+                ]);
             }
         }
     }

@@ -3045,3 +3045,125 @@ a.rare-lot {
 .combat-environment-block._plain .combat-environment-icon._30 {
   background-position-y: 100%;
 }
+
+/* Стили для капчи */
+.captcha-question {
+    background: #000044;
+    border: 1px solid #555555;
+    padding: 8px;
+    margin: 5px 0;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #ffff33;
+    text-align: center;
+}
+
+input[type="number"] {
+    background: #000033;
+    border: 1px solid #555555;
+    color: #ffffff;
+    padding: 5px 8px;
+    border-radius: 3px;
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 12px;
+    min-width: 150px;
+}
+
+input[type="number"]:focus {
+    border-color: #ff6600;
+    outline: none;
+}
+
+/* Support form styles */
+.support-form {
+    background: #1a1a1a;
+    padding: 20px;
+    border-radius: 5px;
+    margin: 20px 0;
+}
+
+.support-form label {
+    display: block;
+    color: #ffff33;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.support-form input,
+.support-form select,
+.support-form textarea {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #444;
+    background: #222;
+    color: #fff;
+    border-radius: 3px;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+.support-form input:focus,
+.support-form select:focus,
+.support-form textarea:focus {
+    outline: none;
+    border-color: #ffaa00;
+    box-shadow: 0 0 5px rgba(255, 170, 0, 0.3);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.button {
+    background: linear-gradient(to bottom, #ffaa00, #ff8800);
+    color: #000;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.3s ease;
+}
+
+.button:hover {
+    background: linear-gradient(to bottom, #ffbb11, #ff9911);
+}
+
+.message-success {
+    border-left: 4px solid #44ff44;
+    background: rgba(68, 255, 68, 0.1);
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.message-error {
+    border-left: 4px solid #ff4444;
+    background: rgba(255, 68, 68, 0.1);
+    padding: 15px;
+    margin: 15px 0;
+}
+
+/* FAQ styles */
+.faq-item {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #333;
+}
+
+.faq-item:last-child {
+    border-bottom: none;
+}
+
+.faq-question {
+    color: #ffffff;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.faq-answer {
+    color: #ccc;
+    line-height: 1.5;
+}
