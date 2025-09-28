@@ -30,8 +30,9 @@ class CachedAccountCoins extends CachedModel
         
         $result = $this->saveCached('account_coins', $data, null, ['account_coins']);
         
-        // Инвалидируем кеш баланса для конкретного аккаунта
-        $this->cache->delete($this->getCacheKey("balance_{$accountId}"));
+    // Инвалидируем кеши, связанные с аккаунтом
+    $this->cache->delete($this->getCacheKey("balance_{$accountId}"));
+    $this->cache->delete($this->getCacheKey("history_count_{$accountId}"));
         
         return $result;
     }
@@ -91,6 +92,40 @@ class CachedAccountCoins extends CachedModel
             $stmt->execute([$accountId, $limit]);
             return $stmt->fetchAll();
         }, 300); // История кешируется на 5 минут
+    }
+
+    /**
+     * Кол-во записей истории для аккаунта (для пагинации)
+     */
+    public function countHistory($accountId): int
+    {
+        $cacheKey = $this->getCacheKey("history_count_{$accountId}");
+        return $this->cache->remember($cacheKey, function() use ($accountId) {
+            $stmt = $this->db->prepare("SELECT COUNT(*) as cnt FROM account_coins WHERE account_id = ?");
+            $stmt->execute([$accountId]);
+            $row = $stmt->fetch();
+            return (int)($row['cnt'] ?? 0);
+        }, 300);
+    }
+
+    /**
+     * Постраничная история с смещением
+     */
+    public function getHistoryPage($accountId, int $limit = 10, int $offset = 0): array
+    {
+        $limit = max(1, (int)$limit);
+        $offset = max(0, (int)$offset);
+        $cacheKey = $this->getCacheKey("history_page_{$accountId}_{$limit}_{$offset}");
+        return $this->cache->remember($cacheKey, function() use ($accountId, $limit, $offset) {
+            $stmt = $this->db->prepare("
+                SELECT * FROM account_coins 
+                WHERE account_id = ? 
+                ORDER BY created_at DESC 
+                LIMIT ? OFFSET ?
+            ");
+            $stmt->execute([$accountId, $limit, $offset]);
+            return $stmt->fetchAll();
+        }, 300);
     }
     
     /**
@@ -158,6 +193,43 @@ class CachedAccountCoins extends CachedModel
     }
     
     /**
+     * Добавление одиночной записи с инвалидацией кэша
+     */
+    public function add(int $accountId, int $coins, string $reason = null): bool
+    {
+        try {
+            $stmt = $this->db->prepare("
+                INSERT INTO account_coins (account_id, coins, reason, created_at) 
+                VALUES (?, ?, ?, ?)
+            ");
+            
+            $result = $stmt->execute([
+                $accountId,
+                $coins,
+                $reason,
+                date('Y-m-d H:i:s')
+            ]);
+            
+            if ($result) {
+                // Инвалидируем кеш для данного аккаунта
+                $this->cache->delete($this->getCacheKey("balance_{$accountId}"));
+                $this->cache->delete($this->getCacheKey("vote_balance_{$accountId}"));
+                $this->cache->delete($this->getCacheKey("history_count_{$accountId}"));
+                
+                // Инвалидируем общую статистику
+                $this->cache->delete($this->getCacheKey("stats"));
+                $this->cache->delete($this->getCacheKey("top_users_10"));
+            }
+            
+            return $result;
+            
+        } catch (Exception $e) {
+            error_log("Ошибка добавления бонусов: " . $e->getMessage());
+            return false;
+        }
+    }
+    
+    /**
      * Массовое добавление начислений (для миграций и синхронизации)
      */
     public function addBulk(array $records): bool
@@ -193,6 +265,7 @@ class CachedAccountCoins extends CachedModel
             foreach (array_unique($affectedAccounts) as $accountId) {
                 $this->cache->delete($this->getCacheKey("balance_{$accountId}"));
                 $this->cache->delete($this->getCacheKey("vote_balance_{$accountId}"));
+                $this->cache->delete($this->getCacheKey("history_count_{$accountId}"));
             }
             
             // Инвалидируем общую статистику

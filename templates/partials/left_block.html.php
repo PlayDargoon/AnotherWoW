@@ -39,7 +39,7 @@
 
 <div class="info">
                   <img src="/images/icons/arr.png" alt="." width="12" height="12" class="i12img">
-                <a href="/news" class=""><span>Новости</span></a>
+                <a href="/#" class=""><span>Новости</span></a>
 </div>
 
 

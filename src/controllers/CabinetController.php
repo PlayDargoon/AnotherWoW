@@ -13,11 +13,21 @@ class CabinetController
         $username = $_SESSION['username'];
         $userInfo = $this->userModel->getUserInfoByUsername($username);
         $coinsModel = new \CachedAccountCoins(\DatabaseConnection::getSiteConnection());
-        $history = $coinsModel->getHistory($userInfo['id'], 50);
+        // Параметры пагинации
+    $perPage = 10;
+    // Поддерживаем оба названия параметра: page и pageIndex
+    $pageIndex = isset($_GET['page']) ? (int)$_GET['page'] : (isset($_GET['pageIndex']) ? (int)$_GET['pageIndex'] : 1);
+        if ($pageIndex < 1) { $pageIndex = 1; }
+        $totalCount = $coinsModel->countHistory($userInfo['id']);
+        $totalPages = max(1, (int)ceil($totalCount / $perPage));
+        if ($pageIndex > $totalPages) { $pageIndex = $totalPages; }
+        $offset = ($pageIndex - 1) * $perPage;
+        $history = $coinsModel->getHistoryPage($userInfo['id'], $perPage, $offset);
         // Если начислений нет — пробуем получить историю из mmotop-файла
         if (empty($history)) {
             require_once __DIR__ . '/../helpers/mmotop_history.php';
             $mmotopFile = __DIR__ . '/../../../mmotop.txt'; // путь к файлу, скорректируйте при необходимости
+            // В качестве резервной истории возьмём первые 50 записей из файла
             $mmotopHistory = getMmotopHistoryForUser($username, $mmotopFile, 50);
             // Преобразуем к формату для шаблона
             $history = array_map(function($row) {
@@ -27,11 +37,21 @@ class CabinetController
                     'reason' => 'Бонус за голосование (mmotop.txt)',
                 ];
             }, $mmotopHistory);
+            // Пересчитаем пагинацию для файла
+            $totalCount = count($history);
+            $totalPages = max(1, (int)ceil($totalCount / $perPage));
+            if ($pageIndex > $totalPages) { $pageIndex = $totalPages; }
+            $offset = ($pageIndex - 1) * $perPage;
+            $history = array_slice($history, $offset, $perPage);
         }
         renderTemplate('layout.html.php', [
     'contentFile' => 'pages/account_coins_history.html.php',
     'history' => $history,
     'backUrl' => '/cabinet',
+    'pageIndex' => $pageIndex,
+    'totalPages' => $totalPages,
+    'perPage' => $perPage,
+    'totalCount' => $totalCount,
     'pageTitle' => 'История начислений',
         ]);
     }

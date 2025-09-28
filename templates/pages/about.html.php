@@ -144,3 +144,13 @@
 </br>
 
 </div>
+
+<div class="footer nav block-border-top">
+    <ol>
+        <li>
+            <img src="/images/icons/home.png" alt="." width="12" height="12" class="i12img"> <a href="/" class=""><span>На главную</span></a>
+        </li>
+        
+        
+    </ol>
+</div>

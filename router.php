@@ -47,6 +47,7 @@ require_once __DIR__ . '/src/controllers/SiteController.php';
 require_once __DIR__ . '/src/controllers/RestorePasswordController.php';
 require_once __DIR__ . '/src/controllers/AdminPanelController.php';
 require_once __DIR__ . '/src/controllers/AdminOnlineController.php';
+require_once __DIR__ . '/src/controllers/CoinsAdminController.php';
 require_once __DIR__ . '/src/controllers/NewsController.php';
 require_once __DIR__ . '/src/controllers/NewsListController.php';
 require_once __DIR__ . '/src/controllers/VoteController.php';
@@ -164,6 +165,10 @@ switch ($uri) {
 
     case '/admin-online':
         $controller = new AdminOnlineController();
+        $controller->index();
+        break;
+    case '/admin/coins':
+        $controller = new CoinsAdminController($userModel);
         $controller->index();
         break;
     case '/about':

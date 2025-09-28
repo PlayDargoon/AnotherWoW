@@ -23,45 +23,18 @@ if ($userId && class_exists('User')) {
         </div>
     </div>
 
-    <div class="pt">
-        <div>
-            <a href="#">
-                <img src="/images/icons/wrench.png" width="12" height="12" alt="*">
-                Управление контентом
-            </a>
-        </div>
-        <div>
-            <a href="#">
-                <img src="/images/icons/users.png" width="12" height="12" alt="*">
-                Управление пользователями
-            </a>
-        </div>
-        <div>
-            <a href="#">
-                <img src="/images/icons/settings.png" width="12" height="12" alt="*">
-                Настройки сайта
-            </a>
-        </div>
-        <div>
-            <a href="/admin-online">
-                <img src="/images/icons/health.png" width="12" height="12" alt="*">
-                Игроки онлайн
-            </a>
-        </div>
-        <div>
-            <a href="/news/manage">
-                <img src="/images/icons/book_red.png" width="12" height="12" alt="*">
-                Управление новостями
-            </a>
-        </div>
-    </div>
+
+<div class="section-sep"></div>
 
     <div class="pt">
-        <div>
-            <img src="/images/icons/question_blue.png" width="12" height="12" alt="*">
-            <a href="#">Справка и поддержка</a>
-        </div>
+        <ol>
+             <li><img src="/images/icons/health.png" width="12" height="12" alt="*"> <a href="/admin-online">Игроки онлайн</a></li>
+             <li><img src="/images/icons/book_red.png" width="12" height="12" alt="*"> <a href="/news/manage">Управление новостями</a></li>
+             <li><img src="/images/icons/coins.png" width="12" height="12" alt="*"> <a href="/admin/coins">Начисление бонусов</a></li>
+        </ol>
     </div>
+<div class="section-sep"></div>
+   
 </div>
 <?php else: ?>
 <div class="body">
@@ -71,18 +44,8 @@ if ($userId && class_exists('User')) {
 
 <div class="footer nav block-border-top">
     <ol>
-        <li>
-            <img class="i12img" src="/images/icons/home.png" alt="." width="12px" height="12px">
-            <a href="/">На главную</a>
-        </li>
-        <li>
-            <img src="/images/icons/cross.png" alt="." width="12" height="12">
-            <a href="/logout">Выйти из аккаунта</a>
-        </li>
-        <li>
-<img src="/images/icons/home.png" width="12" height="12">
-            <a href="/cabinet">В кабинет</a>
-</li>
+        <li><img class="i12img" src="/images/icons/home.png" alt="." width="12px" height="12px"> <a href="/">На главную</a></li>
+        <li><img src="/images/icons/arr_left.png" width="12" height="12"> <a href="/cabinet">В кабинет</a></li>
     </ol>
 </div>
 

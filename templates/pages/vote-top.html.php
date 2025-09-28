@@ -97,7 +97,17 @@
 
     <br>
     
-    <div class="pt" style="text-align: center;">
-        <a href="/vote" class="btn-link">← Вернуться к голосованию</a>
-    </div>
+    
+</div>
+
+<div class="footer nav block-border-top">
+    <ol>
+        <li>
+            <img src="/images/icons/home.png" alt="." width="12" height="12" class="i12img"> <a href="/" class=""><span>На главную</span></a>
+        </li>
+        <li>
+            <img src="/images/icons/arr_left.png" alt="." width="12" height="12" class="i12img"> <a href="/cabinet" class=""><span>В кабинет</span></a>
+        </li>
+        
+    </ol>
 </div>

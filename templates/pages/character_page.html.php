@@ -79,10 +79,16 @@
     <img src="/images/icons/game_master.png" alt="." width="12" height="12"> ID персонажа: <span><?= htmlspecialchars($character['guid']) ?></span>
     </div>
 
-    <div class="pt">
-        <a href="/cabinet">Вернуться в кабинет</a>
-    </div>
+</div>
 
+
+<div class="footer nav block-border-top">
+    <ol>
+        <li>
+            <img src="/images/icons/arr_left.png" alt="." width="12" height="12" class="i12img"> <a href="/cabinet" class=""><span>В кабинет</span></a>
+        </li>
+        
+    </ol>
 </div>
 
 </body>
