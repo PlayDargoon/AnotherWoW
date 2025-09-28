@@ -67,33 +67,52 @@ class CoinsAdminController
                         // Добавляем запись через CachedAccountCoins для правильной инвалидации кеша
                         require_once __DIR__ . '/../models/CachedAccountCoins.php';
                         $coinsModel = new \CachedAccountCoins(\DatabaseConnection::getSiteConnection());
-                        $coinsModel->add($targetId, $amount, $reason);
-
-                        // Создаем уведомление только при начислении (положительные суммы)
-                        if ($amount > 0) {
-                            $coinsText = $amount . ' ' . $this->coinsDeclension($amount);
-                            $notificationMessage = "Вам начислено {$coinsText}. Причина: {$reason}";
-                            $notificationModel->create($targetId, 'admin_coins', $notificationMessage);
-                        }
                         
-                        $message = 'Операция успешно выполнена.';
+                        $result = $coinsModel->add($targetId, $amount, $reason);
+                        
+                        if (!$result) {
+                            $message = 'Ошибка при добавлении записи в базу данных.';
+                        } else {
+                            // Создаем уведомление только при начислении (положительные суммы)
+                            if ($amount > 0) {
+                                $coinsText = $amount . ' ' . $this->coinsDeclension($amount);
+                                $verb = ($amount == 1) ? 'начислен' : 'начислено';
+                                $notificationMessage = "Вам {$verb} {$coinsText}. {$reason}";
+                                $notificationModel->create($targetId, 'admin_coins', $notificationMessage);
+                            }
+                            
+                            $message = 'Операция успешно выполнена.';
+                            
+                            // Принудительно показываем историю после успешной операции
+                            $historyLogin = $form['login'];
+                        }
                     }
                 }
             }
         }
 
-        // История по логину (если был ввод)
-        if (!empty($historyLogin)) {
+        // История по логину (если был ввод или выполнена операция)
+        $loginForHistory = !empty($historyLogin) ? $historyLogin : (!empty($form['login']) ? $form['login'] : '');
+        
+        if (!empty($loginForHistory)) {
             // Прямой запрос для получения ID пользователя
             $stmt = \DatabaseConnection::getAuthConnection()->prepare("SELECT id FROM account WHERE username = ? LIMIT 1");
-            $stmt->execute([$historyLogin]);
-            $targetId = $stmt->fetchColumn();
+            $stmt->execute([$loginForHistory]);
+            $historyTargetId = $stmt->fetchColumn();
             
-            if ($targetId) {
-                // Прямой запрос истории, избегая кешированной модели
-                $stmt = \DatabaseConnection::getSiteConnection()->prepare("SELECT * FROM account_coins WHERE account_id = ? ORDER BY created_at DESC LIMIT 20");
-                $stmt->execute([$targetId]);
-                $history = $stmt->fetchAll();
+            if ($historyTargetId) {
+                // Прямой запрос истории с принудительным обновлением
+                $stmt = \DatabaseConnection::getSiteConnection()->prepare("
+                    SELECT * FROM account_coins 
+                    WHERE account_id = ? 
+                    ORDER BY created_at DESC, id DESC 
+                    LIMIT 20
+                ");
+                $stmt->execute([$historyTargetId]);
+                $history = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                
+                // Устанавливаем historyLogin для отображения в шаблоне
+                $historyLogin = $loginForHistory;
             }
         }
 
@@ -110,12 +129,12 @@ class CoinsAdminController
     private function coinsDeclension($count) {
         $count = abs($count);
         if ($count % 100 >= 11 && $count % 100 <= 14) {
-            return 'монет';
+            return 'бонусов';
         }
         switch ($count % 10) {
-            case 1: return 'монета';
-            case 2: case 3: case 4: return 'монеты';
-            default: return 'монет';
+            case 1: return 'бонус';
+            case 2: case 3: case 4: return 'бонуса';
+            default: return 'бонусов';
         }
     }
 }

@@ -195,7 +195,7 @@ class CachedAccountCoins extends CachedModel
     /**
      * Добавление одиночной записи с инвалидацией кэша
      */
-    public function add(int $accountId, int $coins, string $reason = null): bool
+    public function add(int $accountId, int $coins, ?string $reason = null): bool
     {
         try {
             $stmt = $this->db->prepare("
@@ -203,28 +203,56 @@ class CachedAccountCoins extends CachedModel
                 VALUES (?, ?, ?, ?)
             ");
             
+            // Устанавливаем правильную временную зону для России
+            $createdAt = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format('Y-m-d H:i:s');
+            
             $result = $stmt->execute([
                 $accountId,
                 $coins,
                 $reason,
-                date('Y-m-d H:i:s')
+                $createdAt
             ]);
             
             if ($result) {
+                
                 // Инвалидируем кеш для данного аккаунта
                 $this->cache->delete($this->getCacheKey("balance_{$accountId}"));
                 $this->cache->delete($this->getCacheKey("vote_balance_{$accountId}"));
                 $this->cache->delete($this->getCacheKey("history_count_{$accountId}"));
                 
-                // Инвалидируем общую статистику
-                $this->cache->delete($this->getCacheKey("stats"));
-                $this->cache->delete($this->getCacheKey("top_users_10"));
+                // Инвалидируем все варианты кеша истории
+                // Принудительно очищаем все возможные ключи кеша истории
+                $patterns = [
+                    "balance_{$accountId}",
+                    "vote_balance_{$accountId}", 
+                    "history_count_{$accountId}",
+                    "stats",
+                    "top_users_10"
+                ];
+                
+                // Очищаем основные ключи
+                foreach ($patterns as $pattern) {
+                    $this->cache->delete($this->getCacheKey($pattern));
+                }
+                
+                // Очищаем кеш истории для всех возможных лимитов и смещений
+                for ($limit = 1; $limit <= 100; $limit++) {
+                    $this->cache->delete($this->getCacheKey("history_{$accountId}_{$limit}"));
+                    
+                    for ($offset = 0; $offset < 1000; $offset += $limit) {
+                        $this->cache->delete($this->getCacheKey("history_page_{$accountId}_{$limit}_{$offset}"));
+                    }
+                    
+                    // Ограничиваем количество итераций
+                    if ($limit > 50) break;
+                }
+                
+                error_log("CachedAccountCoins::add() - Cache invalidation completed");
             }
             
             return $result;
             
         } catch (Exception $e) {
-            error_log("Ошибка добавления бонусов: " . $e->getMessage());
             return false;
         }
     }

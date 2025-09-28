@@ -16,8 +16,17 @@
                 <input type="number" id="amount" name="amount" required value="<?= htmlspecialchars($form['amount'] ?? '', ENT_QUOTES, 'UTF-8') ?>" style="width:120px;">
             </div>
             <div class="pt">
-                <label for="reason">Причина (опционально):</label><br>
-                <input type="text" id="reason" name="reason" value="<?= htmlspecialchars($form['reason'] ?? '', ENT_QUOTES, 'UTF-8') ?>" style="width:320px;">
+                <label for="reason">Причина:</label><br>
+                <select id="reason" name="reason" style="width:320px; padding:4px;">
+                    <option value="За активность на форуме" <?= ($form['reason'] ?? '') === 'За активность на форуме' ? 'selected' : '' ?>>За активность на форуме</option>
+                    <option value="За участие в ивенте" <?= ($form['reason'] ?? '') === 'За участие в ивенте' ? 'selected' : '' ?>>За участие в ивенте</option>
+                    <option value="За помощь игрокам" <?= ($form['reason'] ?? '') === 'За помощь игрокам' ? 'selected' : '' ?>>За помощь игрокам</option>
+                    <option value="За баг-репорт" <?= ($form['reason'] ?? '') === 'За баг-репорт' ? 'selected' : '' ?>>За баг-репорт</option>
+                    <option value="Компенсация" <?= ($form['reason'] ?? '') === 'Компенсация' ? 'selected' : '' ?>>Компенсация</option>
+                    <option value="Бонус от администрации" <?= ($form['reason'] ?? '') === 'Бонус от администрации' ? 'selected' : '' ?>>Бонус от администрации</option>
+                    <option value="Корректировка баланса" <?= ($form['reason'] ?? '') === 'Корректировка баланса' ? 'selected' : '' ?>>Корректировка баланса</option>
+                    <option value="Другое" <?= ($form['reason'] ?? '') === 'Другое' ? 'selected' : '' ?>>Другое</option>
+                </select>
             </div>
             <div class="pt">
                 <button type="submit" class="btn">Выполнить</button>

@@ -27,8 +27,13 @@
         <div class="event block-border-bottom" id="notify-<?= (int)$notify['id'] ?>">
             <div class="notify-inner">
                 <img src="/images/refreshed-32x32.png" alt="" width="32" height="32" class="img-npc">
-                <b><?= htmlspecialchars($notificationsData['username']) ?></b>, ты получил <?= $notify['coinsText'] ?> за голосование!
-                <div class="mt10">Спасибо, что поддерживаешь проект.</div>
+                <?php if ($notify['type'] === 'admin_coins'): ?>
+                    <b><?= htmlspecialchars($notificationsData['username']) ?></b>, <?= htmlspecialchars($notify['message']) ?>
+                    <div class="mt10">Администрация проекта.</div>
+                <?php else: ?>
+                    <b><?= htmlspecialchars($notificationsData['username']) ?></b>, ты получил <?= isset($notify['coinsText']) ? $notify['coinsText'] : '' ?> за голосование!
+                    <div class="mt10">Спасибо, что поддерживаешь проект.</div>
+                <?php endif; ?>
                 <div class="clearer"></div>
             </div>
             <div>

@@ -39,20 +39,8 @@
                         if (strpos($lower, 'голос') !== false || strpos($lower, 'vote') !== false || strpos($lower, 'mmotop') !== false) {
                             $reasonText = 'Голосование MMOTOP';
                         } else {
-                            $gmName = null;
-                            // Ищем ник GM в причинах вида: "GM:Nick", "Админ Nick", "by Nick", "от Nick"
-                            if (preg_match('/(?:gm|админ|admin)[\s:\-]+([\p{L}0-9_\-]{2,})/iu', $rawReason, $m)) {
-                                $gmName = $m[1];
-                            } elseif (preg_match('/\bby[\s:\-]+([\p{L}0-9_\-]{2,})/iu', $rawReason, $m)) {
-                                $gmName = $m[1];
-                            } elseif (preg_match('/\bот\s+([\p{L}0-9_\-]{2,})/iu', $rawReason, $m)) {
-                                $gmName = $m[1];
-                            }
-                            if ($gmName) {
-                                $reasonText = 'Зачисление от GM ' . htmlspecialchars($gmName, ENT_QUOTES, 'UTF-8');
-                            } else {
-                                $reasonText = $safeReason;
-                            }
+                            // Просто отображаем полную причину без изменений
+                            $reasonText = $safeReason;
                         }
                     ?>
                     <tr>
