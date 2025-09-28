@@ -3,7 +3,7 @@
 require_once __DIR__ . '/../services/CachedModel.php';
 
 /**
- * Оптимизированная модель для работы с начислениями монет с кешированием
+ * Оптимизированная модель для работы с начислениями бонусов с кешированием
  */
 class CachedAccountCoins extends CachedModel
 {
@@ -14,7 +14,7 @@ class CachedAccountCoins extends CachedModel
     }
     
     /**
-     * Добавить начисление монет (с инвалидацией кеша)
+     * Добавить начисление бонусов (с инвалидацией кеша)
      */
     public function subtract($accountId, $coins, ?string $reason = null, ?string $createdAt = null): bool
     {

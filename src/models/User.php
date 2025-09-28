@@ -32,15 +32,89 @@ class User
     }
 
     
+    private $gmLevelCache = [];
+
     /**
-     * Получает уровень GM для указанного персонажа
+     * Получает уровень GM для указанного персонажа с кешированием
      */
     public function getGmLevelForCharacter($characterName)
     {
-        $stmt = $this->pdo->prepare("SELECT gmlevel FROM account_access WHERE comment = :characterName AND gmlevel > 1");
-        $stmt->execute(['characterName' => $characterName]);
-        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-        return $result['gmlevel'] ?? 0;
+        // Проверяем кеш
+        if (isset($this->gmLevelCache[$characterName])) {
+            return $this->gmLevelCache[$characterName];
+        }
+        
+        try {
+            $stmt = $this->pdo->prepare("SELECT gmlevel FROM account_access WHERE comment = :characterName AND gmlevel > 1 LIMIT 1");
+            $stmt->bindParam(':characterName', $characterName, PDO::PARAM_STR);
+            $stmt->execute();
+            $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+            
+            $gmLevel = $result ? (int)$result['gmlevel'] : 0;
+            
+            // Кешируем результат
+            $this->gmLevelCache[$characterName] = $gmLevel;
+            
+            return $gmLevel;
+        } catch (PDOException $e) {
+            error_log("Ошибка получения GM уровня для персонажа {$characterName}: " . $e->getMessage());
+            $this->gmLevelCache[$characterName] = 0; // Кешируем ошибку как 0
+            return 0;
+        }
+    }
+
+    /**
+     * Получает GM уровни для нескольких персонажей одним запросом
+     */
+    public function getGmLevelsForCharacters($characterNames)
+    {
+        if (empty($characterNames)) {
+            return [];
+        }
+
+        $result = [];
+        $uncachedNames = [];
+
+        // Сначала проверяем кеш
+        foreach ($characterNames as $name) {
+            if (isset($this->gmLevelCache[$name])) {
+                $result[$name] = $this->gmLevelCache[$name];
+            } else {
+                $uncachedNames[] = $name;
+            }
+        }
+
+        // Если есть некешированные имена, делаем запрос
+        if (!empty($uncachedNames)) {
+            try {
+                $placeholders = str_repeat('?,', count($uncachedNames) - 1) . '?';
+                $stmt = $this->pdo->prepare("SELECT comment, gmlevel FROM account_access WHERE comment IN ({$placeholders}) AND gmlevel > 1");
+                $stmt->execute($uncachedNames);
+                $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+                // Обрабатываем результаты
+                foreach ($uncachedNames as $name) {
+                    $gmLevel = 0;
+                    foreach ($rows as $row) {
+                        if ($row['comment'] === $name) {
+                            $gmLevel = (int)$row['gmlevel'];
+                            break;
+                        }
+                    }
+                    $result[$name] = $gmLevel;
+                    $this->gmLevelCache[$name] = $gmLevel; // Кешируем
+                }
+            } catch (PDOException $e) {
+                error_log("Ошибка получения GM уровней: " . $e->getMessage());
+                // В случае ошибки устанавливаем 0 для всех некешированных
+                foreach ($uncachedNames as $name) {
+                    $result[$name] = 0;
+                    $this->gmLevelCache[$name] = 0;
+                }
+            }
+        }
+
+        return $result;
     }
 
     
@@ -157,7 +231,65 @@ class User
 
         // Обновляем пароль пользователя
         $stmt = $this->pdo->prepare("UPDATE account SET salt = :salt, verifier = :verifier WHERE id = :user_id");
-        $stmt->execute(['salt' => $salt, 'verifier' => $verifier, 'user_id' => $userId]);
+        return $stmt->execute(['salt' => $salt, 'verifier' => $verifier, 'user_id' => $userId]);
+    }
+
+    /**
+     * Проверяет, забанен ли аккаунт
+     */
+    public function isBanned($accountId)
+    {
+        try {
+            $stmt = $this->pdo->prepare("SELECT banreason, unbandate FROM account_banned WHERE id = :accountId AND active = 1 LIMIT 1");
+            $stmt->bindParam(':accountId', $accountId, PDO::PARAM_INT);
+            $stmt->execute();
+            
+            $ban = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if ($ban) {
+                // Проверяем, не истёк ли бан
+                if ($ban['unbandate'] > 0 && $ban['unbandate'] <= time()) {
+                    return false; // Бан истёк
+                }
+                return $ban; // Возвращаем информацию о бане
+            }
+            
+            return false;
+        } catch (PDOException $e) {
+            error_log("Ошибка проверки бана для аккаунта {$accountId}: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Проверяет, замучен ли аккаунт
+     */
+    public function isMuted($accountId)
+    {
+        try {
+            $stmt = $this->pdo->prepare("SELECT mutereason, mutedate, mutetime FROM account_muted WHERE guid = :accountId LIMIT 1");
+            $stmt->bindParam(':accountId', $accountId, PDO::PARAM_INT);
+            $stmt->execute();
+            
+            $mute = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if ($mute) {
+                $muteEndTime = $mute['mutedate'] + $mute['mutetime'];
+                
+                // Проверяем, не истёк ли мут
+                if ($muteEndTime <= time()) {
+                    return false; // Мут истёк
+                }
+                
+                $mute['mute_end_time'] = $muteEndTime;
+                return $mute; // Возвращаем информацию о муте
+            }
+            
+            return false;
+        } catch (PDOException $e) {
+            error_log("Ошибка проверки мута для аккаунта {$accountId}: " . $e->getMessage());
+            return false;
+        }
     }
 
     /**
@@ -173,6 +305,4 @@ class User
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
         return isset($result['gmlevel']) ? intval($result['gmlevel']) : 0;
     }
-
-
 }

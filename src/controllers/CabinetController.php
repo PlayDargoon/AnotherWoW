@@ -24,7 +24,7 @@ class CabinetController
                 return [
                     'created_at' => $row['date'],
                     'coins' => 1,
-                    'reason' => 'Голос (mmotop.txt)',
+                    'reason' => 'Бонус за голосование (mmotop.txt)',
                 ];
             }, $mmotopHistory);
         }
@@ -60,12 +60,37 @@ class CabinetController
         // Получаем персонажей пользователя
         $characters = $this->characterModel->getCharactersByUserId($userInfo['id']);
 
+        // Получаем GM уровни для всех персонажей одним запросом
+        $characterNames = array_column($characters, 'name');
+        $gmLevels = [];
+        if (!empty($characterNames)) {
+            $gmLevels = $this->userModel->getGmLevelsForCharacters($characterNames);
+        }
+
+        // Цвета классов для отображения имен персонажей
+        $classColors = [
+            1 => '#C69B6D', // Воин
+            2 => '#F48CBA', // Паладин
+            3 => '#AAD372', // Охотник
+            4 => '#FFF468', // Разбойник
+            5 => '#FFFFFF', // Жрец
+            6 => '#C41E3A', // Рыцарь Смерти
+            7 => '#0070DD', // Шаман
+            8 => '#3FC7EB', // Маг
+            9 => '#8788EE', // Чернокнижник
+            10 => '#00FF98', // Монах
+            11 => '#FF7C0A', // Друид
+            12 => '#A330C9', // Охотник на Демонов
+            13 => '#33937F', // Пробуждающий (Evoker)
+        ];
+
         // Формируем массив персонажей с указанием фракции и ролей
         $formattedCharacters = [];
         foreach ($characters as $char) {
             $formattedChar = $char;
             $formattedChar['factionImage'] = getFactionImage($char['race']); // Добавляем изображение фракции
-            $gmLevel = $this->userModel->getGmLevelForCharacter($char['name']); // Проверяем по имени персонажа
+            $formattedChar['classColor'] = isset($classColors[$char['class']]) ? $classColors[$char['class']] : '#FFF'; // Добавляем цвет класса
+            $gmLevel = $gmLevels[$char['name']] ?? 0; // Получаем из предварительно загруженных данных
             $roleText = getGMRole($gmLevel); // Добавляем текст роли
             $formattedChar['roleText'] = $roleText;
             // Выделяем текст в скобках, если есть
@@ -80,11 +105,27 @@ class CabinetController
             } else {
                 $formattedChar['roleTextShort'] = '';
             }
+            
+            // Форматируем время игры
+            $tt = isset($char['totaltime']) ? (int)$char['totaltime'] : 0;
+            $days = floor($tt / 86400);
+            $hours = floor(($tt % 86400) / 3600);
+            $minutes = floor(($tt % 3600) / 60);
+            $formattedChar['playtime'] = ($days > 0 ? $days.'д ' : '') . ($hours > 0 ? $hours.'ч ' : '') . $minutes.'м';
+            
             $formattedCharacters[] = $formattedChar;
         }
 
         // Получаем уровень доступа пользователя
         $userAccessLevel = $this->userModel->getUserAccessLevel($userInfo['id']);
+
+        // Получаем информацию о банах и мутах
+        $banInfo = $this->userModel->isBanned($userInfo['id']);
+        $muteInfo = $this->userModel->isMuted($userInfo['id']);
+
+        // Получаем баланс бонусов из правильной таблицы
+        $coinsModel = new \CachedAccountCoins(\DatabaseConnection::getSiteConnection());
+        $bonusBalance = $coinsModel->getBalance($userInfo['id']);
 
         $data = [
     'contentFile' => 'pages/cabinet.html.php',
@@ -92,6 +133,9 @@ class CabinetController
     'characters' => $formattedCharacters,
     'characterModel' => $this->characterModel,
     'userAccessLevel' => $userAccessLevel,
+    'banInfo' => $banInfo,
+    'muteInfo' => $muteInfo,
+    'bonusBalance' => $bonusBalance,
     'pageTitle' => 'Личный кабинет',
         ];
         renderTemplate('layout.html.php', $data);

@@ -60,7 +60,7 @@ class Character
             throw new InvalidArgumentException("Invalid user ID provided.");
         }
 
-        $stmt = $this->pdo->prepare("SELECT guid, name, race, class, gender, level FROM characters WHERE account = :userId");
+        $stmt = $this->pdo->prepare("SELECT guid, name, race, class, gender, level, totaltime FROM characters WHERE account = :userId");
         $stmt->execute(['userId' => $userId]);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
