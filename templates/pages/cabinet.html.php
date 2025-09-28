@@ -4,34 +4,59 @@
       
 
 <div class="body">
-      
+                  <h2>Игровой кабинет</h2>
 
 
 
-    <h2>Игровой кабинет</h2>
-
-    <?php if (isset($userInfo) && !empty($userInfo)): ?>
-    <h2 class="pb10 _font-art font16">Общие данные</h2>
-    <br>
-    <div class="pt" style="margin-left:10px;">
-        <ol>
-           <li><span class="yellow">Баланс: <span class="info"><b><?= (int)(new \CachedAccountCoins(\DatabaseConnection::getSiteConnection()))->getBalance($userInfo['id']) ?></b></span> голосов</span> </li>
-           <li><a href="/cabinet/coins-history">История начислений</a></li>
-           <li><a href="/vote/top">Топ голосующих</a></li>
-        </ol>
+                  
+    <div class="pt" style="text-align:center">
+        <div class="block-border">
+            <img src="/images/taverna.jpg" width="725" height="227" alt="таверна">
+        </div>
     </div>
-    <br>
-    <?php endif; ?>
+ <div class="section-sep"></div>
 
-    <div class="pt">
+ 
+                 <?php if ($userAccessLevel >= 4): ?>
+        <ol>
+           <li><img src="/images/icons/settings.png" width="12" height="12" alt="*"> <a href="/admin-panel">Админ Панель</a></li>
+        </ol>
+                 <?php endif; ?>
+
+<div class="section-sep"></div>
+
+  
+<div class="pt">
+
+    <img src="/images/icons/menialo.png" alt="*" style="float:left;margin-right:8px; " class="ic32" width="32" height="32">
+
         <div class="small">
             Продолжи свое путешествие и стань легендарным героем!<br/>
             Выбери персонажа, которым ты хочешь управлять:
         </div>
         <br>
+
+        <div class="pt">
+        <h2>Информация учетной записи</h2>
+        
+           <ol>
+               <li><img src="#" width="12" height="12" alt="*"> <span class="minor">Емаил:</span> <span>Мой емаил</span></a></li>
+               <li><img src="#" width="12" height="12" alt="*"> <span class="minor">Дата регистрации:</span> <span>Моя дата регистрации</span></a></li>
+               <li><img src="#" width="12" height="12" alt="*"> <span class="minor">Последний вход</span> <span>Мой последний вход в игру формат Г:М:Д Ч:М:С</span></a></li>
+               <li><img src="#" width="12" height="12" alt="*"> <span class="minor">Последний IP</span> <span>Мой последний IP с которого входил в игру</span></a></li>
+               <li><img src="#" width="12" height="12" alt="*"> <span class="minor">Забанен</span> <span>Есть бан или нет</span></a></li>
+               <li><img src="#" width="12" height="12" alt="*"> <span class="minor">Мут</span> <span>Есть мут или нет</span></a></li>
+               <li><img src="#" width="12" height="12" alt="*"> <span class="minor">В игре</span> <span>В игре сейчас или нет</span></a></li>
+               <li><img src="#" width="12" height="12" alt="*"> <span class="minor">Бонусов</span> <span>Общий баланс бонусов</span></a></li>
+            </ol>
+    </div>
+   <div class="section-sep"></div>
+
+
+
 <div class="small">
-
-
+<h2>Ваши персонажи</h2>
+<div class="section-sep"></div>
 <span>Фракция</span> | <span>Расса</span> | <span>Класс</span> | <span>Имя персонажа</span> | <span>Уровень</span>
 
 
@@ -65,49 +90,56 @@
 
     <div class="pt">
 
-    <?php if ($userAccessLevel >= 4): ?>
-        <div>
-            <a href="/admin-panel">
-                <img src="/images/icons/arr.png" width="12" height="12" alt="*">
-                Админ Панель
-            </a>
-        </div>
-    <?php endif; ?>
+    
 
     <div class="pt">
-        <div class="info">
-            <img src="/images/icons/arr.png" width="12" height="12" alt="*">
-            <a href="/vote"  width="12" height="12" alt="*">Голосовать за проект</a>
-        </div>
+        <h2>Голосование</h2>
+        <div class="section-sep"></div>
+        <ol>
+            <li><img src="/images/icons/feather.png" width="12" height="12" alt="*"> <a href="/vote"  width="12" height="12" alt="*">Голосовать за проект</a></li>
+            <li><img class="i12img" src="/images/icons/journal_12.png" alt="." width="12px" height="12px"> <a href="/cabinet/coins-history">История начислений</a></li>
+            <li><img src="/images/icons/vip_icon.png" width="12" height="12" alt="*"> <a href="/vote/top">Топ голосующих</a></li>
+        </ol>
     </div>
-
-
-        <div>
-            <a href="#">
-                <img src="/images/icons/arr.png" width="12" height="12" alt="*">
-                Изменить email
-            </a>
-        </div>
-        <div>
-            <a href="#">
-                <img src="/images/icons/arr.png" width="12" height="12" alt="*">
-                Изменить телефон
-            </a>
-        </div>
-    </div>
+<div class="section-sep"></div>
 
     <div class="pt">
-        <div>
-            <img src="/images/icons/question_blue.png" width="12" height="12" alt="*">
-            <a href="#">Сменить пароль</a>
-        </div>
-
-        <div>
-            <img src="/images/icons/cross.png" alt="." width="12" height="12">
-            <a ignorewebview="true" href="/logout">Выйти из кабинета</a>
-        </div>
+        <h2>Настройки</h2>
+        
+           <ol>
+               <li><img src="/images/icons/arr.png" width="12" height="12" alt="*"> <a href="#"> Изменить email</a></li>
+               <li><img src="/images/icons/arr.png" width="12" height="12" alt="*"> <a href="#">Изменить телефон</a></li>
+               <li><img src="/images/icons/question_blue.png" width="12" height="12" alt="*"> <a href="#">Сменить пароль</a></li>
+            </ol>
     </div>
+   <div class="section-sep"></div>
+        
+    
+    </div>
+
 
 </div>
 
+<div class="footer nav block-border-top">
+    <ol>
+       <li><img class="i12img" src="/images/icons/home.png" alt="." width="12px" height="12px"> <a href="/">На главную</a></li>
+      
+       <li><img src="/images/icons/cross.png" alt="." width="12" height="12"> <a ignorewebview="true" href="/logout">Выйти из кабинета</a></li>
+       <li> <img class="i12img" src="/images/icons/question_blue.png" alt="." width="12px" height="12px"> <a href="#">Первая помощь</a></li>
+
+    </ol>
+</div>
+
+
+<div class="footer nav block-border-top">
+    <ol>
+        <li>
+            <img src="/images/icons/addfriends.png" alt="." width="12" height="12" class="i12img">
+    <a href="https://yoomoney.ru/fundraise/1D220FUHMKN.250928" class=""><span>Поддержать сервер</span></a>
+        </li>
+        
+    </ol>
+</div>
+
 </body>
+
