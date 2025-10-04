@@ -8,6 +8,7 @@ require_once __DIR__ . '/bootstrap.php';
 // Подключаем сервисы
 require_once __DIR__ . '/src/services/DatabaseConnection.php';
 require_once __DIR__ . '/src/services/VoteService.php';
+require_once __DIR__ . '/src/services/YooKassaService.php';
 
 // Подключаем все модели
 require_once __DIR__ . '/src/models/User.php';
@@ -16,6 +17,7 @@ require_once __DIR__ . '/src/models/Uptime.php';
 require_once __DIR__ . '/src/models/Site.php';
 require_once __DIR__ . '/src/models/Notification.php';
 require_once __DIR__ . '/src/models/AccountCoins.php';
+require_once __DIR__ . '/src/models/Payment.php';
 require_once __DIR__ . '/src/models/News.php';
 require_once __DIR__ . '/src/models/VoteLog.php';
 require_once __DIR__ . '/src/models/VoteReward.php';
@@ -27,6 +29,7 @@ require_once __DIR__ . '/src/helpers/formatCreationDate.php';
 require_once __DIR__ . '/src/helpers/getGMRole.php';
 require_once __DIR__ . '/src/helpers/serverInfo_helper.php';
 require_once __DIR__ . '/src/helpers/safe_redirect.php';
+require_once __DIR__ . '/src/helpers/ip_helper.php';
 
 // Подключаем PHPMailer
 require_once __DIR__ . '/src/libs/phpmailer/Exception.php';
@@ -57,6 +60,10 @@ require_once __DIR__ . '/src/controllers/PrivacyController.php';
 require_once __DIR__ . '/src/controllers/RulesController.php';
 require_once __DIR__ . '/src/controllers/HelpController.php';
 require_once __DIR__ . '/src/controllers/SupportController.php';
+require_once __DIR__ . '/src/controllers/PaymentController.php';
+require_once __DIR__ . '/src/controllers/YooKassaWebhookController.php';
+require_once __DIR__ . '/src/controllers/MigrationController.php';
+require_once __DIR__ . '/src/controllers/ProgressionController.php';
 
 // Готовим уведомления и ник для layout (доступно во всех шаблонах)
 if (isset($_SESSION['user_id'])) {
@@ -150,6 +157,11 @@ switch ($uri) {
         $controller = new NewsListController();
         $controller->handle();
         break;
+    case '/progression':
+        // Прогрессия через контроллер
+        $controller = new ProgressionController();
+        $controller->index();
+        break;
     case '/news/manage':
         $controller = new NewsController();
         $controller->manage();
@@ -203,9 +215,55 @@ switch ($uri) {
         $controller->handle();
         break;
         
+    case '/help/bot-commands': // Команды игровых ботов
+        renderTemplate('layout.html.php', [
+            'contentFile' => 'pages/bot-commands.html.php',
+            'pageTitle' => 'Команды игровых ботов',
+        ]);
+        break;
+        
     case '/support': // Поддержка игроков
         $controller = new SupportController();
         $controller->handle();
+        break;
+
+    case '/payment/create': // Старт оплаты (создание платежа)
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $controller = new PaymentController();
+            $controller->create();
+        } else {
+            // Минимальная форма создания платежа (для теста)
+            renderTemplate('layout.html.php', [
+                'contentFile' => 'pages/payment_create_form.html.php',
+                'pageTitle' => 'Пополнение баланса',
+            ]);
+        }
+        break;
+
+    case '/payment/return': // Возврат с оплаты
+        $controller = new PaymentController();
+        $controller->return();
+        break;
+
+    case '/payment/error': // Страница ошибки оплаты (редирект из ЮKassa)
+        $controller = new PaymentController();
+        $controller->error();
+        break;
+
+    case '/yookassa/webhook': // Вебхук ЮKassa
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $controller = new YooKassaWebhookController();
+            $controller->handle();
+        } else {
+            http_response_code(405);
+            echo 'Method Not Allowed';
+        }
+        break;
+
+    case '/migrate/payments': // Запуск миграции платежей (для локальных тестов)
+        $mc = new MigrationController();
+        $mc->runMigration('CreatePaymentsTable.php');
+        echo "Миграция выполнена";
         break;
         
     case '/': // Главная страница

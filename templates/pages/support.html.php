@@ -13,33 +13,35 @@
         <h3 style="color: #ffff33;">Свяжитесь с нами</h3>
         <p>Возникли проблемы с игрой или аккаунтом? Заполните форму ниже, и мы ответим в течение 24 часов.</p>
 
-        <form method="POST" action="/support">
+    <form method="POST" action="/support">
             <div class="pt">
                 <label for="name"><span class="info">Ваше имя</span> *</label><br>
-                <input type="text" id="name" name="name" required value="<?= htmlspecialchars($_POST['name'] ?? '') ?>">
+                <input type="text" id="name" name="name" required value="<?= htmlspecialchars($_POST['name'] ?? ($_GET['name'] ?? '')) ?>">
             </div>
 
             <div class="pt">
                 <label for="email"><span class="info">Email</span> *</label><br>
-                <input type="email" id="email" name="email" required value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
+                <input type="email" id="email" name="email" required value="<?= htmlspecialchars($_POST['email'] ?? ($_GET['email'] ?? '')) ?>">
             </div>
 
             <div class="pt">
                 <label for="subject"><span class="info">Тема</span> *</label><br>
                 <select id="subject" name="subject" required>
                     <option value="">Выберите тему...</option>
-                    <option value="Проблемы с входом" <?= ($_POST['subject'] ?? '') === 'Проблемы с входом' ? 'selected' : '' ?>>Проблемы с входом</option>
-                    <option value="Баги в игре" <?= ($_POST['subject'] ?? '') === 'Баги в игре' ? 'selected' : '' ?>>Баги в игре</option>
-                    <option value="Проблемы с персонажем" <?= ($_POST['subject'] ?? '') === 'Проблемы с персонажем' ? 'selected' : '' ?>>Проблемы с персонажем</option>
-                    <option value="Жалоба на игрока" <?= ($_POST['subject'] ?? '') === 'Жалоба на игрока' ? 'selected' : '' ?>>Жалоба на игрока</option>
-                    <option value="Технические проблемы" <?= ($_POST['subject'] ?? '') === 'Технические проблемы' ? 'selected' : '' ?>>Технические проблемы</option>
-                    <option value="Другое" <?= ($_POST['subject'] ?? '') === 'Другое' ? 'selected' : '' ?>>Другое</option>
+                    <?php $sel = $_POST['subject'] ?? ($_GET['subject'] ?? ''); ?>
+                    <option value="Проблемы с входом" <?= $sel === 'Проблемы с входом' ? 'selected' : '' ?>>Проблемы с входом</option>
+                    <option value="Баги в игре" <?= $sel === 'Баги в игре' ? 'selected' : '' ?>>Баги в игре</option>
+                    <option value="Проблемы с персонажем" <?= $sel === 'Проблемы с персонажем' ? 'selected' : '' ?>>Проблемы с персонажем</option>
+                    <option value="Жалоба на игрока" <?= $sel === 'Жалоба на игрока' ? 'selected' : '' ?>>Жалоба на игрока</option>
+                    <option value="Технические проблемы" <?= $sel === 'Технические проблемы' ? 'selected' : '' ?>>Технические проблемы</option>
+                    <option value="Ошибка оплаты" <?= $sel === 'Ошибка оплаты' ? 'selected' : '' ?>>Ошибка оплаты</option>
+                    <option value="Другое" <?= $sel === 'Другое' ? 'selected' : '' ?>>Другое</option>
                 </select>
             </div>
 
             <div class="pt">
                 <label for="message"><span class="info">Сообщение</span> *</label><br>
-                <textarea id="message" name="message" rows="6" required placeholder="Опишите вашу проблему подробно..."><?= htmlspecialchars($_POST['message'] ?? '') ?></textarea>
+                <textarea id="message" name="message" rows="6" required placeholder="Опишите вашу проблему подробно..."><?= htmlspecialchars($_POST['message'] ?? ($_GET['message'] ?? '')) ?></textarea>
             </div>
 
             <div class="pt">

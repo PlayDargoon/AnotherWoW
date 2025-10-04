@@ -10,7 +10,7 @@
 function renderTemplate(string $templatePath, array $data = []): void
 {
     try {
-        // Формируем абсолютный путь к шаблону
+        // Абсолютный путь к переданному шаблону (обычно layout)
         $fullTemplatePath = __DIR__ . '/../templates/' . $templatePath;
 
         // Подмешиваем глобальные данные для всех шаблонов (например, serverInfo)
@@ -22,17 +22,8 @@ function renderTemplate(string $templatePath, array $data = []): void
         // Преобразуем массив данных в переменные для использования в шаблонах
         extract($data);
 
-        // Начинаем буферизацию вывода
-        ob_start();
-
-        // Подключаем сам шаблон
+        // Подключаем указанный шаблон напрямую
         include $fullTemplatePath;
-
-        // Получаем содержимое буфера
-        $content = ob_get_clean();
-
-        // Передаем контент в общий шаблон layout.html.php
-        include __DIR__ . '/../templates/layout.html.php';
     } catch (\Throwable $th) {
         // В случае ошибки выводим сообщение об ошибке
         die("Ошибка при рендеринге шаблона: {$th->getMessage()} в {$th->getFile()} на линии {$th->getLine()}");

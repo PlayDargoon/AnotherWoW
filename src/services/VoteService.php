@@ -33,7 +33,7 @@ class VoteService {
             if (!$voteData) continue;
             // Только для нужного пользователя
             if (strcasecmp($voteData['username'], $username) !== 0) continue;
-            if ($this->isDuplicateVote($userId, $voteData['timestamp'])) continue;
+            if ($this->isDuplicateVote($userId, $voteData['timestamp'], $voteData['external_id'] ?? null)) continue;
             $this->addVote($userId, $voteData);
             $processed++;
         }
@@ -99,19 +99,28 @@ class VoteService {
                 continue;
             }
             
-            // Проверяем существование пользователя
-            $accountId = $this->userModel->getUserIdByUsername($voteData['username']);
-            if (!$accountId) {
-                $errors[] = "Пользователь не найден: " . $voteData['username'];
+            // Проверяем существование пользователя (по логину или имени персонажа)
+            $accountInfo = $this->userModel->getAccountIdByUsernameOrCharacter($voteData['username']);
+            if (!$accountInfo) {
+                $errors[] = "Пользователь/персонаж не найден: " . $voteData['username'];
                 continue;
             }
             
+            $accountId = $accountInfo['account_id'];
+            
+            // Логируем способ поиска для отладки
+            if ($accountInfo['method'] === 'character_name') {
+                error_log("VoteService: Найден по персонажу '{$accountInfo['character_name']}' -> аккаунт '{$accountInfo['found_username']}' (ID: $accountId)");
+            }
+            
             // Проверяем дублирование
-            if ($this->isDuplicateVote($accountId, $voteData['timestamp'])) {
+            if ($this->isDuplicateVote($accountId, $voteData['timestamp'], $voteData['external_id'] ?? null)) {
                 continue; // Пропускаем дубликат без ошибки
             }
             
-            // Добавляем голос и начисляем монеты
+            // Добавляем голос и начисляем монеты (используем найденный логин аккаунта)
+            $voteData['account_username'] = $accountInfo['found_username'];
+            $voteData['search_method'] = $accountInfo['method'];
             $this->addVote($accountId, $voteData);
             $processed++;
         }
@@ -132,6 +141,7 @@ class VoteService {
             $date = $matches[2] . ' ' . $matches[3];
             $username = $matches[5];
             $rewardCode = $matches[6];
+            $externalId = $matches[1];
             // Конвертируем дату в timestamp
             $timestamp = $this->parseDate($date);
             if ($timestamp) {
@@ -139,7 +149,8 @@ class VoteService {
                     'username' => $username,
                     'timestamp' => $timestamp,
                     'format' => 'space_separated',
-                    'reward_code' => $rewardCode
+                    'reward_code' => $rewardCode,
+                    'external_id' => $externalId
                 ];
             }
         }
@@ -148,6 +159,7 @@ class VoteService {
             $date = $matches[2];
             $username = $matches[4];
             $rewardCode = $matches[5];
+            $externalId = $matches[1];
             // Конвертируем дату в timestamp
             $timestamp = $this->parseDate($date);
             if ($timestamp) {
@@ -155,7 +167,8 @@ class VoteService {
                     'username' => $username,
                     'timestamp' => $timestamp,
                     'format' => 'tab_separated',
-                    'reward_code' => $rewardCode
+                    'reward_code' => $rewardCode,
+                    'external_id' => $externalId
                 ];
             }
         }
@@ -206,57 +219,80 @@ class VoteService {
     /**
      * Проверка на дублирование голоса
      */
-    private function isDuplicateVote($accountId, $timestamp) {
-        // Проверяем в VoteLog по времени (±5 минут)
-        $stmt = $this->siteDb->prepare("
-            SELECT COUNT(*) FROM vote_log 
-            WHERE user_id = ? AND ABS(vote_time - ?) < 300
-        ");
-        $stmt->execute([$accountId, $timestamp]);
-        
-        if ($stmt->fetchColumn() > 0) {
-            return true;
+    private function isDuplicateVote($accountId, $timestamp, $externalId = null) {
+        // 1) По внешнему ID (если доступен) — самый надежный способ
+        if ($externalId !== null) {
+            try {
+                // Проверяем по external_id глобально (даже если к другому user_id уже привязан)
+                $stmt = $this->siteDb->prepare("SELECT COUNT(*) FROM vote_log WHERE external_id = ?");
+                $stmt->execute([(string)$externalId]);
+                if ((int)$stmt->fetchColumn() > 0) {
+                    return true;
+                }
+            } catch (\Throwable $e) {
+                // Игнорируем и переходим к другим методам проверки
+            }
+        }
+
+        // 2) По времени: проверяем в vote_log наличие записи для этого пользователя
+        // в пределах ±5 минут от времени голоса
+        try {
+            $from = (int)$timestamp - 300; // 5 минут назад
+            $to = (int)$timestamp + 300;   // 5 минут вперед
+            $stmt = $this->siteDb->prepare("SELECT COUNT(*) FROM vote_log WHERE user_id = ? AND vote_time BETWEEN ? AND ?");
+            $stmt->execute([$accountId, $from, $to]);
+            if ((int)$stmt->fetchColumn() > 0) {
+                return true;
+            }
+        } catch (\Throwable $e) {
+            // Если что-то пошло не так, просто переходим к проверке в account_coins
         }
         
-        // Проверяем в AccountCoins по дате
+        // 3) Проверяем в AccountCoins по точной дате (created_at)
         $date = date('Y-m-d H:i:s', $timestamp);
-        $stmt = $this->siteDb->prepare("
-            SELECT COUNT(*) FROM account_coins 
-            WHERE account_id = ? AND created_at = ? AND reason LIKE '%голос%'
-        ");
+        $stmt = $this->siteDb->prepare("\n            SELECT COUNT(*) FROM account_coins \n            WHERE account_id = ? AND created_at = ? AND reason LIKE '%голос%'\n        ");
         $stmt->execute([$accountId, $date]);
         
-        return $stmt->fetchColumn() > 0;
+        return ((int)$stmt->fetchColumn()) > 0;
     }
     
     /**
      * Добавление голоса и начисление монет
      */
     private function addVote($accountId, $voteData) {
-        $username = $voteData['username'];
+        $username = $voteData['username']; // Оригинальное имя из голосования
+        $accountUsername = isset($voteData['account_username']) ? $voteData['account_username'] : $username;
         $timestamp = $voteData['timestamp'];
         $format = $voteData['format'];
         $rewardCode = isset($voteData['reward_code']) ? $voteData['reward_code'] : null;
+        $searchMethod = isset($voteData['search_method']) ? $voteData['search_method'] : 'account_login';
 
         // Количество монет зависит от кода награды
         $coinsReward = $this->getCoinsReward($rewardCode);
 
-        // Добавляем в VoteLog
+        // Добавляем в VoteLog (используем логин аккаунта для консистентности)
         $this->voteLogModel->add(
             $accountId,
-            $username,
+            $accountUsername,
             $coinsReward,
-            'mmotop_' . $format
+            'mmotop_' . $format,
+            $timestamp,
+            $voteData['external_id'] ?? null
         );
 
         // Преобразуем timestamp в формат DATETIME для created_at
         $createdAt = date('Y-m-d H:i:s', $timestamp);
 
         // Начисляем монеты через AccountCoins с точной датой
+        $reason = 'Голосование mmotop (' . $format . ')';
+        if ($searchMethod === 'character_name') {
+            $reason .= ' [найден по персонажу: ' . $username . ']';
+        }
+        
         $this->coinsModel->add(
             $accountId,
             $coinsReward,
-            'Голосование mmotop (' . $format . ')',
+            $reason,
             $createdAt
         );
         // Создаем уведомление всегда для получателя награды
@@ -314,13 +350,69 @@ class VoteService {
     }
     
     /**
+     * Публичный метод для тестирования обработки голосов из контента
+     */
+    public function processVotesFromContent($content) {
+        $lines = preg_split('/\r?\n/', $content, -1, PREG_SPLIT_NO_EMPTY);
+        $processed = 0;
+        $skipped = 0;
+        $errors = [];
+        
+        foreach ($lines as $line) {
+            $line = trim($line);
+            if (empty($line)) continue;
+            
+            // Пробуем разные форматы
+            $voteData = $this->parseVoteLine($line);
+            if (!$voteData) {
+                $errors[] = "Не удалось распарсить строку: " . substr($line, 0, 50);
+                continue;
+            }
+            
+            // Проверяем существование пользователя (по логину или персонажу)
+            $accountInfo = $this->userModel->getAccountIdByUsernameOrCharacter($voteData['username']);
+            if (!$accountInfo) {
+                $errors[] = "Пользователь/персонаж не найден: " . $voteData['username'];
+                continue;
+            }
+            
+            $accountId = $accountInfo['account_id'];
+            
+            // Логируем способ поиска для отладки
+            if ($accountInfo['method'] === 'character_name') {
+                error_log("VoteService: Найден по персонажу '{$accountInfo['character_name']}' -> аккаунт '{$accountInfo['found_username']}' (ID: $accountId)");
+            }
+            
+            // Проверяем дублирование (с использованием external_id, если есть)
+            if ($this->isDuplicateVote($accountId, $voteData['timestamp'], $voteData['external_id'] ?? null)) {
+                $skipped++;
+                continue; // Пропускаем дубликат без ошибки
+            }
+            
+            // Добавляем голос и начисляем монеты (используем найденный логин аккаунта)
+            $voteData['account_username'] = $accountInfo['found_username'];
+            $voteData['search_method'] = $accountInfo['method'];
+            $this->addVote($accountId, $voteData);
+            $processed++;
+        }
+        
+        return [
+            'processed' => $processed,
+            'skipped' => $skipped,
+            'errors' => $errors
+        ];
+    }
+    
+    /**
      * Проверка возможности получения награды пользователем
      */
     public function canUserVote($username) {
-        $accountId = $this->userModel->getUserIdByUsername($username);
-        if (!$accountId) {
-            return ['can_vote' => false, 'reason' => 'Пользователь не найден'];
+        $accountInfo = $this->userModel->getAccountIdByUsernameOrCharacter($username);
+        if (!$accountInfo) {
+            return ['can_vote' => false, 'reason' => 'Пользователь/персонаж не найден'];
         }
+        
+        $accountId = $accountInfo['account_id'];
         
         $lastVoteTime = $this->rewardModel->getLastVoteTime($accountId);
         $cooldownHours = 16; // 16 часов между голосованиями
@@ -344,6 +436,12 @@ class VoteService {
         $canVote = $this->canUserVote($username);
         if (!$canVote['can_vote']) {
             return $canVote;
+        }
+        
+        // Получаем информацию об аккаунте
+        $accountInfo = $this->userModel->getAccountIdByUsernameOrCharacter($username);
+        if (!$accountInfo) {
+            return ['success' => false, 'message' => 'Пользователь/персонаж не найден'];
         }
         
         // Проверяем наличие голоса в файле mmotop

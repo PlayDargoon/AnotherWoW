@@ -210,6 +210,53 @@ class User
     }
 
     /**
+     * Получает ID аккаунта по логину или имени персонажа
+     * Сначала ищет по логину аккаунта, затем по имени персонажа
+     */
+    public function getAccountIdByUsernameOrCharacter($username)
+    {
+        // Сначала ищем по логину аккаунта (auth база)
+        $stmt = $this->pdo->prepare("SELECT id FROM account WHERE username = :username");
+        $stmt->execute(['username' => $username]);
+        $accountId = $stmt->fetchColumn();
+        
+        if ($accountId) {
+            return [
+                'account_id' => $accountId,
+                'method' => 'account_login',
+                'found_username' => $username
+            ];
+        }
+        
+        // Если не найден по логину, ищем по имени персонажа (characters база)
+        try {
+            $charactersDb = \DatabaseConnection::getCharactersConnection();
+            $stmt = $charactersDb->prepare("SELECT account FROM characters WHERE name = :character_name");
+            $stmt->execute(['character_name' => $username]);
+            $accountId = $stmt->fetchColumn();
+            
+            if ($accountId) {
+                // Получаем логин аккаунта для логирования
+                $stmt = $this->pdo->prepare("SELECT username FROM account WHERE id = :account_id");
+                $stmt->execute(['account_id' => $accountId]);
+                $accountLogin = $stmt->fetchColumn();
+                
+                return [
+                    'account_id' => $accountId,
+                    'method' => 'character_name',
+                    'found_username' => $accountLogin ?: 'unknown',
+                    'character_name' => $username
+                ];
+            }
+        } catch (Exception $e) {
+            error_log("Ошибка поиска по имени персонажа: " . $e->getMessage());
+        }
+        
+        // Не найден ни по логину, ни по персонажу
+        return null;
+    }
+
+    /**
      * Поиск пользователя по email
      */
     public function findByEmail($email)

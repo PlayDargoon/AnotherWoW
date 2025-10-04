@@ -13,4 +13,4 @@ if (php_sapi_name() === 'cli-server') {
 }
 
 // Иначе перенаправляем на index.php
-require_once 'index.php';
+require_once __DIR__ . '/index.php';

@@ -9,13 +9,20 @@ class VoteTopController {
             \DatabaseConnection::getAuthConnection()
         );
         
-        // Используем улучшенный метод, который показывает только существующие аккаунты
-        $topVoters = $voteTopModel->getTopVoters(10); // Получаем топ 10 голосующих
+        // Получаем топ 10 голосующих за текущий месяц
+        $topVoters = $voteTopModel->getTopVoters(10);
+        
+        // Получаем статистику за месяц
+        $monthlyStats = $voteTopModel->getMonthlyStatistics();
+        
+        // Для отладки: логируем количество найденных голосующих
+        error_log("VoteTopController: Found " . count($topVoters) . " voters this month");
         
         renderTemplate('layout.html.php', [
             'contentFile' => 'pages/vote-top.html.php',
             'topVoters' => $topVoters,
-            'pageTitle' => 'Топ голосующих',
+            'monthlyStats' => $monthlyStats,
+            'pageTitle' => 'Топ голосующих за месяц',
         ]);
     }
 }

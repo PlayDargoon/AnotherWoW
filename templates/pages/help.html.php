@@ -55,6 +55,11 @@
                 <li><code>/played</code> - время игры на персонаже</li>
             </ul>
         </div>
+
+        <div class="pt">
+            <strong class="gold">Игровые боты</strong>
+            <p>На сервере доступны игровые боты-компаньоны. <a href="/help/bot-commands" class="gold">Полный список команд для управления ботами</a></p>
+        </div>
     </div>
 
     <div class="bluepost">

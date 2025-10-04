@@ -12,6 +12,7 @@
 <td>
                 <div style="text-align: left;">
                     <a href="/news">Новости</a> |
+                    <a href="/progression">Прогрессия</a> |
                     <a href="/download">Скачать</a> |
                     <a href="/forum">Форум</a>
                 </div>

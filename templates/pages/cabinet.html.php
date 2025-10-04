@@ -129,6 +129,10 @@
                 </td>
                 <td style="padding: 8px;">
                     <strong><?= $bonusBalance ?> бонусов</strong>
+                    <span class="ml10">
+                        <img src="/images/icons/money.png" alt="." width="12" height="12" class="i12img">
+                        <a href="/payment/create">Оплатить</a>
+                    </span>
                 </td>
             </tr>
         </table>

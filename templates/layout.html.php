@@ -45,21 +45,21 @@
     <div class="block-border">
 
     <?php if (!empty($userInfo) && isset($userInfo['username'])): ?>
-    <?php include 'partials/header.html.php'; ?>
+        <?php include __DIR__ . '/partials/header.html.php'; ?>
 <?php endif; ?>
 
         <div class="test3 block-border">
-            <?php include 'partials/left_block.html.php'; ?>
+                <?php include __DIR__ . '/partials/left_block.html.php'; ?>
         </div>
         <div class="test2 block-border">
-            <?php include 'partials/right_block.html.php'; ?>
+                <?php include __DIR__ . '/partials/right_block.html.php'; ?>
         </div>
         <?php if (!empty($contentFile)): ?>
-            <?php include $contentFile; ?>
+                <?php include __DIR__ . '/' . $contentFile; ?>
         <?php endif; ?>
     </div>
     <div class="b-mt-footer">
-        <?php include 'partials/footer.html.php'; ?>
+    <?php include __DIR__ . '/partials/footer.html.php'; ?>
     </div>
 </body>
 </html>
