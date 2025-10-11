@@ -9,11 +9,9 @@ class VoteTopController {
             \DatabaseConnection::getAuthConnection()
         );
         
-        // Получаем топ 10 голосующих за текущий месяц
-        $topVoters = $voteTopModel->getTopVoters(10);
-        
-        // Получаем статистику за месяц
-        $monthlyStats = $voteTopModel->getMonthlyStatistics();
+    // Получаем топ и статистику за текущий месяц ТОЛЬКО из файла MMOTOP
+    $topVoters = $voteTopModel->getTopVotersFromFile(10);
+    $monthlyStats = $voteTopModel->getMonthlyStatisticsFromFile();
         
         // Для отладки: логируем количество найденных голосующих
         error_log("VoteTopController: Found " . count($topVoters) . " voters this month");

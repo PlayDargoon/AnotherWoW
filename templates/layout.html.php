@@ -37,7 +37,7 @@
                 <div class="clearer"></div>
             </div>
             <div>
-                <a class="btn hide-notify-btn" data-id="<?= (int)$notify['id'] ?>" href="#"><img src="/images/icons/tick.png" alt="x" width="12" height="12" class="link-icon">Спасибо. Скрыть</a>
+                <a class="btn hide-notify-btn" data-id="<?= (int)$notify['id'] ?>" href="#"><img src="/images/icons/tick.png" alt="" width="12" height="12" class="link-icon">Спасибо. Скрыть</a>
             </div>
         </div>
     <?php endforeach; ?>

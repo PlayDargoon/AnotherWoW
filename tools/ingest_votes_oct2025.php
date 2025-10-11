@@ -1,4 +1,12 @@
-s:1260:"283316526	01.10.2025 00:10:30	46.42.148.108	cool	1
+<?php
+// tools/ingest_votes_oct2025.php
+// Загрузка тестовых голосов за октябрь 2025 в локальную БД через VoteService
+
+require_once __DIR__ . '/../bootstrap.php';
+require_once __DIR__ . '/../src/services/VoteService.php';
+
+$content = <<<TXT
+283316526	01.10.2025 00:10:30	46.42.148.108	cool	1
 283319763	01.10.2025 02:46:19	188.113.189.20	Admin	1
 283353633	02.10.2025 00:08:26	46.42.178.153	cool	1
 283355798	02.10.2025 01:35:57	188.113.189.20	Admin	1
@@ -22,4 +30,24 @@ s:1260:"283316526	01.10.2025 00:10:30	46.42.148.108	cool	1
 283637653	09.10.2025 15:54:19	92.50.219.20	sion	1
 283637708	09.10.2025 15:56:11	92.50.219.20	sion	4
 283715924	11.10.2025 12:16:38	145.255.22.191	zed888	1
-";
+TXT;
+
+$service = new VoteService();
+$result = $service->processVotesFromContent($content);
+
+echo "Processed: ".$result['processed']."\n";
+if (!empty($result['skipped'])) echo "Skipped as duplicates: ".$result['skipped']."\n";
+if (!empty($result['errors'])) {
+    echo "Errors:\n";
+    foreach ($result['errors'] as $e) echo "- $e\n";
+}
+
+// Выведем топ для наглядности
+require_once __DIR__ . '/../src/models/VoteTop.php';
+$vt = new VoteTop(DatabaseConnection::getSiteConnection(), DatabaseConnection::getAuthConnection());
+$top = $vt->getTopVoters(20);
+echo "\nTop voters (this month):\n";
+foreach ($top as $i => $row) {
+    $n = $i+1;
+    echo "$n. {$row['username']} (#{$row['account_id']}): votes={$row['vote_count']}, coins={$row['total_coins']}, last={$row['last_vote']}\n";
+}

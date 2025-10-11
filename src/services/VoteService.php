@@ -69,6 +69,8 @@ class VoteService {
     $this->userModel = new User($this->authDb);
     $this->coinsModel = new AccountCoins($this->siteDb);
     $this->voteLogModel = new VoteLog($this->siteDb);
+    // Гарантируем актуальную схему для vote_log (external_id и индексы)
+    try { $this->voteLogModel->migrate(); } catch (\Throwable $e) { /* ignore */ }
     // VoteReward работает с базой site для таблицы vote_rewards
     $this->rewardModel = new VoteReward($this->siteDb);
     $this->notificationModel = new Notification();
@@ -227,15 +229,17 @@ class VoteService {
                 $stmt = $this->siteDb->prepare("SELECT COUNT(*) FROM vote_log WHERE external_id = ?");
                 $stmt->execute([(string)$externalId]);
                 if ((int)$stmt->fetchColumn() > 0) {
-                    return true;
+                    return true; // точно дубликат
                 }
+                // Если external_id не найден — считаем запись уникальной и НЕ применяем окно времени
+                return false;
             } catch (\Throwable $e) {
-                // Игнорируем и переходим к другим методам проверки
+                // Если не удалось проверить по external_id — упадем в проверку по времени
             }
         }
 
         // 2) По времени: проверяем в vote_log наличие записи для этого пользователя
-        // в пределах ±5 минут от времени голоса
+        // в пределах ±5 минут от времени голоса (применяется только когда нет external_id)
         try {
             $from = (int)$timestamp - 300; // 5 минут назад
             $to = (int)$timestamp + 300;   // 5 минут вперед

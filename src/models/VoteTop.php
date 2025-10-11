@@ -5,11 +5,269 @@ class VoteTop
 {
     private $sitePdo;
     private $authPdo;
+    private $mmotopUrl;
+    private $nameCache = [];
 
     public function __construct(PDO $sitePdo, ?PDO $authPdo = null)
     {
         $this->sitePdo = $sitePdo;
         $this->authPdo = $authPdo ?: \DatabaseConnection::getAuthConnection();
+        // Загружаем URL файла голосов из конфига
+        $cfg = @include __DIR__ . '/../../config/vote.php';
+        if (is_array($cfg) && !empty($cfg['mmotop_url'])) {
+            $this->mmotopUrl = $cfg['mmotop_url'];
+        }
+    }
+
+    /**
+     * Загрузка содержимого файла MMOTOP с кешированием
+     */
+    private function loadMmotopContent()
+    {
+        if (!$this->mmotopUrl) return false;
+        // Используем CacheService если доступен
+        try {
+            if (class_exists('CacheService')) {
+                $cache = \CacheService::getInstance();
+                $key = 'mmotop_votes_content';
+                return $cache->remember($key, function () {
+                    return $this->downloadContent($this->mmotopUrl);
+                }, 120);
+            }
+        } catch (\Throwable $e) { /* ignore cache errors */ }
+        // Fallback: прямая загрузка без кеша
+        return $this->downloadContent($this->mmotopUrl);
+    }
+
+    private function downloadContent($url)
+    {
+        // cURL
+        if (function_exists('curl_init')) {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0');
+            $content = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+            if ($content !== false && $httpCode == 200) return $content;
+        }
+        // file_get_contents
+        $context = stream_context_create([
+            'http' => ['timeout' => 10, 'user_agent' => 'Mozilla/5.0'],
+            'ssl' => ['verify_peer' => false, 'verify_peer_name' => false]
+        ]);
+        return @file_get_contents($url, false, $context);
+    }
+
+    /**
+     * Парсинг строки голосования из файла mmotop
+     */
+    private function parseVoteLineFromFile($line)
+    {
+        $line = trim($line);
+        if ($line === '') return null;
+        // Формат 1: id date time ip login result
+        if (preg_match('/^(\d+)\s+(\d{2}\.\d{2}\.\d{4})\s+(\d{2}:\d{2}:\d{2})\s+(\S+)\s+(\S+)\s+(\d)$/u', $line, $m)) {
+            $date = $m[2] . ' ' . $m[3];
+            $username = $m[5];
+            $rewardCode = $m[6];
+            $externalId = $m[1];
+            $timestamp = $this->parseDate($date);
+            if ($timestamp) return compact('username', 'rewardCode', 'externalId', 'timestamp');
+        }
+        // Формат 2: id date ip login result (одним пробелом/табом)
+        if (preg_match('/^(\d+)\s+(.+?)\s+(\S+)\s+(\S+)\s+(\d)$/u', $line, $m)) {
+            $date = $m[2];
+            $username = $m[4];
+            $rewardCode = $m[5];
+            $externalId = $m[1];
+            $timestamp = $this->parseDate($date);
+            if ($timestamp) return compact('username', 'rewardCode', 'externalId', 'timestamp');
+        }
+        return null;
+    }
+
+    private function parseDate($dateString)
+    {
+        if (preg_match('/^(\d{2})\.(\d{2})\.(\d{4})\s+(\d{2}):(\d{2}):(\d{2})$/', $dateString, $m)) {
+            return mktime((int)$m[4], (int)$m[5], (int)$m[6], (int)$m[2], (int)$m[1], (int)$m[3]);
+        }
+        if (preg_match('/^(\d{2})\.(\d{2})\.(\d{4})$/', $dateString, $m)) {
+            return mktime(0, 0, 0, (int)$m[2], (int)$m[1], (int)$m[3]);
+        }
+        if (preg_match('/^\d{10}$/', $dateString)) {
+            return (int)$dateString;
+        }
+        return null;
+    }
+
+    /**
+     * Возвращает топ голосующих за текущий месяц по данным из файла MMOTOP
+     */
+    public function getTopVotersFromFile($limit = 10)
+    {
+        $content = $this->loadMmotopContent();
+        if ($content === false || $content === null) return [];
+
+        $lines = preg_split('/\r?\n/', $content, -1, PREG_SPLIT_NO_EMPTY);
+        $startTs = strtotime(date('Y-m-01 00:00:00'));
+        $endTs = strtotime(date('Y-m-01 00:00:00', strtotime('+1 month')));
+        $nowTs = time();
+
+        // Карта внешних id для защиты от дублей
+        $seenIds = [];
+        // Агрегация по account_id
+        $agg = [];
+
+        // Маппинг кодов в очки
+        $rewardsCfg = @include __DIR__ . '/../../config/vote_rewards.php';
+        $defaultReward = 1;
+
+        // Модель пользователей для маппинга логина/персонажа → аккаунт
+        require_once __DIR__ . '/User.php';
+        $userModel = new \User($this->authPdo);
+        $resolve = function($name) use ($userModel) {
+            if (array_key_exists($name, $this->nameCache)) return $this->nameCache[$name];
+            $info = $userModel->getAccountIdByUsernameOrCharacter($name);
+            $this->nameCache[$name] = $info ?: null;
+            return $this->nameCache[$name];
+        };
+
+        $maxLines = 20000; // защитный лимит от очень больших файлов
+        $count = 0;
+        foreach ($lines as $line) {
+            if (++$count > $maxLines) break;
+            $v = $this->parseVoteLineFromFile($line);
+            if (!$v) continue;
+            $ts = (int)$v['timestamp'];
+            if ($ts < $startTs || $ts >= $endTs || $ts > $nowTs) continue; // только текущий месяц
+            $extId = (string)($v['externalId'] ?? '');
+            if ($extId !== '' && isset($seenIds[$extId])) continue; // дубликат
+            if ($extId !== '') $seenIds[$extId] = true;
+
+            $username = $v['username'];
+            $rewardCode = (string)($v['rewardCode'] ?? '');
+            $reward = $defaultReward;
+            if ($rewardCode !== '' && is_array($rewardsCfg) && isset($rewardsCfg[$rewardCode])) {
+                $reward = (int)$rewardsCfg[$rewardCode];
+            }
+
+            // Находим аккаунт
+            $accountInfo = $resolve($username);
+            if (!$accountInfo) continue; // пропускаем неизвестных
+            $accountId = (int)$accountInfo['account_id'];
+            $accountLogin = $accountInfo['found_username'] ?? $username;
+
+            if (!isset($agg[$accountId])) {
+                $agg[$accountId] = [
+                    'account_id' => $accountId,
+                    'username' => $accountLogin,
+                    'vote_records' => 0,
+                    'total_coins' => 0,
+                    'last_vote' => null,
+                ];
+            }
+            $agg[$accountId]['vote_records'] += 1;
+            $agg[$accountId]['total_coins'] += $reward;
+            $lastStr = isset($agg[$accountId]['last_vote']) ? (string)$agg[$accountId]['last_vote'] : '';
+            $last = $lastStr !== '' ? strtotime($lastStr) : 0;
+            if ($ts > $last) {
+                $agg[$accountId]['last_vote'] = date('Y-m-d H:i:s', $ts);
+            }
+        }
+
+        if (empty($agg)) return [];
+        // Преобразуем в список и сортируем: сначала по голосованиям, затем по очкам
+        $list = array_values($agg);
+        usort($list, function ($a, $b) {
+            if ($a['vote_records'] === $b['vote_records']) {
+                return $b['total_coins'] <=> $a['total_coins'];
+            }
+            return $b['vote_records'] <=> $a['vote_records'];
+        });
+        // Добавим алиас vote_count
+        foreach ($list as &$row) { $row['vote_count'] = $row['vote_records']; }
+        unset($row);
+        return array_slice($list, 0, $limit);
+    }
+
+    /**
+     * Статистика месяца на основе файла MMOTOP
+     */
+    public function getMonthlyStatisticsFromFile()
+    {
+        $content = $this->loadMmotopContent();
+        if ($content === false || $content === null) {
+            return [
+                'total_voters' => 0,
+                'total_votes' => 0,
+                'total_vote_records' => 0,
+                'first_vote' => null,
+                'last_vote' => null
+            ];
+        }
+        $lines = preg_split('/\r?\n/', $content, -1, PREG_SPLIT_NO_EMPTY);
+        $startTs = strtotime(date('Y-m-01 00:00:00'));
+        $endTs = strtotime(date('Y-m-01 00:00:00', strtotime('+1 month')));
+        $nowTs = time();
+        $rewardsCfg = @include __DIR__ . '/../../config/vote_rewards.php';
+        $defaultReward = 1;
+
+        // Модель пользователей для маппинга
+        require_once __DIR__ . '/User.php';
+        $userModel = new \User($this->authPdo);
+        $resolve = function($name) use ($userModel) {
+            if (array_key_exists($name, $this->nameCache)) return $this->nameCache[$name];
+            $info = $userModel->getAccountIdByUsernameOrCharacter($name);
+            $this->nameCache[$name] = $info ?: null;
+            return $this->nameCache[$name];
+        };
+
+        $seenIds = [];
+        $voters = [];
+        $totalVotes = 0; // сумма очков
+        $totalRecords = 0; // количество голосований
+        $first = null; $last = null;
+
+        $maxLines = 20000; $count = 0;
+        foreach ($lines as $line) {
+            if (++$count > $maxLines) break;
+            $v = $this->parseVoteLineFromFile($line);
+            if (!$v) continue;
+            $ts = (int)$v['timestamp'];
+            if ($ts < $startTs || $ts >= $endTs || $ts > $nowTs) continue;
+            $extId = (string)($v['externalId'] ?? '');
+            if ($extId !== '' && isset($seenIds[$extId])) continue;
+            if ($extId !== '') $seenIds[$extId] = true;
+
+            $username = $v['username'];
+            $rewardCode = (string)($v['rewardCode'] ?? '');
+            $reward = $defaultReward;
+            if ($rewardCode !== '' && is_array($rewardsCfg) && isset($rewardsCfg[$rewardCode])) {
+                $reward = (int)$rewardsCfg[$rewardCode];
+            }
+
+            $accountInfo = $resolve($username);
+            if (!$accountInfo) continue;
+            $accountId = (int)$accountInfo['account_id'];
+            $voters[$accountId] = true;
+            $totalVotes += $reward;
+            $totalRecords++;
+            if ($first === null || $ts < $first) $first = $ts;
+            if ($last === null || $ts > $last) $last = $ts;
+        }
+
+        return [
+            'total_voters' => count($voters),
+            'total_votes' => $totalVotes,
+            'total_vote_records' => $totalRecords,
+            'first_vote' => $first ? date('Y-m-d H:i:s', $first) : null,
+            'last_vote' => $last ? date('Y-m-d H:i:s', $last) : null,
+        ];
     }
 
     /**
