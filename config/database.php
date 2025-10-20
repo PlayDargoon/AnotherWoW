@@ -3,7 +3,7 @@
 
 return [
     'driver' => 'mysql',
-    'host' => '91.199.149.28',
+    'host' => '185.135.81.201',
     'port' => [
         'acore_auth' => 8085,
         'acore_world' => 3306,
@@ -11,7 +11,7 @@ return [
         'acore_site' => 3306,
         
     ],
-    'username' => 'Azeroth',
+    'username' => 'azeroth_server',
     'password' => 'Ja1YDYNCMdQifZB',
     'databases' => [
         'acore_auth',

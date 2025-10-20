@@ -1,0 +1,24 @@
+[init]
+2025-10-20 04:40:24 [SHOP] POST /shop/buy item=47241 price=10 guid=6501 user_id=401
+2025-10-20 04:40:25 [SHOP] Exception: Команда не разрешена: send_items
+2025-10-20 04:43:46 [SHOP] POST /shop/buy item=47241 price=10 guid=6501 user_id=401
+2025-10-20 04:43:47 [SHOP] Sending SOAP send_items to Сошедший items=47241:1
+2025-10-20 04:43:48 [SHOP] Exception: SOAP Fault: Command can not be empty
+2025-10-20 04:47:54 [SHOP] POST /shop/buy item=47241 price=10 guid=6501 user_id=401
+2025-10-20 04:47:55 [SHOP] SOAP CMD: send items Сошедший "Магазин: Эмблема триумфа" "Спасибо за покупку! Эмблема триумфа (47241) x1." 47241:1
+2025-10-20 04:47:55 [SHOP] Exception: SOAP Fault: Command can not be empty
+2025-10-20 04:50:07 [SHOP] POST /shop/buy item=47241 price=10 guid=6501 user_id=401
+2025-10-20 04:50:08 [SHOP] SOAP CMD: .send items Сошедший "Магазин: Эмблема триумфа" "Спасибо за покупку! Эмблема триумфа (47241) x1." 47241:1
+2025-10-20 04:50:09 [SHOP] Exception: SOAP Fault: Command can not be empty
+2025-10-20 04:57:40 [SHOP] POST /shop/buy item=47241 price=10 guid=6501 user_id=401
+2025-10-20 04:57:41 [SHOP] SOAP CMD: .send items Сошедший "Магазин: Эмблема триумфа" "Спасибо за покупку!" 47241:1
+2025-10-20 04:57:42 [SHOP] Exception: SOAP Fault: Command can not be empty
+2025-10-20 05:09:19 [SHOP] POST /shop/buy item=47241 price=10 guid=6501 user_id=401
+2025-10-20 05:09:20 [SHOP] SOAP CMD: .send items Сошедший "Магазин: Эмблема триумфа" "Спасибо за покупку!" 47241:1
+2025-10-20 05:09:21 [SHOP] Coins deducted and mail sent to Сошедший
+2025-10-20 06:31:00 [SHOP] POST /shop/buy item=rename price=50 guid=6504 user_id=401
+2025-10-20 06:31:02 [SHOP] SOAP rename service for Архитектор
+2025-10-20 06:31:03 [SHOP] Coins deducted and rename service sent to Архитектор
+2025-10-20 06:47:19 [SHOP] POST /shop/buy item=rename price=50 guid=6504 user_id=401
+2025-10-20 06:51:38 [SHOP] POST /shop/buy item=rename price=50 guid=6504 user_id=401
+2025-10-20 06:53:41 [SHOP] POST /shop/buy item=rename price=50 guid=6504 user_id=401

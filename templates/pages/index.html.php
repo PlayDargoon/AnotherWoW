@@ -30,7 +30,7 @@
                     После установки/изменении данных подключения, зарегистрируйтесь на нашем сайте. </span>
 </br>
                     <img src="/images/icons/question_blue.png" width="12" height="12" alt="VIP" class="ml5"> <span class="va-m">Для более гибкого управления своими ботами и комфортной игры скачайте Аддон 
-                         <a href="https://cloud.mail.ru/public/RZ3Z/GA636MRSK" class="">MultiBot</a>  </span>
+                         <a href="https://cloud.mail.ru/public/Hfpb/xfjtinvxu" class="">MultiBot</a>  </span>
         <div style="text-align: center;">
     <a class="iLegendary" href="https://cloud.mail.ru/public/ej91/Bzmxrc6Bm" style="display: inline-block; margin-right: 10px;">
         <h1 style="text-align: center;">Скачать клиент</h1>

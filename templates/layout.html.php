@@ -61,5 +61,10 @@
     <div class="b-mt-footer">
     <?php include __DIR__ . '/partials/footer.html.php'; ?>
     </div>
+    <?php if (!empty($extraScripts) && is_array($extraScripts)): ?>
+        <?php foreach ($extraScripts as $scriptSrc): ?>
+            <script src="<?= htmlspecialchars($scriptSrc, ENT_QUOTES, 'UTF-8') ?>"></script>
+        <?php endforeach; ?>
+    <?php endif; ?>
 </body>
 </html>

@@ -64,6 +64,8 @@ require_once __DIR__ . '/src/controllers/PaymentController.php';
 require_once __DIR__ . '/src/controllers/YooKassaWebhookController.php';
 require_once __DIR__ . '/src/controllers/MigrationController.php';
 require_once __DIR__ . '/src/controllers/ProgressionController.php';
+require_once __DIR__ . '/src/controllers/ShopController.php';
+require_once __DIR__ . '/src/controllers/ShopHistoryController.php';
 
 // Готовим уведомления и ник для layout (доступно во всех шаблонах)
 if (isset($_SESSION['user_id'])) {
@@ -132,6 +134,24 @@ if ($maintenanceMode && $uri !== '/register') {
 // Обработчики маршрутов
 switch ($uri) {
 
+    case '/shop':
+        if (!isset($_SESSION['user_id'])) {
+            // Доступ в магазин только для авторизованных пользователей
+            safeRedirect('/login');
+            break;
+        }
+        renderTemplate('layout.html.php', [
+            'contentFile' => 'pages/shop.html.php',
+            'pageTitle' => 'Магазин',
+            'serverInfo' => $serverInfo,
+            'extraScripts' => ['/js/shop.js', '/js/shop-buy.js']
+        ]);
+        break;
+    case '/shop/buy':
+        $controller = new ShopController($userModel, $characterModel);
+        $controller->buy();
+        break;
+
     case '/forum-test':
         renderTemplate('layout.html.php', [
             'contentFile' => 'pages/forum_test.html.php',
@@ -151,6 +171,26 @@ switch ($uri) {
     case '/vote/top':
         $controller = new VoteTopController();
         $controller->index();
+        break;
+
+    case '/cabinet/characters.json':
+        header('Content-Type: application/json; charset=utf-8');
+        if (!isset($_SESSION['user_id'])) {
+            http_response_code(401);
+            echo json_encode(['characters' => []], JSON_UNESCAPED_UNICODE);
+            break;
+        }
+        $userInfo = $userModel->getUserInfoByUsername($_SESSION['username'] ?? '');
+        $chars = $characterModel->getCharactersByUserId($userInfo['id'] ?? 0);
+        $out = [];
+        foreach ($chars as $c) {
+            $out[] = [
+                'guid' => (int)$c['guid'],
+                'name' => $c['name'],
+                'level' => (int)$c['level']
+            ];
+        }
+        echo json_encode(['characters' => $out], JSON_UNESCAPED_UNICODE);
         break;
     
     case '/news':
@@ -327,6 +367,11 @@ switch ($uri) {
             // Просто показать страницу для ввода нового пароля
             $controller->showSetPasswordForm($token);
         }
+        break;
+
+    case '/shop/history':
+        $controller = new ShopHistoryController();
+        $controller->index();
         break;
 
     case '/cabinet': // Кабинет пользователя

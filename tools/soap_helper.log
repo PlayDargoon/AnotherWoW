@@ -1,0 +1,33 @@
+2025-10-20 03:35:32 CMD: server info | RESULT: AzerothCore rev. 798589fb5df1 2025-10-14 00:08:36 +0800 (Playerbot branch) (Unix, RelWithDebInfo, Static)
+Connected players: 3. Characters in world: 705.
+Connection peak: 3.
+Server uptime: 20 minute(s) 56 second(s)
+Update time diff: 6ms. Last 500 diffs summary:
+|- Mean: 23ms
+|- Median: 7ms
+|- Percentiles (95, 99, max): 67ms, 98ms, 271ms
+
+2025-10-20 03:36:57 CMD: send items Сошедний "Тестовое письмо" "роверка SOAP и выдачи предмета" 49362:1 | RESULT: [SOAP ERROR] Syntax: .send items #playername "#subject" "#text" itemid1[:count1] itemid2[:count2] ... itemidN[:countN]
+
+Send a mail to a player. Subject and mail text must be in "". If for itemid not provided related count values then expected 1, if count > max items in stack then items will be send in required amount stacks. All stacks amount in mail limited to 12.
+
+2025-10-20 03:37:13 CMD: .send items Сошедний "Тестовое письмо" "роверка SOAP и выдачи предмета" 49362:1 | RESULT: [SOAP ERROR] Syntax: .send items #playername "#subject" "#text" itemid1[:count1] itemid2[:count2] ... itemidN[:countN]
+
+Send a mail to a player. Subject and mail text must be in "". If for itemid not provided related count values then expected 1, if count > max items in stack then items will be send in required amount stacks. All stacks amount in mail limited to 12.
+
+2025-10-20 03:37:22 CMD: .send items Сошедний "Test" "Test" 49362:1 | RESULT: [SOAP ERROR] Syntax: .send items #playername "#subject" "#text" itemid1[:count1] itemid2[:count2] ... itemidN[:countN]
+
+Send a mail to a player. Subject and mail text must be in "". If for itemid not provided related count values then expected 1, if count > max items in stack then items will be send in required amount stacks. All stacks amount in mail limited to 12.
+
+2025-10-20 03:38:41 CMD: send mail Сошедний "Тестовое письмо" "роверка SOAP отправки письма" | RESULT: [SOAP ERROR] Character 'Сошедний' does not exist.
+
+2025-10-20 03:38:59 CMD: send mail Сошедший "Тестовое письмо" "роверка SOAP отправки письма" | RESULT: Mail sent to Сошедший
+
+2025-10-20 03:40:18 CMD: .send items Сошедший "Тестовое письмо" "роверка SOAP выдачи предметов" 52252:1 | RESULT: Mail sent to Сошедший
+
+2025-10-20 03:42:45 CMD: .send items Сошедший "оздравляем!" "ы получили награду за достижение! Спасибо за игру." 52252:1 | RESULT: Mail sent to Сошедший
+
+2025-10-20 03:46:32 CMD: .send items Сошедший "мблема!" "ам начислена эмблема за достижение!" 43949:10 | RESULT: Mail sent to Сошедший
+
+2025-10-20 04:54:03 CMD: .send items Сошедший "агазин: мблема триумфа" "Спасибо за покупку!" 47241:1 | RESULT: Mail sent to Сошедший
+

@@ -131,7 +131,7 @@
                     <strong><?= $bonusBalance ?> бонусов</strong>
                     <span class="ml10">
                         <img src="/images/icons/money.png" alt="." width="12" height="12" class="i12img">
-                        <a href="/payment/create">Оплатить</a>
+                        <a href="/payment/create">Пополнить</a>
                     </span>
                 </td>
             </tr>
@@ -201,6 +201,7 @@
         <ol>
             <li><img src="/images/icons/feather.png" width="12" height="12" alt="*"> <a href="/vote"  width="12" height="12" alt="*">Голосовать за проект</a></li>
             <li><img class="i12img" src="/images/icons/journal_12.png" alt="." width="12px" height="12px"> <a href="/cabinet/coins-history">История начислений</a></li>
+            <li><img src="/images/icons/shop.png" width="12" height="12" alt="*"> <a href="/shop">Магазин</a></li>
             <li><img src="/images/icons/vip_icon.png" width="12" height="12" alt="*"> <a href="/vote/top">Топ голосующих</a></li>
         </ol>
     </div>

@@ -23,7 +23,21 @@ class IndexController
         }
 
         // Генерируем данные для шаблона
-        $serverStatus = $this->checkServerStatus('91.199.149.28', 3724);
+        // Берём адрес реальма из БД если есть
+        $realmInfo = $this->uptimeModel->getRealmInfo();
+        $host = '91.199.149.28';
+        $port = 3724;
+        if (is_array($realmInfo) && !empty($realmInfo['address'])) {
+            if (strpos($realmInfo['address'], ':') !== false) {
+                list($h, $p) = explode(':', $realmInfo['address'], 2);
+                $host = $h ?: $host;
+                $port = is_numeric($p) ? (int)$p : $port;
+            } else {
+                $host = $realmInfo['address'];
+            }
+        }
+
+        $serverStatus = $this->checkServerStatus($host, $port);
         if ($serverStatus === 'Онлайн') {
             $statusClass = 'info _magic _pos1 _side-light';
             $iconPath = '/images/icons/portal_green.png';
@@ -61,17 +75,17 @@ class IndexController
     // Метод для проверки статуса сервера
     private function checkServerStatus($host, $port)
     {
-        // Пытаемся установить соединение с сервером
-        $connection = @fsockopen($host, $port, $errno, $errstr, 0.5); // 0.5 секунд таймаута
-
+        // Делегируем проверку глобальной функции с дефолтным более длительным таймаутом
+        if (function_exists('checkServerStatus')) {
+            return checkServerStatus($host, $port, 2.0);
+        }
+        // Fallback — очень короткий таймаут
+        $connection = @fsockopen($host, $port, $errno, $errstr, 0.5);
         if ($connection) {
-            // Если соединение установлено, закрываем его и возвращаем "Онлайн"
             fclose($connection);
             return "Онлайн";
-        } else {
-            // Если соединение не установлено, возвращаем "Оффлайн"
-            return "Оффлайн";
         }
+        return "Оффлайн";
     }
 
     // Метод для вычисления аптайма сервера

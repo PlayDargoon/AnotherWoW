@@ -12,8 +12,25 @@ function getServerInfo($characterModel, $uptimeModel) {
         if (is_array($data)) return $data;
     }
 
-    // Проверяем статус сервера
-    $serverStatus = checkServerStatus('91.199.149.28', 3724);
+    // Получаем адрес реальма из БД если есть
+    $realmInfo = $uptimeModel->getRealmInfo();
+    $defaultHost = '91.199.149.28';
+    $defaultPort = 3724;
+    $host = $defaultHost;
+    $port = $defaultPort;
+    if (is_array($realmInfo) && !empty($realmInfo['address'])) {
+        // Поддерживаем формат 'host:port' или просто 'host'
+        if (strpos($realmInfo['address'], ':') !== false) {
+            list($h, $p) = explode(':', $realmInfo['address'], 2);
+            $host = $h ?: $defaultHost;
+            $port = is_numeric($p) ? (int)$p : $defaultPort;
+        } else {
+            $host = $realmInfo['address'];
+        }
+    }
+
+    // Проверяем статус сервера (увеличенный таймаут по умолчанию)
+    $serverStatus = checkServerStatus($host, $port, 2.0);
     if ($serverStatus === 'Онлайн') {
         $statusClass = 'info _magic _pos1 _side-light';
         $iconPath = '/images/icons/portal_green.png';
@@ -25,7 +42,7 @@ function getServerInfo($characterModel, $uptimeModel) {
     $uptime = calculateUptime($startTime);
     $playerCounts = $characterModel->getPlayerCounts();
     $playerCountsByFaction = $characterModel->getPlayerCountsByFaction();
-    $realmInfo = $uptimeModel->getRealmInfo();
+    // уже получали $realmInfo выше
     $result = [
         'serverStatus' => $serverStatus,
         'statusClass' => $statusClass,
@@ -39,14 +56,28 @@ function getServerInfo($characterModel, $uptimeModel) {
     return $result;
 }
 
-function checkServerStatus($host, $port) {
-    $connection = @fsockopen($host, $port, $errno, $errstr, 0.5);
+function checkServerStatus($host, $port, $timeout = 2.0) {
+    $start = microtime(true);
+    $connection = @fsockopen($host, $port, $errno, $errstr, $timeout);
+    $duration = microtime(true) - $start;
+
+    $status = $connection ? "Онлайн" : "Оффлайн";
+
+    // Простое логирование для диагностики
+    try {
+        $logFile = sys_get_temp_dir() . '/awow_server_status.log';
+        $line = sprintf("%s | host=%s port=%s status=%s errno=%s errstr=%s dur=%.3f\n",
+            date('c'), $host, $port, $status, $errno ?? 0, str_replace("\n", ' ', $errstr ?? ''), $duration);
+        @file_put_contents($logFile, $line, FILE_APPEND | LOCK_EX);
+    } catch (Exception $e) {
+        // ничего — логирование не критично
+    }
+
     if ($connection) {
         fclose($connection);
-        return "Онлайн";
-    } else {
-        return "Оффлайн";
     }
+
+    return $status;
 }
 
 function calculateUptime($startTime) {
