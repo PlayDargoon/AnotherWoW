@@ -7,35 +7,42 @@ if (file_exists($cacheFile) && filemtime($cacheFile) > time() - 60) {
 ob_start();
 ?>
 
-<div class="body">
-    <h2 class="pb10 _font-art font14">Новости</h2>
+<div class="cabinet-page">
+    <h1>Новости</h1>
+
     <?php if (!empty($newsList)): ?>
         <?php foreach ($newsList as $news): ?>
-            <div class="block-border" style="margin-bottom:18px;">
-                <div style="display:flex; align-items:center;">
-                    <span class="ctx_userlink">
-                        <img src="/images/icons/user_2_1_off.png" class="u12img" width="12" height="12" style="vertical-align:middle;">&nbsp;
-                        <span><?= htmlspecialchars($news['author'] ?? 'Администрация') ?></span>
-                        <span class="bluepost">[a]</span>
-                    </span>
-                    <span style="margin-left:10px; color:#888; font-size:12px;">
-                        <?= htmlspecialchars($news['created_at']) ?>
-                    </span>
-                </div>
-                <div class="section-sep"></div>
-                <div class="yellow" style="font-weight:bold; font-size:18px; margin-bottom:7px;">
+            <div class="cabinet-card" style="margin-bottom:12px;">
+                <div class="cabinet-card-title">
+                    <img src="/images/icons/journal_12.png" width="20" height="20" alt="*">
                     <?= htmlspecialchars($news['title']) ?>
                 </div>
-                <div class="small" style="margin-top:8px; word-wrap:break-word;">
-                    <?= nl2br($news['content']) ?> <!-- Оставляем HTML, т.к. используется визуальный редактор -->
+                <div class="cabinet-info-list">
+                    <div class="info-row">
+                        <span class="info-label">Автор</span>
+                        <span class="info-value"><?= htmlspecialchars($news['author'] ?? 'Администрация') ?></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Дата</span>
+                        <span class="info-value"><?= htmlspecialchars($news['created_at']) ?></span>
+                    </div>
                 </div>
-                <div class="section-sep"></div>
+                <div class="document-content" style="margin-top:8px;">
+                    <?= nl2br($news['content']) ?>
+                </div>
             </div>
         <?php endforeach; ?>
     <?php else: ?>
-        <div class="small">Новостей пока нет.</div>
+        <div class="cabinet-card">
+            <div class="cabinet-card-title">
+                <img src="/images/icons/attention_gold.png" width="20" height="20" alt="!">
+                Пока новостей нет
+            </div>
+            <div class="info-main-text" style="margin-top:6px;">Загляните позже — скоро что-нибудь объявим.</div>
+        </div>
     <?php endif; ?>
 </div>
+
 <?php
 $content = ob_get_clean();
 file_put_contents($cacheFile, $content);

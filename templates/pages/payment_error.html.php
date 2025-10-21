@@ -1,34 +1,39 @@
 <!-- templates/pages/payment_error.html.php -->
-<div class="body">
-    <h2 class="section-title">Ошибка при оплате</h2>
+<div class="cabinet-page">
+    <h1>Ошибка при оплате</h1>
 
-    <div class="bluepost">
-        <p>
-            Произошла ошибка при обработке платежа. Пожалуйста, свяжитесь с нами с помощью кнопки
-            <strong>«Сообщить об ошибке»</strong>, расположенной ниже.
-        </p>
-        <p>
-            Также вы всегда можете обратиться в службу поддержки игроков, воспользовавшись кнопкой
-            <strong>«Поддержка»</strong> в левом нижнем углу экрана.
-        </p>
+    <div class="cabinet-card" style="margin-bottom:12px;">
+        <div class="cabinet-card-title">
+            <img src="/images/icons/money.png" alt="*" width="20" height="20">
+            Платёж не завершён
+        </div>
+        <div class="info-main-text" style="margin-top:6px;">
+            Произошла ошибка при обработке платежа. Вы можете написать нам — подготовим разбор и поможем.
+        </div>
 
         <?php if (!empty($paymentId) || !empty($errorCode)): ?>
-            <div class="pt">
-                <span class="info">Детали для диагностики</span>
-                <div>
-                    <?php if (!empty($paymentId)): ?>
-                        <div><strong class="gold">ID платежа:</strong> <?= htmlspecialchars($paymentId) ?></div>
-                    <?php endif; ?>
-                    <?php if (!empty($errorCode)): ?>
-                        <div><strong class="gold">Код ошибки:</strong> <?= htmlspecialchars($errorCode) ?></div>
-                    <?php endif; ?>
+            <div class="cabinet-info-list" style="margin-top:8px;">
+                <div class="info-row">
+                    <span class="info-label">Диагностика</span>
+                    <span class="info-value">Укажите эти данные при обращении:</span>
                 </div>
+                <?php if (!empty($paymentId)): ?>
+                <div class="info-row">
+                    <span class="info-label">ID платежа</span>
+                    <span class="info-value"><?= htmlspecialchars($paymentId) ?></span>
+                </div>
+                <?php endif; ?>
+                <?php if (!empty($errorCode)): ?>
+                <div class="info-row">
+                    <span class="info-label">Код ошибки</span>
+                    <span class="info-value"><?= htmlspecialchars($errorCode) ?></span>
+                </div>
+                <?php endif; ?>
             </div>
         <?php endif; ?>
 
-    <div class="pt">
+        <div class="login-links" style="margin-top:10px; gap:10px; flex-wrap:wrap;">
             <?php
-                // Подготовим ссылку для быстрого обращения в поддержку с префиллом темы и сообщения
                 $prefillSubject = rawurlencode('Ошибка оплаты');
                 $prefillMessage = 'Опишите, пожалуйста, что произошло. Если видите ID платежа/код ошибки — приложите их.\n\n' .
                     (!empty($paymentId) ? ('ID платежа: ' . $paymentId . "\n") : '') .
@@ -36,37 +41,21 @@
                 $prefillMessage = rawurlencode($prefillMessage);
                 $supportUrl = "/support?subject={$prefillSubject}&message={$prefillMessage}";
             ?>
-            <a class="headerButton _c-pointer" href="<?= $supportUrl ?>">
-                Сообщить об ошибке
-            </a>
-            <div class="pt">
-                <a class="headerButton _c-pointer" href="/support">
-                    Открыть поддержку
-                </a>
-            </div>
+            <a class="link-item" href="<?= $supportUrl ?>">Сообщить об ошибке</a>
+            <a class="link-item" href="/support">Открыть поддержку</a>
+            <a class="link-item" href="/"><img class="i12img" src="/images/icons/home.png" alt="." width="12" height="12"> На главную</a>
         </div>
     </div>
 
-    <div class="bluepost">
-        <h3 style="color:#ffff33;">Что можно попробовать</h3>
-        <ul>
-            <li>Проверьте, что у вас стабильное интернет-соединение.</li>
-            <li>Попробуйте выполнить оплату повторно через 1–2 минуты.</li>
-            <li>Если оплата уже списалась, но статус на сайте не обновился — просто подождите: зачёт может занять до 5 минут.</li>
+    <div class="cabinet-card">
+        <div class="cabinet-card-title">
+            <img src="/images/icons/attention_gold.png" alt="!" width="20" height="20">
+            Что можно попробовать
+        </div>
+        <ul class="document-list" style="margin-top:6px;">
+            <li>Проверьте стабильность интернет-соединения.</li>
+            <li>Повторите оплату через 1–2 минуты.</li>
+            <li>Если средства списались, но статус не обновился — подождите до 5 минут: зачисление может задержаться.</li>
         </ul>
     </div>
-
-    
 </div>
-<div class="footer nav block-border-top">
-        <ol>
-            <li>
-                <img src="/images/icons/home.png" alt="." width="12" height="12" class="i12img">
-                <a href="/">На главную</a>
-            </li>
-            <li>
-                <img src="/images/icons/question_blue.png" alt="." width="12" height="12" class="i12img">
-                <a href="/support">Поддержка</a>
-            </li>
-        </ol>
-    </div>

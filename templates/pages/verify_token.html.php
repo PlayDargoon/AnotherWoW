@@ -1,67 +1,44 @@
 <!-- templates/pages/verify_token.html.php -->
 
-<div class="touch-influenced block-border">
+<div class="cabinet-page">
+    <h1>Проверка токена</h1>
 
-<div class="exp-head-out">
-    <div>
-        <div class="exp-head-in" ></div>
-    </div>
-</div>
+    <?php if (!empty($error)): ?>
+        <div class="login-error" style="margin-bottom:10px;">
+            <?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?>
+        </div>
+    <?php endif; ?>
 
-<?php if (!empty($error)): ?>
-    <div class="small">
-        <ul class="feedbackPanel">
-            <li class="feedbackPanelERROR">
-                <span class="feedbackPanelERROR"><?= htmlspecialchars($error) ?></span>
-            </li>
-        </ul>
-    </div>
-<?php endif; ?>
+    <?php if (!empty($message)): ?>
+        <div class="login-success" style="margin-bottom:10px;">
+            <?= htmlspecialchars($message, ENT_QUOTES, 'UTF-8') ?>
+        </div>
+    <?php endif; ?>
 
-<?php if (!empty($message)): ?>
-    <div class="small">
-        <ul class="feedbackPanel">
-            <li class="feedbackPanelINFO">
-                <span class="feedbackPanelINFO"><?= htmlspecialchars($message) ?></span>
-            </li>
-        </ul>
-    </div>
-<?php endif; ?>
+    <div class="cabinet-card">
+        <div class="cabinet-card-title">
+            <img src="/images/icons/question_blue.png" width="24" height="24" alt="*">
+            Введите токен восстановления
+        </div>
 
-<div class="body">
-    <h1>Введите токен восстановления</h1>
-</div>
+        <div class="restore-info" style="margin-bottom:10px">
+            Пожалуйста, введите 10-значный токен, который был отправлен на ваш email.
+        </div>
 
-<div class="body">
-    <div class="pb">
-        Введите токен, который был отправлен на ваш email.
-    </div>
-    <div class="small minor p2">
-        Токен должен быть длиной 10 символов.
-    </div>
-    <div class="pt">
         <form action="/verify-token" method="post">
-            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generate_csrf_token()) ?>">
-            <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
-            <label for="token"><span class="info">Токен</span>:</label><br>
-            <input id="token" type="text" name="token" required>
-            <br>
-            <input type="submit" class="_c-pointer" name="p::submit" value="Проверить токен">
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generate_csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
+
+            <label for="token" class="form-label" style="display:block; margin-bottom:6px; color:#c9d1ff;">Токен</label>
+            <input id="token" class="form-input" type="text" name="token" inputmode="latin" pattern="[A-Fa-f0-9]{10}" maxlength="10" placeholder="Например: a1b2c3d4e5" required>
+            <div class="form-hint">Токен содержит 10 шестнадцатеричных символов (0-9, A-F).</div>
+
+            <button type="submit" class="restore-button" style="margin-top:10px;">Проверить токен</button>
         </form>
     </div>
-</div>
 
-<div class="footer nav block-border-top">
-    <ol>
-        <li>
-            <img class="i12img" src="/images/icons/home.png" alt="." width="12px" height="12px">
-            <a href="/">На главную</a>
-        </li>
-        <li>
-            <img class="i12img" src="/images/icons/question_blue.png" alt="." width="12px" height="12px">
-            <a href="#">Первая помощь</a>
-        </li>
-    </ol>
-</div>
-
+    <div class="login-links" style="margin-top:16px">
+        <a href="/" class="link-item"><img class="i12img" src="/images/icons/home.png" alt="." width="12" height="12"> На главную</a>
+        <a href="/restore-password" class="link-item"><img class="i12img" src="/images/icons/arr_left.png" alt="." width="12" height="12"> Назад к восстановлению</a>
+        <a href="/help" class="link-item"><img class="i12img" src="/images/icons/question_blue.png" alt="." width="12" height="12"> Помощь</a>
+    </div>
 </div>

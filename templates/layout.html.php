@@ -14,6 +14,7 @@
     <link rel="icon" sizes="192x192" href="/images/game-icon.jpg">
     <link rel="icon" href="/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/premium-style.css?v=<?= time() ?>">
     <script src="/js/notify.js"></script>
 </head>
 
@@ -22,41 +23,72 @@
 <body>
 <?php if (isset($GLOBALS['viewGlobals'])) extract($GLOBALS['viewGlobals']); ?>
 
-<?php if (!empty($notificationsData['notifications'])): ?>
-    <?php foreach ($notificationsData['notifications'] as $notify): ?>
-        <div class="event block-border-bottom" id="notify-<?= (int)$notify['id'] ?>">
-            <div class="notify-inner">
-                <img src="/images/refreshed-32x32.png" alt="" width="32" height="32" class="img-npc">
-                <?php if ($notify['type'] === 'admin_coins'): ?>
-                    <b><?= htmlspecialchars($notificationsData['username']) ?></b>, <?= htmlspecialchars($notify['message']) ?>
-                    <div class="mt10">Администрация проекта.</div>
-                <?php else: ?>
-                    <b><?= htmlspecialchars($notificationsData['username']) ?></b>, ты получил <?= isset($notify['coinsText']) ? $notify['coinsText'] : '' ?> за голосование!
-                    <div class="mt10">Спасибо, что поддерживаешь проект.</div>
-                <?php endif; ?>
-                <div class="clearer"></div>
-            </div>
-            <div>
-                <a class="btn hide-notify-btn" data-id="<?= (int)$notify['id'] ?>" href="#"><img src="/images/icons/tick.png" alt="" width="12" height="12" class="link-icon">Спасибо. Скрыть</a>
-            </div>
-        </div>
-    <?php endforeach; ?>
-<?php endif; ?>
-    <div class="block-border">
+    <div>
 
     <?php if (!empty($userInfo) && isset($userInfo['username'])): ?>
         <?php include __DIR__ . '/partials/header.html.php'; ?>
-<?php endif; ?>
+    <?php endif; ?>
 
-        <div class="test3 block-border">
+    <?php if (!empty($notificationsData['notifications'])): ?>
+        <?php foreach ($notificationsData['notifications'] as $notify): ?>
+            <div class="premium-notification" id="notify-<?= (int)$notify['id'] ?>">
+                <div class="premium-notification-icon">
+                    <?php if ($notify['type'] === 'admin_coins'): ?>
+                        <span class="notification-emoji">👑</span>
+                    <?php else: ?>
+                        <span class="notification-emoji">💰</span>
+                    <?php endif; ?>
+                </div>
+                <div class="premium-notification-content">
+                    <div class="premium-notification-title">
+                        <?php if ($notify['type'] === 'admin_coins'): ?>
+                            Сообщение от администрации
+                        <?php else: ?>
+                            Получены бонусные монеты!
+                        <?php endif; ?>
+                    </div>
+                    <div class="premium-notification-message">
+                        <?php if ($notify['type'] === 'admin_coins'): ?>
+                            <strong><?= htmlspecialchars($notificationsData['username']) ?></strong>, <?= htmlspecialchars($notify['message']) ?>
+                        <?php else: ?>
+                            <strong><?= htmlspecialchars($notificationsData['username']) ?></strong>, ты получил <span class="coins-highlight"><?= isset($notify['coinsText']) ? $notify['coinsText'] : '' ?></span> за голосование!
+                        <?php endif; ?>
+                    </div>
+                    <div class="premium-notification-footer">
+                        <?php if ($notify['type'] === 'admin_coins'): ?>
+                            ⚔️ Администрация проекта
+                        <?php else: ?>
+                            ✨ Спасибо, что поддерживаешь проект!
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <button class="premium-notification-close hide-notify-btn" data-id="<?= (int)$notify['id'] ?>">
+                    <span class="close-icon">✕</span>
+                </button>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+
+        <!-- Основной контейнер с тремя колонками -->
+        <div class="layout-container">
+            <!-- Левая колонка (меню) -->
+            <aside class="layout-sidebar layout-sidebar-left test3">
                 <?php include __DIR__ . '/partials/left_block.html.php'; ?>
-        </div>
-        <div class="test2 block-border">
+            </aside>
+            
+            <!-- Центральная колонка (основной контент) -->
+            <main class="layout-content">
+                <?php if (!empty($contentFile)): ?>
+                    <?php include __DIR__ . '/' . $contentFile; ?>
+                <?php endif; ?>
+            </main>
+            
+            <!-- Правая колонка (статус сервера) -->
+            <aside class="layout-sidebar layout-sidebar-right test2">
                 <?php include __DIR__ . '/partials/right_block.html.php'; ?>
+            </aside>
         </div>
-        <?php if (!empty($contentFile)): ?>
-                <?php include __DIR__ . '/' . $contentFile; ?>
-        <?php endif; ?>
+        <!-- /Основной контейнер -->
     </div>
     <div class="b-mt-footer">
     <?php include __DIR__ . '/partials/footer.html.php'; ?>
@@ -66,5 +98,6 @@
             <script src="<?= htmlspecialchars($scriptSrc, ENT_QUOTES, 'UTF-8') ?>"></script>
         <?php endforeach; ?>
     <?php endif; ?>
+    <script src="/js/slider.js"></script>
 </body>
 </html>

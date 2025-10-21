@@ -1,20 +1,30 @@
-<div class="body">
-    <h1>Политика конфиденциальности</h1>
-    <div class="section-sep"></div>
+<div class="document-page">
     
-    <div class="pt" style="text-align:center">
-        <img src="/images/kollekzioner_310_blue.jpg" width="310" height="103" alt="Политика конфиденциальности">
+    <!-- Заголовок документа -->
+    <div class="document-header">
+        <h1 class="document-title">Политика конфиденциальности</h1>
+        <p class="document-subtitle">Защита персональных данных пользователей</p>
+    </div>
+    
+    <!-- Изображение -->
+    <div class="document-image">
+        <img src="/images/kollekzioner_310_blue.jpg" alt="Политика конфиденциальности">
     </div>
 
-    <div class="bluepost">
-        <img src="/images/icons/menialo.png" alt="*" style="float:left;margin-right:8px;" class="ic32" width="32" height="32">
-        <strong>Администрация игрового сервера Azeroth</strong> серьёзно относится к защите персональных данных пользователей и обязуется соблюдать требования Федерального закона от 27.07.2006 № 152-ФЗ «О персональных данных».
-        <br><br>
-        Настоящая Политика конфиденциальности определяет порядок обработки и защиты персональных данных пользователей сайта <strong class="gold">azeroth.su</strong>.
+    <!-- Вводная информация -->
+    <div class="document-note">
+        <img src="/images/icons/menialo.png" alt="*" width="32" height="32">
+        <div>
+            <strong>Администрация игрового сервера Azeroth</strong> серьёзно относится к защите персональных данных пользователей и обязуется соблюдать требования Федерального закона от 27.07.2006 № 152-ФЗ «О персональных данных».
+            <br><br>
+            Настоящая Политика конфиденциальности определяет порядок обработки и защиты персональных данных пользователей сайта <strong class="gold">azeroth.su</strong>.
+        </div>
     </div>
 
-    <h2 class="section-title">1. Общие положения</h2>
-    <div class="bluepost">
+    <!-- Секция 1 -->
+    <div class="document-section">
+        <h2 class="section-title">1. Общие положения</h2>
+        <div class="document-block">
         <ul>
             <li><strong class="gold">Оператор персональных данных:</strong> самозанятый Попов Иван Александрович, ИНН 650703467083</li>
             <li><strong class="gold">Юридический адрес:</strong> Российская Федерация, Сахалинская область, пгт Смирных, ул. Октябрьская, д. 15</li>
@@ -24,7 +34,7 @@
     </div>
 
     <h2 class="section-title">2. Категории персональных данных</h2>
-    <div class="bluepost">
+    <div class="document-block">
         <strong class="gold">Мы обрабатываем следующие категории персональных данных:</strong>
         <ul>
             <li><strong>При регистрации аккаунта:</strong> имя пользователя (логин), адрес электронной почты, IP-адрес</li>
@@ -36,7 +46,7 @@
     </div>
 
     <h2 class="section-title">3. Цели обработки персональных данных</h2>
-    <div class="bluepost">
+    <div class="document-block">
         <ul>
             <li>Предоставление доступа к игровому серверу и функциям сайта</li>
             <li>Идентификация пользователей и обеспечение безопасности аккаунтов</li>
@@ -51,7 +61,7 @@
     </div>
 
     <h2 class="section-title">4. Правовые основания обработки</h2>
-    <div class="bluepost">
+    <div class="document-block">
         <ul>
             <li><strong class="gold">Согласие субъекта данных</strong> (ст. 9 п. 1 152-ФЗ) — при регистрации на сайте</li>
             <li><strong class="gold">Исполнение договора</strong> (ст. 6 п. 1 б 152-ФЗ) — пользовательское соглашение</li>
@@ -61,7 +71,7 @@
     </div>
 
     <h2 class="section-title">5. Способы получения персональных данных</h2>
-    <div class="bluepost">
+    <div class="document-block">
         <ul>
             <li>Прямое предоставление пользователем при регистрации</li>
             <li>Автоматический сбор при использовании сайта (логи, cookies)</li>
@@ -73,7 +83,7 @@
     <h2 class="section-title">6. Обработка и хранение данных</h2>
     
     <h3 style="color: #ffff33; margin-top: 15px;">Способы обработки:</h3>
-    <div class="bluepost">
+    <div class="document-block">
         <ul>
             <li>Сбор, запись, систематизация, накопление, хранение</li>
             <li>Уточнение, обновление, изменение, извлечение, использование</li>
@@ -83,7 +93,7 @@
     </div>
 
     <h3 style="color: #ffff33; margin-top: 15px;">Место хранения:</h3>
-    <div class="bluepost">
+    <div class="document-block">
         <ul>
             <li>Серверы, расположенные на территории Российской Федерации</li>
             <li>Резервные копии создаются с соблюдением мер безопасности</li>
@@ -92,7 +102,7 @@
     </div>
 
     <h2 class="section-title">7. Сроки обработки персональных данных</h2>
-    <div class="bluepost">
+    <div class="document-block">
         <ul>
             <li><strong class="gold">Данные активных пользователей:</strong> до момента отзыва согласия или удаления аккаунта</li>
             <li><strong class="gold">Данные неактивных аккаунтов:</strong> удаляются через 3 года с момента последней активности</li>
@@ -103,7 +113,7 @@
     </div>
 
     <h2 class="section-title">8. Передача персональных данных третьим лицам</h2>
-    <div class="bluepost">
+    <div class="document-block">
         <strong class="gold">Мы можем передавать персональные данные в следующих случаях:</strong>
         <ul>
             <li><strong>Платёжным провайдерам</strong> — для обработки платежей (в минимально необходимом объёме)</li>
@@ -114,7 +124,7 @@
     </div>
 
     <h2 class="section-title">9. Меры защиты персональных данных</h2>
-    <div class="bluepost">
+    <div class="document-block">
         <ul>
             <li><strong class="gold">Технические меры:</strong> шифрование при передаче (HTTPS), защищённые базы данных, регулярные обновления безопасности</li>
             <li><strong class="gold">Организационные меры:</strong> ограничение доступа к данным, обучение персонала, контроль доступа</li>
@@ -124,7 +134,7 @@
     </div>
 
     <h2 class="section-title">10. Права субъектов персональных данных</h2>
-    <div class="bluepost">
+    <div class="document-block">
         <span class="gold">В соответствии с 152-ФЗ, Вы имеете следующие права:</span>
         <ul>
             <li><strong class="gold">Право на информацию</strong> — получать информацию об обработке ваших данных</li>
@@ -138,7 +148,7 @@
     </div>
 
     <h2 class="section-title">11. Как реализовать свои права</h2>
-    <div class="bluepost">
+    <div class="document-block">
         <ul>
             <li><strong class="gold">Обращение в поддержку:</strong> направьте запрос на <a href="mailto:support@azeroth.su" style="color: #ffff33;">support@azeroth.su</a> или через <a href="/support" style="color: #ffff33;">форму обратной связи</a></li>
             <li><strong class="gold">Срок ответа:</strong> до 30 дней с момента получения обращения</li>
@@ -148,7 +158,7 @@
     </div>
 
     <h2 class="section-title">12. Использование Cookie и аналогичных технологий</h2>
-    <div class="bluepost">
+    <div class="document-block">
         <ul>
             <li><strong class="gold">Что такое Cookie:</strong> небольшие файлы, сохраняемые браузером для улучшения работы сайта</li>
             <li><strong class="gold">Цели использования:</strong> авторизация пользователей, сохранение настроек, аналитика использования сайта</li>
@@ -159,7 +169,7 @@
     </div>
 
     <h2 class="section-title">13. Особенности обработки данных несовершеннолетних</h2>
-    <div class="bluepost">
+    <div class="document-block">
         <ul>
             <li><strong class="gold">Возрастные ограничения:</strong> сервис предназначен для лиц старше 14 лет</li>
             <li><strong class="gold">Ответственность:</strong> лица 14-18 лет используют сервис под ответственность родителей/законных представителей</li>
@@ -169,7 +179,7 @@
     </div>
 
     <h2 class="section-title">14. Изменения в политике конфиденциальности</h2>
-    <div class="bluepost">
+    <div class="document-block">
         <ul>
             <li>Администрация оставляет за собой право изменять настоящую Политику</li>
             <li>Существенные изменения доводятся до пользователей заблаговременно</li>
@@ -188,29 +198,33 @@
         <p style="margin-top:10px;"><strong class="gold">Орган надзора:</strong> Управление Роскомнадзора по Дальневосточному федеральному округу</p>
     </div>
 
-    <div class="bluepost" style="background: #000044; border: 2px solid #ff6600; margin-top: 20px;">
-        <p><strong style="color: #ff6600;">ВАЖНО!</strong> Используя наш сайт, вы соглашаетесь с условиями обработки персональных данных, изложенными в настоящей Политике конфиденциальности.</p>
-        <p style="text-align: center; margin-top: 15px;"><em class="gold">Политика актуальна на 28 сентября 2025 года.</em></p>
+    <!-- Важное уведомление -->
+    <div class="document-note" style="background: linear-gradient(135deg, rgba(255, 102, 0, 0.2) 0%, rgba(204, 51, 0, 0.2) 100%); border-color: rgba(255, 102, 0, 0.6);">
+        <img src="/images/icons/attention_gold.png" alt="!" width="24" height="24">
+        <div>
+            <p><strong style="color: #ff9944;">ВАЖНО!</strong> Используя наш сайт, вы соглашаетесь с условиями обработки персональных данных, изложенными в настоящей Политике конфиденциальности.</p>
+        </div>
     </div>
-</div>
 
-<div class="footer nav block-border-top">
-    <ol>
-        <li>
-            <img src="/images/icons/home.png" alt="." width="12" height="12" class="i12img"> 
-            <a href="/">На главную</a>
-        </li>
-        <li>
-            <img src="/images/icons/question_blue.png" alt="." width="12" height="12" class="i12img"> 
-            <a href="/terms">Пользовательское соглашение</a>
-        </li>
-        <li>
-            <img src="/images/icons/question_blue.png" alt="." width="12" height="12" class="i12img"> 
-            <a href="/rules">Правила игровых миров</a>
-        </li>
-        <li>
-            <img src="/images/icons/question_blue.png" alt="." width="12" height="12" class="i12img"> 
-            <a href="/support">Поддержка</a>
-        </li>
-    </ol>
+    <!-- Дата обновления -->
+    <div class="document-date">
+        Политика актуальна на 28 сентября 2025 года
+    </div>
+
+    <!-- Навигация -->
+    <div class="login-links" style="margin-top: 30px;">
+        <a href="/" class="login-link">
+            <img src="/images/icons/home.png" alt="">
+            На главную
+        </a>
+        <span class="link-separator">•</span>
+        <a href="/terms" class="login-link">
+            Пользовательское соглашение
+        </a>
+        <span class="link-separator">•</span>
+        <a href="/rules" class="login-link">
+            Правила игровых миров
+        </a>
+    </div>
+
 </div>

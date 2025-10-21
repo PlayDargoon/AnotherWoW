@@ -1,70 +1,98 @@
-<!-- templates/pages/set_new_password.html.php -->
+<!-- Контент страницы установки нового пароля -->
 
-<div class="touch-influenced block-border">
-
-<div class="exp-head-out">
-    <div>
-        <div class="exp-head-in" ></div>
-    </div>
+<!-- Заголовок -->
+<div class="login-header">
+    <h1 class="login-title">Новый пароль</h1>
+    <p class="login-subtitle">Установи надёжный пароль для своего аккаунта</p>
 </div>
 
+<!-- Сообщения об ошибках -->
 <?php if (!empty($error)): ?>
-    <div class="small">
-        <ul class="feedbackPanel">
-            <li class="feedbackPanelERROR">
-                <span class="feedbackPanelERROR"><?= htmlspecialchars($error) ?></span>
-            </li>
-        </ul>
+    <div class="login-error">
+        <img src="/images/icons/attention_gold.png" alt="!" class="error-icon">
+        <span><?= htmlspecialchars($error) ?></span>
     </div>
 <?php endif; ?>
 
+<!-- Успешное сообщение -->
 <?php if (!empty($message)): ?>
-    <div class="small">
-        <ul class="feedbackPanel">
-            <li class="feedbackPanelINFO">
-                <span class="feedbackPanelINFO"><?= htmlspecialchars($message) ?></span>
-            </li>
-        </ul>
+    <div class="login-success">
+        <img src="/images/icons/tick.png" alt="✓" class="success-icon">
+        <span><?= htmlspecialchars($message) ?></span>
     </div>
 <?php endif; ?>
 
-<div class="body">
-    <h1>Установка нового пароля</h1>
+<!-- Изображение персонажа -->
+<div class="login-character">
+    <img src="/images/lavka_redkostey_blue_310.jpg" alt="Character">
 </div>
 
-<div class="body">
-    <div class="pb">
-        Введите новый пароль и подтвердите его.
-    </div>
-    <div class="small minor p2">
-        Пароль должен быть не менее 8 символов.
-    </div>
-    <div class="pt">
-        <form action="/set-new-password" method="post">
-            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generate_csrf_token()) ?>">
-            <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
-            <label for="password"><span class="info">Новый пароль</span>:</label><br>
-            <input id="password" type="password" name="password" required>
-            <br>
-            <label for="confirm_password"><span class="info">Подтвердите пароль</span>:</label><br>
-            <input id="confirm_password" type="password" name="confirm_password" required>
-            <br>
-            <input type="submit" class="_c-pointer" name="p::submit" value="Сменить пароль">
-        </form>
-    </div>
+<!-- Информация -->
+<div class="restore-info">
+    <p>🔐 Создайте надёжный пароль для защиты вашего аккаунта</p>
+    <p class="restore-hint">Минимум 8 символов. Используйте буквы и цифры</p>
 </div>
 
-<div class="footer nav block-border-top">
-    <ol>
-        <li>
-            <img class="i12img" src="/images/icons/home.png" alt="." width="12px" height="12px">
-            <a href="/">На главную</a>
-        </li>
-        <li>
-            <img class="i12img" src="/images/icons/question_blue.png" alt="." width="12px" height="12px">
-            <a href="#">Первая помощь</a>
-        </li>
-    </ol>
+<!-- Форма установки пароля -->
+<form id="setPasswordForm" class="login-form" action="/set-new-password" method="post">
+    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generate_csrf_token()) ?>">
+    <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
+    
+    <div class="form-group">
+        <label for="password" class="form-label">
+            <img src="/images/icons/a008.png" alt="" class="label-icon">
+            Новый пароль
+        </label>
+        <div class="password-input-wrapper">
+            <input id="password" type="password" name="password" class="form-input" placeholder="Введите новый пароль" required autofocus>
+            <span id="togglePassword" class="password-toggle">👁</span>
+        </div>
+        <span class="form-hint">Минимум 8 символов</span>
+    </div>
+
+    <div class="form-group">
+        <label for="confirm_password" class="form-label">
+            <img src="/images/icons/a008.png" alt="" class="label-icon">
+            Подтвердите пароль
+        </label>
+        <div class="password-input-wrapper">
+            <input id="confirm_password" type="password" name="confirm_password" class="form-input" placeholder="Повторите пароль" required>
+            <span id="toggleConfirmPassword" class="password-toggle">👁</span>
+        </div>
+        <span class="form-hint">Введите пароль ещё раз</span>
+    </div>
+
+    <button id="submit" type="submit" class="login-button restore-button">
+        <span class="button-text">Сменить пароль</span>
+        <span class="button-icon">🔑</span>
+    </button>
+</form>
+
+<!-- Дополнительные ссылки -->
+<div class="login-links">
+    <a href="/login" class="login-link">
+        <img src="/images/icons/a001.png" alt="">
+        Войти в аккаунт
+    </a>
+    <span class="link-separator">•</span>
+    <a href="/" class="login-link">
+        На главную
+    </a>
 </div>
 
-</div>
+<script>
+// Показать/скрыть пароль
+document.getElementById('togglePassword')?.addEventListener('click', function() {
+    const passwordInput = document.getElementById('password');
+    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordInput.setAttribute('type', type);
+    this.textContent = type === 'password' ? '👁' : '👁‍🗨';
+});
+
+document.getElementById('toggleConfirmPassword')?.addEventListener('click', function() {
+    const passwordInput = document.getElementById('confirm_password');
+    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordInput.setAttribute('type', type);
+    this.textContent = type === 'password' ? '👁' : '👁‍🗨';
+});
+</script>

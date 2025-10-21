@@ -1,95 +1,109 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Страница персонажа</title>
-    <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
+<div class="cabinet-page">
+    <h1>Профиль персонажа</h1>
 
-<div class="body">
-
-    <h1><span> <?= htmlspecialchars($serverName) ?> - <?= htmlspecialchars($character['name']) ?></span></h1>
-
-    <div class="small">
-    <span><?= htmlspecialchars($races[$character['race']]) ?></span> <span><?= htmlspecialchars($classes[$character['class']]) ?></span>, <span><?= htmlspecialchars($character['level']) ?></span> ур. <img src="<?= htmlspecialchars($factionImage) ?>" alt="Фракция" width="12" height="12">
-    </div>
-
-    <?php if (!empty($roleText)): ?>
-        <div class="block">
-            <img src="/images/icons/guild_moderate.png" alt="." width="12" height="12">
-            <span class="bluepost"><?= htmlspecialchars($roleText) ?></span>
+    <div class="cabinet-card" style="margin-bottom:12px;">
+        <div class="cabinet-card-title">
+            <img src="<?= htmlspecialchars($factionImage) ?>" alt="Фракция" width="20" height="20" style="border-radius:3px;">
+            <?= htmlspecialchars($serverName) ?> — <strong class="gold"><?= htmlspecialchars($character['name']) ?></strong>
         </div>
-    <?php endif; ?>
-
-   <div class="pb pt">
-        <h2><a href="#">Характеристики</a></h2>
-        <div>
-            <ol class="mt3">
-                <li>
-                    <img src="/images/icons/health.png" alt="." width="12" height="12" class="link-icon">
-                    <span class="minor">Выносливость:</span> <span><?= htmlspecialchars($stats['stamina']) ?></span> (<span><?= htmlspecialchars($stats['maxhealth']) ?></span> здоровья)
-                </li>
-                <li>
-                    <img src="/images/icons/strength.png" alt="." width="12" height="12" class="link-icon">
-                    <span class="minor">Сила:</span> <span><?= htmlspecialchars($stats['strength']) ?></span> (сила атаки ~<span><?= htmlspecialchars($stats['attackPower']) ?></span>)
-                </li>
-                <li>
-                    <img src="/images/icons/crit.png" alt="." width="12" height="12" class="link-icon">
-                    <span class="minor">Крит:</span> <span><?= htmlspecialchars($stats['critPct']) ?>%</span> 
-                </li>
-                <li>
-                    <img src="/images/icons/armor.png" alt="." width="12" height="12" class="link-icon">
-                    <span class="minor">Броня:</span> <span><?= htmlspecialchars($stats['armor']) ?></span>
-                </li>
-                <li>
-                    <img src="/images/icons/effectEvade.png" class="link-icon">
-                    <span class="minor">Ловкость:</span> <span><?= htmlspecialchars($stats['agility']) ?></span>
-                </li>
-                <li>
-                    <img src="/images/icons/experience_stroke.png" alt="" class="link-icon">
-                    <span class="minor">Опыт:</span> <span><?= htmlspecialchars($character['xp']) ?></span>
-                </li>
-               
-            </ol>
+        <div class="cabinet-info-list">
+            <div class="info-row">
+                <span class="info-label">Раса / Класс</span>
+                <span class="info-value">
+                    <?= htmlspecialchars($races[$character['race']]) ?> · <?= htmlspecialchars($classes[$character['class']]) ?>
+                </span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Уровень</span>
+                <span class="info-value"><?= (int)$character['level'] ?></span>
+            </div>
+            <?php if (!empty($roleText)): ?>
+            <div class="info-row">
+                <span class="info-label">Роль</span>
+                <span class="info-value">
+                    <img src="/images/icons/guild_moderate.png" alt="*" width="14" height="14" style="vertical-align:middle; margin-right:4px;">
+                    <?= htmlspecialchars($roleText) ?>
+                </span>
+            </div>
+            <?php endif; ?>
+            <div class="info-row">
+                <span class="info-label">Статус</span>
+                <span class="info-value <?= $character['online'] ? 'status-ok' : 'status-bad' ?>">
+                    <?= $character['online'] ? 'Онлайн' : 'Оффлайн' ?>
+                </span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Игровое время</span>
+                <span class="info-value"><?= htmlspecialchars(gmdate("H:i:s", $character['totaltime'])) ?></span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Создан</span>
+                <span class="info-value"><?= htmlspecialchars(formatCreationDate($character['creation_date'])) ?></span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">GUID</span>
+                <span class="info-value"><?= htmlspecialchars($character['guid']) ?></span>
+            </div>
         </div>
     </div>
 
-   
-
-    
-
-<div class="pt">
-
-<div>
-<img src="/images/icons/clock.png" alt="."> <span>Игровое время: <?= htmlspecialchars(gmdate("H:i:s", $character['totaltime'])) ?></span>
-</div>
-<div>
-<span><?= $character['online'] ? 'Онлайн' : 'Оффлайн' ?>, Локация</span>
-</div>
-<div>
-<span class="minor"><?= htmlspecialchars(formatCreationDate($character['creation_date'])) ?></span>
-</div>
-
-
-
-</div>
-
-<div class="pt small minor">
-    <img src="/images/icons/game_master.png" alt="." width="12" height="12"> ID персонажа: <span><?= htmlspecialchars($character['guid']) ?></span>
+    <div class="cabinet-card">
+        <div class="cabinet-card-title">
+            <img src="/images/icons/journal_12.png" width="20" height="20" alt="*">
+            Характеристики
+        </div>
+        <div class="table-responsive">
+            <table class="premium-table">
+                <thead>
+                    <tr>
+                        <th>Параметр</th>
+                        <th>Значение</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <img src="/images/icons/health.png" alt="." width="14" height="14" style="vertical-align:middle; margin-right:4px;"> Выносливость
+                        </td>
+                        <td><?= htmlspecialchars($stats['stamina']) ?> <span class="minor">(<?= htmlspecialchars($stats['maxhealth']) ?> HP)</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="/images/icons/strength.png" alt="." width="14" height="14" style="vertical-align:middle; margin-right:4px;"> Сила
+                        </td>
+                        <td><?= htmlspecialchars($stats['strength']) ?> <span class="minor">(~<?= htmlspecialchars($stats['attackPower']) ?> AP)</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="/images/icons/crit.png" alt="." width="14" height="14" style="vertical-align:middle; margin-right:4px;"> Критический удар
+                        </td>
+                        <td><?= htmlspecialchars($stats['critPct']) ?>%</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="/images/icons/armor.png" alt="." width="14" height="14" style="vertical-align:middle; margin-right:4px;"> Броня
+                        </td>
+                        <td><?= htmlspecialchars($stats['armor']) ?></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="/images/icons/effectEvade.png" alt="." width="14" height="14" style="vertical-align:middle; margin-right:4px;"> Ловкость
+                        </td>
+                        <td><?= htmlspecialchars($stats['agility']) ?></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="/images/icons/experience_stroke.png" alt="." width="14" height="14" style="vertical-align:middle; margin-right:4px;"> Опыт
+                        </td>
+                        <td><?= htmlspecialchars($character['xp']) ?></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
+    <div class="login-links" style="margin-top:16px">
+        <a class="link-item" href="/cabinet"><img class="i12img" src="/images/icons/arr_left.png" alt="." width="12" height="12"> В кабинет</a>
+        <a class="link-item" href="/"><img class="i12img" src="/images/icons/home.png" alt="." width="12" height="12"> На главную</a>
+    </div>
 </div>
-
-
-<div class="footer nav block-border-top">
-    <ol>
-        <li>
-            <img src="/images/icons/arr_left.png" alt="." width="12" height="12" class="i12img"> <a href="/cabinet" class=""><span>В кабинет</span></a>
-        </li>
-        
-    </ol>
-</div>
-
-</body>
-</html>

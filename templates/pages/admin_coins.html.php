@@ -1,23 +1,30 @@
-<!-- templates/pages/admin_coins.html.php -->
-<div class="body">
-    <div class="pt">
-        <h2>Начисление/списание бонусов</h2>
-        <div class="section-sep"></div>
+<!-- templates/pages/admin_coins.html.php (premium) -->
+<div class="cabinet-page">
+    <div class="cabinet-card">
+        <div class="cabinet-card-title">
+            <img src="/images/icons/gold.png" width="20" height="20" alt="*">
+            Начисление/списание бонусов
+        </div>
+
         <?php if (!empty($message)): ?>
-            <div class="pt" style="color:#d33; font-weight:bold;"> <?= htmlspecialchars($message, ENT_QUOTES, 'UTF-8') ?> </div>
+            <div class="info-main-text" style="color:#d33; font-weight:600; margin-top:8px;">
+                <?= htmlspecialchars($message, ENT_QUOTES, 'UTF-8') ?>
+            </div>
         <?php endif; ?>
-        <form method="post" action="/admin/coins" style="margin-top:10px;">
-            <div class="pt">
-                <label for="login">Логин аккаунта:</label><br>
-                <input type="text" id="login" name="login" required value="<?= htmlspecialchars($form['login'] ?? '', ENT_QUOTES, 'UTF-8') ?>" style="width:220px;">
+
+        <form method="post" action="/admin/coins" class="login-form" style="margin-top:12px;">
+            <div class="input-group">
+                <label for="login">Логин аккаунта</label>
+                <input type="text" id="login" name="login" required value="<?= htmlspecialchars($form['login'] ?? '', ENT_QUOTES, 'UTF-8') ?>" placeholder="Введите логин">
             </div>
-            <div class="pt">
-                <label for="amount">Сумма (можно отрицательную):</label><br>
-                <input type="number" id="amount" name="amount" required value="<?= htmlspecialchars($form['amount'] ?? '', ENT_QUOTES, 'UTF-8') ?>" style="width:120px;">
+            <div class="input-group">
+                <label for="amount">Сумма</label>
+                <input type="number" id="amount" name="amount" required value="<?= htmlspecialchars($form['amount'] ?? '', ENT_QUOTES, 'UTF-8') ?>" placeholder="Можно отрицательную для списания">
+                <div class="minor">Можно отрицательную — для списания</div>
             </div>
-            <div class="pt">
-                <label for="reason">Причина:</label><br>
-                <select id="reason" name="reason" style="width:320px; padding:4px;">
+            <div class="input-group">
+                <label for="reason">Причина</label>
+                <select id="reason" name="reason">
                     <option value="За активность на форуме" <?= ($form['reason'] ?? '') === 'За активность на форуме' ? 'selected' : '' ?>>За активность на форуме</option>
                     <option value="За участие в ивенте" <?= ($form['reason'] ?? '') === 'За участие в ивенте' ? 'selected' : '' ?>>За участие в ивенте</option>
                     <option value="За помощь игрокам" <?= ($form['reason'] ?? '') === 'За помощь игрокам' ? 'selected' : '' ?>>За помощь игрокам</option>
@@ -28,50 +35,52 @@
                     <option value="Другое" <?= ($form['reason'] ?? '') === 'Другое' ? 'selected' : '' ?>>Другое</option>
                 </select>
             </div>
-            <div class="pt">
-                <button type="submit" class="btn">Выполнить</button>
-                <a class="btn" href="/admin-panel" style="margin-left:8px;">Назад</a>
+            <div class="restore-button" style="margin-top:8px;">
+                <button type="submit">Выполнить</button>
             </div>
         </form>
     </div>
 
     <?php if (!empty($history)): ?>
-    <div class="pt">
-        <h3>Последние операции для логина: <span style="color:#0070dd; font-weight:normal;"><?= htmlspecialchars($historyLogin, ENT_QUOTES, 'UTF-8') ?></span></h3>
-        <div class="section-sep"></div>
-        <table style="width:100%; border-collapse:collapse; margin-top:8px;">
-            <thead>
-                <tr>
-                    <td style="padding:6px; font-weight:bold;">Дата</td>
-                    <td style="padding:6px; font-weight:bold; text-align:center;">Сумма</td>
-                    <td style="padding:6px; font-weight:bold;">Причина</td>
-                </tr>
-            </thead>
-            <tbody>
-            <?php foreach ($history as $row): ?>
-                <?php
-                    $raw = $row['created_at'] ?? '';
-                    $ts = is_numeric($raw) ? (int)$raw : strtotime((string)$raw);
-                    $dateText = $ts ? date('d.m.Y H:i:s', $ts) : htmlspecialchars((string)$raw, ENT_QUOTES, 'UTF-8');
-                    $amount = (int)($row['coins'] ?? 0);
-                    $color = $amount >= 0 ? '#2c7' : '#d33';
-                    $reason = htmlspecialchars((string)($row['reason'] ?? ''), ENT_QUOTES, 'UTF-8');
-                ?>
-                <tr>
-                    <td style="padding:6px;"><?= $dateText ?></td>
-                    <td style="padding:6px; text-align:center;"><strong style="color:<?= $color ?>;"> <?= $amount >= 0 ? '+' : '' ?><?= $amount ?> </strong></td>
-                    <td style="padding:6px;"><?= $reason ?></td>
-                </tr>
-            <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
+        <div class="cabinet-card" style="margin-top:12px;">
+            <div class="cabinet-card-title">
+                <img src="/images/icons/scroll_gold.png" width="20" height="20" alt="#">
+                Последние операции для логина: <span style="color:#4da3ff; font-weight:600; margin-left:6px;"><?= htmlspecialchars($historyLogin, ENT_QUOTES, 'UTF-8') ?></span>
+            </div>
+            <div class="table-responsive">
+                <table class="premium-table">
+                    <thead>
+                        <tr>
+                            <th>Дата</th>
+                            <th style="text-align:center;">Сумма</th>
+                            <th>Причина</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($history as $row): ?>
+                            <?php
+                                $raw = $row['created_at'] ?? '';
+                                $ts = is_numeric($raw) ? (int)$raw : strtotime((string)$raw);
+                                $dateText = $ts ? date('d.m.Y H:i:s', $ts) : htmlspecialchars((string)$raw, ENT_QUOTES, 'UTF-8');
+                                $amount = (int)($row['coins'] ?? 0);
+                                $color = $amount >= 0 ? '#2c7' : '#d33';
+                                $reason = htmlspecialchars((string)($row['reason'] ?? ''), ENT_QUOTES, 'UTF-8');
+                            ?>
+                            <tr>
+                                <td><?= $dateText ?></td>
+                                <td style="text-align:center;"><strong style="color:<?= $color; ?>;"> <?= $amount >= 0 ? '+' : '' ?><?= $amount ?> </strong></td>
+                                <td><?= $reason ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     <?php endif; ?>
-</div>
 
-<div class="footer nav block-border-top">
-    <ol>
-        <li><img class="i12img" src="/images/icons/home.png" alt="." width="12" height="12"> <a href="/">На главную</a></li>
-        <li><img class="i12img" src="/images/icons/home.png" alt="." width="12" height="12"> <a href="/cabinet">В кабинет</a></li>
-    </ol>
+    <div class="login-links" style="margin-top:12px;">
+        <a class="link-item" href="/admin-panel"><img src="/images/icons/arr_left.png" width="12" height="12" alt="*"> Назад в админ-панель</a>
+        <a class="link-item" href="/cabinet"><img src="/images/icons/user.png" width="12" height="12" alt="*"> В кабинет</a>
+        <a class="link-item" href="/"><img src="/images/icons/home.png" width="12" height="12" alt="*"> На главную</a>
+    </div>
 </div>

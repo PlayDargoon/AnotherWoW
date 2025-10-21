@@ -1,90 +1,59 @@
 <?php
-// templates/pages/vote.html.php
+// templates/pages/vote.html.php (premium)
 ?>
-<div class="body">
-    <h2>Голосование</h2>
+<div class="cabinet-page">
+    <h1>Голосование</h1>
 
-    
-  
-    
-
-    <div class="pt" style="text-align:center">
-        <img src="/images/lavka_redkostey_blue_310.jpg" width="310" height="103" alt="?">
+    <div class="cabinet-hero block-border" style="text-align:center; margin-bottom: 10px;">
+        <img src="/images/lavka_redkostey_blue_310.jpg" width="310" height="103" alt="MMOTOP">
     </div>
 
-<br>
-<div class="small pt">
-<img src="/images/icons/menialo.png" alt="*" style="float:left;margin-right:8px;" class="ic32" width="32" height="32">
-    Приветствую тебя, герой! У Вас появилась возможность получать бонусы в игре, путем голосования за Azeroth на сайтах с рейтингами сервера. 
-Я расскажу как проголосовать и условие получения награды. На данный момент для голосования подключен  MMOTOP.
-</div>
-<br>
+    <div class="cabinet-card" style="margin-bottom:12px;">
+        <div class="cabinet-card-title">
+            <img src="/images/icons/Gold.webp" width="20" height="20" alt="*">
+            Получайте бонусы за голосование
+        </div>
+        <div class="info-main-text" style="margin-top:6px;">
+            Голосуйте за Azeroth на рейтингах и получайте внутриигровые бонусы. Сейчас доступен MMOTOP.
+        </div>
+        <div class="login-links" style="margin-top:10px;">
+            <a class="link-item" href="https://wow.mmotop.ru/servers/36327/votes/new" target="_blank">
+                Я голосую за AZEROTH!
+            </a>
+        </div>
+    </div>
 
-<div style="display: flex; justify-content: center; align-items: center;">
-    <a class="headerButtonMy" href="https://wow.mmotop.ru/servers/36327/votes/new" style="text-align:center; display:inline-block;">
-        Я голосую за AZEROTH!
-    </a>
-</div>
-<br>
+    <div class="cabinet-card" style="margin-bottom:12px;">
+        <div class="cabinet-card-title">
+            <img src="/images/icons/journal_12.png" width="20" height="20" alt="*">
+            Как голосовать
+        </div>
+        <ul class="document-list" style="margin-top:6px;">
+            <li>Авторизуйтесь на <a href="https://wow.mmotop.ru/servers/36327/votes/new" target="_blank">странице MMOTOP</a> (удобнее через соцсети).</li>
+            <li>Передвиньте ползунок подтверждения и следуйте инструкциям.</li>
+            <li>Укажите <strong class="gold">ЛОГИН</strong> вашего аккаунта и нажмите «Проголосовать» (ник персонажа не нужен).</li>
+            <li>Дождитесь уведомления о засчёте голоса.</li>
+            <li>Если сайт недоступен — попробуйте через VPN.</li>
+        </ul>
+    </div>
 
+    <div class="cabinet-card">
+        <div class="cabinet-card-title">
+            <img src="/images/icons/attention_gold.png" width="20" height="20" alt="!">
+            Начисление бонусов
+        </div>
+        <ul class="document-list" style="margin-top:6px;">
+            <li>Голосовать можно не чаще одного раза раз в 16 часов.</li>
+            <li>1 голос = 1 бонус.</li>
+            <li>Голоса можно использовать для внутриигровых привилегий (раздел в разработке).</li>
+            <li>Голос засчитывается, только если вы авторизованы на MMOTOP и указали <strong class="gold">ЛОГИН</strong> аккаунта.</li>
+            <li>Начисление бонусов обычно занимает до 1 часа. Если бонусы не пришли — напишите в поддержку.</li>
+        </ul>
+    </div>
 
-
-   <h2 class="pb10 _font-art font16">Как голосовать?</h2>
-
-    <ul class="bluepost">
-            <li>    <img src="/images/icons/arr1.png"> 
-                Авторизируетесь на <a href="https://wow.mmotop.ru/servers/36327/votes/new">сайте через ВК/ФБ</a>, затем подтверждаете учетную запись на почте или 
-                создаете учетную запись на сайте и следуете инструкциям, но проще и быстрее испрользовать соц.сети.
-                 </li>
-             <li>   <img src="/images/icons/arr1.png"> 
-                Далее после регистрации/авторизации сдвигаете ползунок.
-                </li>
-             <li>    <img src="/images/icons/arr1.png"> 
-                 После вводите <span class="yellow">ЛОГИН</span> от аккаунта и жмете проголосовать.
-
-                 <p> <div class="pt minor small">
-                <img src="/images/icons/attention_gold.png" alt="!" width="12" height="12"> 
-                 **ник персонажа вводить смысла не имеет, только <span class="yellow">ЛОГИН</span>
-                </div>
-               </li>
-             <li>   <img src="/images/icons/arr1.png"> 
-                Затем просто ждете когда прийдет уведовлени, что голос засчитан.
-                </li>
-             <li>   <img src="/images/icons/arr1.png"> 
-                Если по какой-то причине сайт не доступен, пробуйте голосовать через VPN.
-                </li>
-    </ul>
-        
-<br>
-
-            <h2 class="pb10 _font-art font16">Как начисляются?</h2>
-    
-       
-    
-    
-    <ul>
-        <li> <img src="/images/icons/arr1.png"> Голосовать можно не чаще одного раза в 16 часов.</li>
-        <li><img src="/images/icons/arr1.png"> За 1 голос начисляется 1 бонус.</li>
-        <li><img src="/images/icons/arr1.png"> Голоса можно использовать для покупки внутриигровых привилегий<span class="minor">(Раздел в разработке)</span>.</li>
-        <li><img src="/images/icons/arr1.png"> Голос засчитывается только если вы авторизованы на <span class="yellow">MMOTOP</span> и указали <span class="yellow">ЛОГИН</span> от своего.</li>
-        <li><img src="/images/icons/arr1.png"> Бонусы за голос начисляются в течении часа.</li>
-        <li><img src="/images/icons/arr1.png"> Если по какойто причине бонусы за голоса так и не зачислились, обратитесь в поддержку.</li>
-    </ul>
-    <p>
-        <b>Спасибо за вашу поддержку! Каждый голос важен для развития сервера.</b>
-    </p>
-
-    
-    
-    
-
-
-</div>
-<div class="footer nav block-border-top">
-    <ol>
-        <li>
-            <img src="/images/icons/home.png" alt="." width="12" height="12" class="i12img"> <a href="/" class=""><span>На главную</span></a>
-        </li>
-        
-    </ol>
+    <div class="login-links" style="margin-top:16px">
+        <a class="link-item" href="/"><img class="i12img" src="/images/icons/home.png" alt="." width="12" height="12"> На главную</a>
+        <a class="link-item" href="/vote/top"><img class="i12img" src="/images/icons/arr.png" alt="." width="12" height="12"> Топ голосующих</a>
+        <a class="link-item" href="/support"><img class="i12img" src="/images/icons/question_blue.png" alt="." width="12" height="12"> Поддержка</a>
+    </div>
 </div>

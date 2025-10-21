@@ -1,79 +1,58 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Вход</title>
-    <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
+<!-- Контент страницы входа для центрального блока -->
 
+<!-- Заголовок -->
+<div class="login-header">
+    <h1 class="login-title">Вход в аккаунт</h1>
+    <p class="login-subtitle">Добро пожаловать обратно в мир Azeroth</p>
+</div>
+
+<!-- Сообщения об ошибках -->
 <?php if (!empty($message)): ?>
-        <div class="small">
-            <ul class="feedbackPanel">
-                <li class="feedbackPanelERROR">
-                    <span class="feedbackPanelERROR">
-                        <?= htmlspecialchars($message) ?>
-                    </span>
-                </li>
-            </ul>
-        </div>
-    <?php endif; ?>
-
-
-<div class="body">
-
-    <h1>Вход</h1>
-
-    <div class="pt" style="text-align:center">
-        <img src="/images/rasporyaditel_310.jpg" width="310" height="103" alt="?">
+    <div class="login-error">
+        <img src="/images/icons/attention_gold.png" alt="!" class="error-icon">
+        <span><?= htmlspecialchars($message) ?></span>
     </div>
+<?php endif; ?>
 
-   
+<!-- Изображение персонажа -->
+<div class="login-character">
+    <img src="/images/rasporyaditel_310.jpg" alt="Character">
+</div>
 
-    <form id="loginForm" action="/login" method="post">
+<!-- Форма входа -->
+<form id="loginForm" class="login-form" action="/login" method="post">
         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generate_csrf_token()) ?>">
-        <div>
-            <label for="username"><span class="info">Логин</span>:</label><br>
-            <input id="username" type="text" value="" name="username" required>
+        
+        <div class="form-group">
+            <label for="username" class="form-label">
+                <img src="/images/icons/a001.png" alt="" class="label-icon">
+                Логин
+            </label>
+            <input id="username" type="text" name="username" class="form-input" placeholder="Введите ваш логин" required autofocus>
         </div>
-        <div class="pt">
-            <label for="password"><span class="info">Пароль</span>:</label><br>
-            <input id="password" type="password" value="" name="password" required>
+
+        <div class="form-group">
+            <label for="password" class="form-label">
+                <img src="/images/icons/a008.png" alt="" class="label-icon">
+                Пароль
+            </label>
+            <input id="password" type="password" name="password" class="form-input" placeholder="Введите ваш пароль" required>
         </div>
-        <div class="pt">
-            <input id="submit" type="submit" class="headerButton _c-pointer" name="p::submit" value="Войти">
-        </div>
+
+        <button id="submit" type="submit" class="login-button">
+            <span class="button-text">Войти</span>
+            <span class="button-icon">⚔️</span>
+        </button>
     </form>
-<!--
-    <div class="pt">
-        <span class="small"><span>Есть аккаунт в одной из социальных сетей? Авторизуйся и управляй несколькими персонажами из своего личного кабинета.</span> </span>
-        <div class="small">
-            <a href="#"><img src="/images/icons/FB24x24r.png" width="24" height="24" alt="FB"></a>
-            <a href="#"><img src="/images/icons/VK24x24r.png" width="24" height="24" alt="ВКонтакте"></a>
-            <a href="#"><img src="/images/icons/OK24x24r.png" width="24" height="24" alt="Одноклассники"></a>
-        </div>
-    </div> -->
 
-
-    <div class="pt">
-<a class="headerButton" href="/restore-password"><img src="/images/icons/book_red.png" width="12" height="12" alt="." class="link-icon">Забыли пароль?</a>
+<!-- Дополнительные ссылки -->
+<div class="login-links">
+    <a href="/restore-password" class="login-link">
+        <img src="/images/icons/book_red.png" alt="">
+        Забыли пароль?
+    </a>
+    <span class="link-separator">•</span>
+    <a href="/register" class="login-link register-link">
+        Регистрация
+    </a>
 </div>
-
-</div>
-
-<div class="footer nav block-border-top">
-    <ol>
-        <li>
-            <img class="i12img" src="/images/icons/home.png" alt="." width="12px" height="12px"> <a href="/">На главную</a>
-        </li>
-        <li>
-            <img class="i12img" src="/images/icons/question_blue.png" alt="." width="12px" height="12px"> <a href="#">Первая помощь</a>
-        </li>
-    </ol>
-</div>
-
-
-
-
-</body>
-</html>

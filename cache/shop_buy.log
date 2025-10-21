@@ -22,3 +22,14 @@
 2025-10-20 06:47:19 [SHOP] POST /shop/buy item=rename price=50 guid=6504 user_id=401
 2025-10-20 06:51:38 [SHOP] POST /shop/buy item=rename price=50 guid=6504 user_id=401
 2025-10-20 06:53:41 [SHOP] POST /shop/buy item=rename price=50 guid=6504 user_id=401
+2025-10-20 10:47:30 [SHOP] POST /shop/buy item=rename price=50 guid=6504 user_id=401
+2025-10-20 10:56:55 [SHOP] POST /shop/buy item=rename price=50 guid=6504 user_id=401
+2025-10-20 10:56:56 [SHOP] SOAP character rename for Архитектор
+2025-10-20 10:56:57 [SHOP] SOAP character_rename result: Forced rename for player Архитектор will be requested at next login.
+
+2025-10-20 10:56:57 [SHOP] Coins deducted and character rename activated for Архитектор
+2025-10-20 11:07:28 [SHOP] POST /shop/buy item=rename price=50 guid=6504 user_id=401
+2025-10-20 11:07:29 [SHOP] SOAP character rename for Test
+2025-10-20 11:07:30 [SHOP] SOAP character_rename result: Forced rename for player Test (GUID #GUID Full: 0x0000000000001968 Type: Player Low: 6504) will be requested at next login.
+
+2025-10-20 11:07:30 [SHOP] Coins deducted and character rename activated for Test

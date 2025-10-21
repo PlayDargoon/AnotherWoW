@@ -1,65 +1,64 @@
-<div class="touch-influenced block-border">
+<!-- Контент страницы восстановления пароля -->
 
-<div class="exp-head-out">
-    <div>
-        <div class="exp-head-in" ></div>
-    </div>
+<!-- Заголовок -->
+<div class="login-header">
+    <h1 class="login-title">Восстановление пароля</h1>
+    <p class="login-subtitle">Верни доступ к своему аккаунту</p>
 </div>
 
+<!-- Сообщения об ошибках -->
 <?php if (!empty($error)): ?>
-    <div class="small">
-        <ul class="feedbackPanel">
-            <li class="feedbackPanelERROR">
-                <span class="feedbackPanelERROR"><?= htmlspecialchars($error) ?></span>
-            </li>
-        </ul>
+    <div class="login-error">
+        <img src="/images/icons/attention_gold.png" alt="!" class="error-icon">
+        <span><?= htmlspecialchars($error) ?></span>
     </div>
 <?php endif; ?>
 
+<!-- Успешное сообщение -->
 <?php if (!empty($message)): ?>
-    <div class="small">
-        <ul class="feedbackPanel">
-            <li class="feedbackPanelINFO">
-                <span class="feedbackPanelINFO"><?= htmlspecialchars($message) ?></span>
-            </li>
-        </ul>
+    <div class="login-success">
+        <img src="/images/icons/tick.png" alt="✓" class="success-icon">
+        <span><?= htmlspecialchars($message) ?></span>
     </div>
 <?php endif; ?>
 
-<div class="body">
-    <h1>Забыли пароль?</h1>
+<!-- Изображение персонажа -->
+<div class="login-character">
+    <img src="/images/kollekzioner_310_blue.jpg" alt="Character">
 </div>
 
-<div class="body">
-    <div class="pb">
-        Чтобы восстановить пароль, введите email, указанный при регистрации.<br>
-        Если данные верны, на указанный email будет отправлена ссылка для восстановления пароля.
-    </div>
-    <div class="small minor p2">
-        Подсказка: если письма нет во входящих, проверьте папку "Спам" или "Нежелательную почту".
-    </div>
-    <div class="pt">
-        <form action="/restore-password" method="post">
-            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generate_csrf_token()) ?>">
-            <label for="email"><span class="info">Email адрес</span>:</label><br>
-            <input id="email" type="email" name="email" required>
-            <br>
-            <input type="submit" class="_c-pointer" name="p::submit" value="Восстановить пароль">
-        </form>
-    </div>
+<!-- Информация -->
+<div class="restore-info">
+    <p>Чтобы восстановить пароль, введите email, указанный при регистрации.</p>
+    <p class="restore-hint">💡 Если письма нет во входящих, проверьте папку "Спам"</p>
 </div>
 
-<div class="footer nav block-border-top">
-    <ol>
-        <li>
-            <img class="i12img" src="/images/icons/home.png" alt="." width="12px" height="12px">
-            <a href="/">На главную</a>
-        </li>
-        <li>
-            <img class="i12img" src="/images/icons/question_blue.png" alt="." width="12px" height="12px">
-            <a href="#">Первая помощь</a>
-        </li>
-    </ol>
-</div>
+<!-- Форма восстановления -->
+<form id="restoreForm" class="login-form" action="/restore-password" method="post">
+    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generate_csrf_token()) ?>">
+    
+    <div class="form-group">
+        <label for="email" class="form-label">
+            <img src="/images/icons/a009.png" alt="" class="label-icon">
+            Email адрес
+        </label>
+        <input id="email" type="email" name="email" class="form-input" placeholder="example@example.com" required autofocus>
+    </div>
 
+    <button id="submit" type="submit" class="login-button restore-button">
+        <span class="button-text">Восстановить пароль</span>
+        <span class="button-icon">📧</span>
+    </button>
+</form>
+
+<!-- Дополнительные ссылки -->
+<div class="login-links">
+    <a href="/login" class="login-link">
+        <img src="/images/icons/a001.png" alt="">
+        Вспомнили пароль?
+    </a>
+    <span class="link-separator">•</span>
+    <a href="/register" class="login-link register-link">
+        Регистрация
+    </a>
 </div>

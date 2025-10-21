@@ -1,0 +1,218 @@
+// Design Switcher
+(function() {
+    'use strict';
+    
+    // Проверяем сохранённую тему при загрузке
+    const savedTheme = localStorage.getItem('siteTheme') || 'classic';
+    
+    // Показываем loader только для премиум темы
+    if (savedTheme === 'premium') {
+        showPageLoader();
+    }
+    
+    // Применяем сохранённую тему
+    if (savedTheme === 'premium') {
+        enablePremiumTheme();
+    }
+    
+    // Создать и показать loader
+    function showPageLoader() {
+        const loaderHTML = `
+            <div id="page-loader">
+                <div class="loader-container">
+                    <div class="loader-title">AZEROTH</div>
+                    <div class="loader-ring">
+                        <div class="loader-symbol">⚔</div>
+                    </div>
+                    <div class="loader-text">
+                        ЗАГРУЗКА<span class="loader-dots"></span>
+                    </div>
+                    <div class="loader-subtext">Подготовка премиум интерфейса</div>
+                </div>
+            </div>
+        `;
+        
+        document.body.insertAdjacentHTML('afterbegin', loaderHTML);
+    }
+    
+    // Скрыть loader
+    function hidePageLoader() {
+        const loader = document.getElementById('page-loader');
+        if (loader) {
+            loader.classList.add('hidden');
+            setTimeout(() => {
+                loader.remove();
+            }, 500);
+        }
+    }
+    
+    // Создаём кнопку переключения
+    function createThemeSwitcher() {
+        const switcherHTML = `
+            <div class="theme-switcher">
+                <button id="theme-toggle" class="theme-toggle-btn" title="Переключить дизайн">
+                    <span class="theme-icon">🎨</span>
+                    <span class="theme-text"><strong id="current-theme">${savedTheme === 'premium' ? 'Премиум' : 'Классик'}</strong></span>
+                </button>
+            </div>
+        `;
+        
+        // Добавляем в body (фиксированная позиция слева снизу)
+        document.body.insertAdjacentHTML('beforeend', switcherHTML);
+    }
+    
+    // Включить премиум-тему
+    function enablePremiumTheme() {
+        if (!document.getElementById('premium-style')) {
+            const link = document.createElement('link');
+            link.id = 'premium-style';
+            link.rel = 'stylesheet';
+            link.href = '/css/premium-style.css?v=' + Date.now(); // добавляем версию для сброса кэша
+            document.head.appendChild(link);
+        }
+        
+        // Применяем премиум-классы к элементам
+        applyPremiumClasses();
+    }
+    
+    // Отключить премиум-тему
+    function disablePremiumTheme() {
+        const link = document.getElementById('premium-style');
+        if (link) {
+            link.remove();
+        }
+        
+        // Убираем премиум-классы
+        removePremiumClasses();
+    }
+    
+    // Применить премиум-классы
+    function applyPremiumClasses() {
+        // Главная страница
+        const indexBody = document.querySelector('.body');
+        if (indexBody && window.location.pathname === '/' || window.location.pathname === '/index') {
+            const h1 = indexBody.querySelector('h1');
+            if (h1 && !h1.closest('.welcome-block')) {
+                const welcomeDiv = document.createElement('div');
+                welcomeDiv.className = 'welcome-block';
+                h1.parentNode.insertBefore(welcomeDiv, h1);
+                welcomeDiv.appendChild(h1);
+            }
+            
+            // Преобразуем pt блоки в info-alert
+            indexBody.querySelectorAll('.pt').forEach(el => {
+                if (!el.classList.contains('info-alert')) {
+                    el.classList.add('info-alert');
+                }
+            });
+            
+            // Преобразуем event блок в community-box
+            const eventBlock = indexBody.querySelector('.event');
+            if (eventBlock && !eventBlock.classList.contains('community-box')) {
+                eventBlock.classList.add('community-box');
+            }
+            
+            // Преобразуем section-sep в feature-item
+            indexBody.querySelectorAll('.section-sep').forEach(el => {
+                if (!el.classList.contains('feature-item')) {
+                    el.classList.add('feature-item');
+                }
+            });
+            
+            // Преобразуем iLegendary кнопки в btn-premium
+            indexBody.querySelectorAll('.iLegendary').forEach(el => {
+                if (!el.classList.contains('btn-premium')) {
+                    el.classList.add('btn-premium');
+                }
+            });
+        }
+        
+        // Левый блок (меню)
+        const leftBlock = document.querySelector('.test3 .body');
+        if (leftBlock && !leftBlock.classList.contains('menu-block')) {
+            leftBlock.classList.add('menu-block');
+            
+            // Преобразуем info в menu-item
+            leftBlock.querySelectorAll('.info').forEach(el => {
+                if (!el.classList.contains('menu-item')) {
+                    el.classList.add('menu-item');
+                }
+            });
+        }
+        
+        // Правый блок (статус)
+        const rightBlock = document.querySelector('.test2 .body');
+        if (rightBlock && !rightBlock.classList.contains('status-block')) {
+            rightBlock.classList.add('status-block');
+            
+            // Преобразуем yellow в status-item
+            rightBlock.querySelectorAll('.yellow').forEach(el => {
+                if (!el.classList.contains('status-item')) {
+                    el.classList.add('status-item');
+                }
+            });
+        }
+    }
+    
+    // Убрать премиум-классы
+    function removePremiumClasses() {
+        document.querySelectorAll('.welcome-block, .info-alert, .community-box, .feature-item, .btn-premium, .menu-block, .menu-item, .status-block, .status-item')
+            .forEach(el => {
+                el.classList.remove('welcome-block', 'info-alert', 'community-box', 'feature-item', 'btn-premium', 'menu-block', 'menu-item', 'status-block', 'status-item');
+            });
+    }
+    
+    // Переключить тему
+    function toggleTheme() {
+        const currentTheme = localStorage.getItem('siteTheme') || 'classic';
+        const newTheme = currentTheme === 'classic' ? 'premium' : 'classic';
+        
+        localStorage.setItem('siteTheme', newTheme);
+        
+        if (newTheme === 'premium') {
+            enablePremiumTheme();
+        } else {
+            disablePremiumTheme();
+        }
+        
+        // Обновляем текст на кнопке
+        const themeText = document.getElementById('current-theme');
+        if (themeText) {
+            themeText.textContent = newTheme === 'premium' ? 'Премиум' : 'Классик';
+        }
+        
+        // Плавная перезагрузка
+        document.body.style.opacity = '0';
+        setTimeout(() => {
+            location.reload();
+        }, 200);
+    }
+    
+    // Инициализация
+    document.addEventListener('DOMContentLoaded', function() {
+        createThemeSwitcher();
+        
+        // Обработчик клика
+        const toggleBtn = document.getElementById('theme-toggle');
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', toggleTheme);
+        }
+        
+        // Скрываем loader после полной загрузки страницы (только для премиум темы)
+        if (savedTheme === 'premium') {
+            // Дополнительная задержка для плавного эффекта
+            setTimeout(() => {
+                hidePageLoader();
+            }, 800);
+        }
+    });
+    
+    // Скрываем loader при полной загрузке всех ресурсов
+    window.addEventListener('load', function() {
+        if (savedTheme === 'premium') {
+            setTimeout(() => {
+                hidePageLoader();
+            }, 300);
+        }
+    });
+})();

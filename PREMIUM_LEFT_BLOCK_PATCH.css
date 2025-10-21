@@ -1,0 +1,66 @@
+/* === ПРЕМИУМ СТИЛИ ДЛЯ ЛЕВОГО БЛОКА === */
+/* Добавить этот блок в public/css/premium-style.css после строки 24 */
+
+/* Тонкая разделительная линия под заголовком Меню */
+.layout-sidebar-left h1::after {
+    content: '' !important;
+    display: block !important;
+    height: 1px;
+    margin: 8px 0 10px;
+    background: linear-gradient(90deg, transparent, rgba(122, 136, 255, 0.55), transparent);
+    border-radius: 999px;
+}
+
+/* Стили элементов меню (ссылок) */
+.layout-sidebar-left .info {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 10px !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(122, 136, 255, 0.5) !important;
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0)) !important;
+    transition: background-color .15s ease, color .15s ease, transform .08s ease, border-color .15s ease, box-shadow .2s ease !important;
+    margin-top: 6px;
+}
+
+.layout-sidebar-left h1 + .info {
+    margin-top: 0;
+}
+
+.layout-sidebar-left .info:hover {
+    background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.02)) !important;
+    border-color: rgba(122, 136, 255, 0.8) !important;
+    box-shadow: inset 0 0 0 2px rgba(122, 136, 255, 0.12) !important;
+}
+
+/* Скругление верхнего и нижнего элемента списка */
+.layout-sidebar-left h1 + .info {
+    border-top-left-radius: 12px !important;
+    border-top-right-radius: 12px !important;
+}
+.layout-sidebar-left .info:last-of-type {
+    border-bottom-left-radius: 12px !important;
+    border-bottom-right-radius: 12px !important;
+}
+
+/* Стили ссылок */
+.layout-sidebar-left a {
+    text-decoration: none;
+    color: #ffff77 !important;
+    font-weight: 500;
+}
+
+.layout-sidebar-left a:hover span {
+    text-decoration: underline;
+}
+
+/* Анимация нажатия */
+.layout-sidebar-left .info:active {
+    transform: scale(0.98) !important;
+}
+
+/* Свечение иконки при hover */
+.layout-sidebar-left .info:hover .i12img {
+    filter: drop-shadow(0 0 2px rgba(255, 255, 120, 0.6)) !important;
+}

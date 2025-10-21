@@ -1,21 +1,37 @@
-<!-- templates/pages/help.html.php -->
-<div class="body">
-    <h2 class="section-title">Помощь новичкам</h2>
-
-    <div class="bluepost">
-        <h3 style="color: #ffff33;">Добро пожаловать в мир Azeroth!</h3>
-        <p>Этот раздел поможет вам начать игру и освоиться на нашем сервере.</p>
+<!-- Страница помощи новичкам -->
+<div class="document-page">
+    
+    <!-- Заголовок документа -->
+    <div class="document-header">
+        <h1 class="document-title">Помощь новичкам</h1>
+        <p class="document-subtitle">Руководство по началу игры на сервере Azeroth</p>
     </div>
 
-    <div class="bluepost">
-        <h3 style="color: #ffff33;">Первые шаги</h3>
+    <!-- Изображение -->
+    <div class="document-image">
+        <img src="/images/taverna.jpg" alt="Помощь новичкам">
+    </div>
 
-        <div class="pt">
+    <!-- Приветственное сообщение -->
+    <div class="document-note">
+        <img src="/images/icons/menialo.png" alt="*" width="32" height="32">
+        <div>
+            <h2 class="section-title">Добро пожаловать в мир Azeroth!</h2>
+            <p>Этот раздел поможет вам начать игру и освоиться на нашем сервере.</p>
+        </div>
+    </div>
+
+    <!-- Секция: Первые шаги -->
+    <div class="document-section">
+        <h2 class="section-title">Первые шаги</h2>
+        <div class="document-block">
+
+        <div>
             <strong class="gold">1. Регистрация аккаунта</strong>
             <p>Если вы еще не зарегистрировались, перейдите на <a href="/register" class="gold">страницу регистрации</a> и создайте новый аккаунт.</p>
         </div>
 
-        <div class="pt">
+        <div>
             <strong class="gold">2. Скачивание клиента</strong>
             <p>Загрузите клиент игры с нашего сайта и следуйте инструкциям по установке.</p>
             <ul>
@@ -25,17 +41,19 @@
             </ul>
         </div>
 
-        <div class="pt">
+        <div>
             <strong class="gold">3. Настройка игры</strong>
             <p>В файле realmlist.wtf укажите наш сервер:</p>
-            <div class="pt"><code>set realmlist azeroth-server.com</code></div>
+            <div><code>set realmlist azeroth-server.com</code></div>
         </div>
     </div>
+    </div>
 
-    <div class="bluepost">
-        <h3 style="color: #ffff33;">Игровые особенности сервера</h3>
-
-        <div class="pt">
+    <!-- Секция: Игровые особенности -->
+    <div class="document-section">
+        <h2 class="section-title">Игровые особенности сервера</h2>
+        <div class="document-block">
+            <div>
             <strong class="gold">Общая информация</strong>
             <ul>
                 <li><strong class="gold">Версия:</strong> 3.3.5a (WotLK)</li>
@@ -46,7 +64,7 @@
             </ul>
         </div>
 
-        <div class="pt">
+        <div>
             <strong class="gold">Команды чата</strong>
             <ul>
                 <li><code>/online</code> - количество игроков онлайн</li>
@@ -56,16 +74,18 @@
             </ul>
         </div>
 
-        <div class="pt">
+        <div>
             <strong class="gold">Игровые боты</strong>
             <p>На сервере доступны игровые боты-компаньоны. <a href="/help/bot-commands" class="gold">Полный список команд для управления ботами</a></p>
         </div>
+        </div>
     </div>
 
-    <div class="bluepost">
-        <h3 style="color: #ffff33;">Полезные советы</h3>
-
-        <div class="pt">
+    <!-- Секция: Полезные советы -->
+    <div class="document-section">
+        <h2 class="section-title">Полезные советы</h2>
+        <div class="document-block">
+            <div>
             <strong class="gold">Для новичков WoW</strong>
             <ul>
                 <li>Изучите <a href="/rules" class="gold">правила сервера</a> — это поможет избежать блокировки</li>
@@ -75,7 +95,7 @@
             </ul>
         </div>
 
-        <div class="pt">
+        <div>
             <strong class="gold">Безопасность аккаунта</strong>
             <ul>
                 <li>Никому не сообщайте пароль от аккаунта</li>
@@ -84,12 +104,14 @@
                 <li>При проблемах сразу обращайтесь в <a href="/support" class="gold">поддержку</a></li>
             </ul>
         </div>
+        </div>
     </div>
 
-    <div class="bluepost">
-        <h3 style="color: #ffff33;">Техническая поддержка</h3>
-
-        <div class="pt">
+    <!-- Секция: Техническая поддержка -->
+    <div class="document-section">
+        <h2 class="section-title">Техническая поддержка</h2>
+        <div class="document-block">
+            <div>
             <strong class="gold">Проблемы с подключением</strong>
             <ul>
                 <li>Проверьте realmlist.wtf</li>
@@ -99,7 +121,7 @@
             </ul>
         </div>
 
-        <div class="pt">
+        <div>
             <strong class="gold">Низкий FPS</strong>
             <ul>
                 <li>Понизьте настройки графики</li>
@@ -108,14 +130,35 @@
                 <li>Закройте ненужные программы</li>
             </ul>
         </div>
+        </div>
     </div>
 
-    <div class="bluepost">
-        <h3 style="color: #ffff33;">Нужна дополнительная помощь?</h3>
-        <p>Если вы не нашли ответ на свой вопрос, обратитесь в <a href="/support" class="gold">службу поддержки</a> — мы обязательно поможем!</p>
-        <div class="pt">
-            <a href="/support" class="headerButton _c-pointer">Обратиться в поддержку</a>
+    <!-- Контакты поддержки -->
+    <div class="document-contacts">
+        <h3>Нужна дополнительная помощь?</h2>
+        <p>Если вы не нашли ответ на свой вопрос, обратитесь в <a href="/support">службу поддержки</a> — мы обязательно поможем!</p>
+        <div style="margin-top: 20px;">
+            <a href="/support" class="login-button" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; max-width: 350px; margin: 0 auto;">
+                <span class="button-text">Обратиться в поддержку</span>
+                <span class="button-icon">💬</span>
+            </a>
         </div>
+    </div>
+
+    <!-- Навигация -->
+    <div class="login-links" style="margin-top: 30px;">
+        <a href="/" class="login-link">
+            <img src="/images/icons/home.png" alt="">
+            На главную
+        </a>
+        <span class="link-separator">•</span>
+        <a href="/rules" class="login-link">
+            Правила сервера
+        </a>
+        <span class="link-separator">•</span>
+        <a href="/help/bot-commands" class="login-link register-link">
+            Команды ботов
+        </a>
     </div>
 
 </div>

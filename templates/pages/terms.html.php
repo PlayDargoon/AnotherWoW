@@ -1,20 +1,30 @@
-<div class="body">
-    <h1>Пользовательское соглашение</h1>
-    <div class="section-sep"></div>
+<div class="document-page">
     
-    <div class="pt" style="text-align:center">
-        <img src="/images/kollekzioner_310_blue.jpg" width="310" height="103" alt="Пользовательское соглашение">
+    <!-- Заголовок документа -->
+    <div class="document-header">
+        <h1 class="document-title">Пользовательское соглашение</h1>
+        <p class="document-subtitle">Правила использования сервиса Azeroth</p>
+    </div>
+    
+    <!-- Изображение -->
+    <div class="document-image">
+        <img src="/images/kollekzioner_310_blue.jpg" alt="Пользовательское соглашение">
     </div>
 
-    <div class="bluepost">
-        <img src="/images/icons/menialo.png" alt="*" style="float:left;margin-right:8px;" class="ic32" width="32" height="32">
-        <strong>Администрация игрового сервера Azeroth</strong> предлагает физическим лицам старше 14 лет использовать услуги, предоставляемые на сайте по адресу <strong>azeroth.su</strong> на условиях настоящего пользовательского соглашения.
-        <br><br>
-        Настоящий документ является публичной офертой в соответствии со ст. 437 Гражданского кодекса Российской Федерации. <span class="gold">Регистрация аккаунта означает полное и безоговорочное принятие условий настоящего соглашения.</span>
+    <!-- Вводная информация -->
+    <div class="document-note">
+        <img src="/images/icons/menialo.png" alt="*" width="32" height="32">
+        <div>
+            <strong>Администрация игрового сервера Azeroth</strong> предлагает физическим лицам старше 14 лет использовать услуги, предоставляемые на сайте по адресу <strong>azeroth.su</strong> на условиях настоящего пользовательского соглашения.
+            <br><br>
+            Настоящий документ является публичной офертой в соответствии со ст. 437 Гражданского кодекса Российской Федерации. <span class="gold">Регистрация аккаунта означает полное и безоговорочное принятие условий настоящего соглашения.</span>
+        </div>
     </div>
 
-    <h2 class="section-title">1. Термины и определения</h2>
-    <div class="bluepost">
+    <!-- Секция 1 -->
+    <div class="document-section">
+        <h2 class="section-title">1. Термины и определения</h2>
+        <div class="document-block">
         <ul>
             <li><strong>Проект</strong> — игровой сервер Azeroth, расположенный по адресу azeroth.su</li>
             <li><strong>Пользователь</strong> — физическое лицо старше 14 лет, зарегистрировавшееся на Проекте. Лица в возрасте 14-18 лет могут пользоваться услугами с согласия родителей/законных представителей</li>
@@ -26,7 +36,7 @@
     </div>
 
     <h2 class="section-title">2. Предмет соглашения</h2>
-    <div class="bluepost">
+    <div class="document-block">
         Администрация предоставляет Пользователю следующие бесплатные услуги:
         <ul>
             <li>Доступ к игровому серверу Azeroth</li>
@@ -43,7 +53,7 @@
     <h2 class="section-title">3. Права и обязанности Пользователя</h2>
     
     <h3 style="color: #ffff33; margin-top: 15px;">Пользователь обязуется:</h3>
-    <div class="bluepost">
+    <div class="document-block">
         <ul>
             <li>Соблюдать условия настоящего соглашения и <a href="/rules" style="color: #ffff33;">правила Проекта</a></li>
             <li>Предоставлять достоверные данные при регистрации</li>
@@ -56,7 +66,7 @@
     </div>
 
     <h3 style="color: #ffff33; margin-top: 15px;">Пользователь имеет право:</h3>
-    <div class="bluepost">
+    <div class="document-block">
         <ul>
             <li>Использовать все предоставленные услуги Проекта</li>
             <li>Создавать игровых персонажей в соответствии с правилами</li>
@@ -69,7 +79,7 @@
     <h2 class="section-title">4. Права и обязанности Администрации</h2>
     
     <h3 style="color: #ffff33; margin-top: 15px;">Администрация обязуется:</h3>
-    <div class="bluepost">
+    <div class="document-block">
         <ul>
             <li>Обеспечивать техническую работоспособность сервера</li>
             <li>Поддерживать игровой баланс и стабильность</li>
@@ -79,7 +89,7 @@
     </div>
 
     <h3 style="color: #ffff33; margin-top: 15px;">Администрация имеет право:</h3>
-    <div class="bluepost">
+    <div class="document-block">
         <ul>
             <li>Изменять правила и условия предоставления услуг</li>
             <li>Проводить технические работы с временным ограничением доступа</li>
@@ -91,7 +101,7 @@
     </div>
 
     <h2 class="section-title">5. Система голосования и наград</h2>
-    <div class="bluepost">
+    <div class="document-block">
         <ul>
             <li>Пользователи могут голосовать за сервер на различных рейтинговых сайтах</li>
             <li>За голосование предусмотрены игровые награды</li>
@@ -101,7 +111,7 @@
     </div>
 
     <h2 class="section-title">6. Ответственность и ограничения</h2>
-    <div class="bluepost">
+    <div class="document-block">
         <ul>
             <li>Проект предоставляется "как есть" без гарантий стабильности</li>
             <li>Администрация не несет ответственности за потерю игрового прогресса</li>
@@ -112,7 +122,7 @@
     </div>
 
     <h2 class="section-title">7. Персональные данные</h2>
-    <div class="bluepost">
+    <div class="document-block">
         <ul>
             <li><strong class="gold">Согласие на обработку:</strong> регистрируясь на сайте, Пользователь даёт согласие на обработку персональных данных в соответствии с Федеральным законом № 152-ФЗ «О персональных данных» и настоящей <a href="/privacy" style="color: #ffff33;">Политикой конфиденциальности</a></li>
             <li><strong class="gold">Цели обработки:</strong> обеспечение функционирования Проекта, идентификация пользователей, связь с пользователями, исполнение договорных обязательств</li>
@@ -124,7 +134,7 @@
     </div>
 
     <h2 class="section-title">8. Изменения соглашения</h2>
-    <div class="bluepost">
+    <div class="document-block">
         <ul>
             <li>Администрация вправе изменять соглашение в одностороннем порядке</li>
             <li>Изменения публикуются на сайте и вступают в силу немедленно</li>
@@ -134,7 +144,7 @@
     </div>
 
     <h2 class="section-title">9. Прекращение соглашения</h2>
-    <div class="bluepost">
+    <div class="document-block">
         <ul>
             <li>Соглашение может быть прекращено любой из сторон в любое время</li>
             <li>При нарушении правил Администрация может заблокировать аккаунт без предупреждения</li>
@@ -144,7 +154,7 @@
     </div>
 
     <h2 class="section-title">10. Особенности проекта</h2>
-    <div class="bluepost">
+    <div class="document-block">
         <ul>
             <li>Проект является частным сервером и не связан с Blizzard Entertainment</li>
             <li><span class="gold">Сервер находится в режиме тестирования и разработки</span></li>
@@ -154,7 +164,7 @@
     </div>
 
     <h2 class="section-title">11. Разрешение споров</h2>
-    <div class="bluepost">
+    <div class="document-block">
         <ul>
             <li><strong class="gold">Досудебный порядок:</strong> все споры подлежат обязательному досудебному урегулированию. Срок ответа на претензию — 30 дней</li>
             <li><strong class="gold">Применимое право:</strong> к отношениям сторон применяется законодательство Российской Федерации</li>
@@ -166,7 +176,7 @@
     
 
     <h2 class="section-title">12. Платные услуги, бонусы и стоимость</h2>
-    <div class="bluepost">
+    <div class="document-block">
         <ul>
             <li>Для получения платных преимуществ в рамках Проекта Пользователь может приобрести внутренние расчётные единицы — <strong class="gold">Бонусы</strong>.</li>
             <li><strong class="gold">Базовый курс:</strong> 1 (один) Бонус = 1 (один) российский рубль. Курс может изменяться Администрацией, о чём публикуется информация на сайте. Акционные начисления (дополнительные бонусы) не подлежат обмену на деньги.</li>
@@ -178,7 +188,7 @@
     </div>
 
     <h2 class="section-title">13. Порядок оплаты и поставка цифрового товара</h2>
-    <div class="bluepost">
+    <div class="document-block">
         <ul>
             <li><strong class="gold">Способы оплаты:</strong> оплата осуществляется через поддерживаемые платёжные сервисы, перечисленные на странице оплаты. Платёж считается совершённым после подтверждения платёжным провайдером.</li>
             <li><strong class="gold">Поставка:</strong> зачисление бонусов на аккаунт Пользователя производится автоматически после успешной оплаты, как правило мгновенно, но в отдельных случаях может занять до 30 минут.</li>
@@ -188,7 +198,7 @@
     </div>
 
     <h2 class="section-title">14. Возвраты, отмена и спорные операции</h2>
-    <div class="bluepost">
+    <div class="document-block">
         <ul>
             <li><strong class="gold">Основания для возврата:</strong> дублирование списания; непредоставление услуги (бонусы не зачислены) по вине, не зависящей от Пользователя; иные случаи, предусмотренные законом.</li>
             <li><strong class="gold">Ограничения возврата:</strong> возврат за уже потреблённые (использованные для активации услуг) бонусы не производится. Акционные бонусы возврату не подлежат.</li>
@@ -208,7 +218,7 @@
 
 
      <h2 class="section-title">15. Реквизиты и сведения об Администрации</h2>
-    <div class="bluepost">
+    <div class="document-block">
         <ul>
             <li><strong class="gold">Правовой статус:</strong> физическое лицо, применяющее специальный налоговый режим «Налог на профессиональный доход» (самозанятый)</li>
             <li><strong class="gold">ФИО:</strong> Попов Иван Александрович</li>
@@ -223,27 +233,33 @@
 
 
 
-    <div class="bluepost" style="background: #000044; border: 2px solid #ff6600; margin-top: 20px;">
-        <p><strong style="color: #ff6600;">ВНИМАНИЕ!</strong> Регистрируясь на сервере, вы автоматически соглашаетесь со всеми условиями данного пользовательского соглашения. Если вы не согласны с какими-либо пунктами, не используйте наши услуги.</p>
-        <p style="text-align: center; margin-top: 15px;"><em class="gold">Документ актуален на 28 сентября 2025 года.</em></p>
+    <!-- Важное уведомление -->
+    <div class="document-note" style="background: linear-gradient(135deg, rgba(255, 102, 0, 0.2) 0%, rgba(204, 51, 0, 0.2) 100%); border-color: rgba(255, 102, 0, 0.6);">
+        <img src="/images/icons/attention_gold.png" alt="!" width="24" height="24">
+        <div>
+            <p><strong style="color: #ff9944;">ВНИМАНИЕ!</strong> Регистрируясь на сервере, вы автоматически соглашаетесь со всеми условиями данного пользовательского соглашения. Если вы не согласны с какими-либо пунктами, не используйте наши услуги.</p>
+        </div>
     </div>
 
-   
-</div>
+    <!-- Дата обновления -->
+    <div class="document-date">
+        Документ актуален на 28 сентября 2025 года
+    </div>
 
-<div class="footer nav block-border-top">
-    <ol>
-        <li>
-            <img src="/images/icons/home.png" alt="." width="12" height="12" class="i12img"> 
-            <a href="/">На главную</a>
-        </li>
-        <li>
-            <img src="/images/icons/question_blue.png" alt="." width="12" height="12" class="i12img"> 
-            <a href="/rules">Правила игровых миров</a>
-        </li>
-        <li>
-            <img src="/images/icons/question_blue.png" alt="." width="12" height="12" class="i12img"> 
-            <a href="/register">Регистрация</a>
-        </li>
-    </ol>
+    <!-- Навигация -->
+    <div class="login-links" style="margin-top: 30px;">
+        <a href="/" class="login-link">
+            <img src="/images/icons/home.png" alt="">
+            На главную
+        </a>
+        <span class="link-separator">•</span>
+        <a href="/rules" class="login-link">
+            Правила игровых миров
+        </a>
+        <span class="link-separator">•</span>
+        <a href="/register" class="login-link register-link">
+            Регистрация
+        </a>
+    </div>
+
 </div>

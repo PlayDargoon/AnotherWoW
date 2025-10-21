@@ -187,7 +187,10 @@ switch ($uri) {
             $out[] = [
                 'guid' => (int)$c['guid'],
                 'name' => $c['name'],
-                'level' => (int)$c['level']
+                'level' => (int)$c['level'],
+                'race' => (int)$c['race'],
+                'class' => (int)$c['class'],
+                'gender' => (int)($c['gender'] ?? 0)
             ];
         }
         echo json_encode(['characters' => $out], JSON_UNESCAPED_UNICODE);
@@ -365,6 +368,7 @@ switch ($uri) {
             $controller->setNewPassword($token); // Передаём токен
         } else {
             // Просто показать страницу для ввода нового пароля
+            $token = isset($_GET['token']) ? (string)$_GET['token'] : '';
             $controller->showSetPasswordForm($token);
         }
         break;

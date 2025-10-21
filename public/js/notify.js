@@ -7,9 +7,18 @@ document.addEventListener('DOMContentLoaded', function() {
             var block = document.getElementById('notify-' + notifyId);
             
             console.log('Hiding notification:', notifyId);
-            // Оптимистичное удаление из DOM сразу, чтобы пользователь видел результат
+            
+            // Плавное исчезновение
             if (block) {
-                block.parentNode && block.parentNode.removeChild(block);
+                block.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                block.style.opacity = '0';
+                block.style.transform = 'translateX(100%)';
+                
+                setTimeout(function() {
+                    if (block.parentNode) {
+                        block.parentNode.removeChild(block);
+                    }
+                }, 300);
             }
             
             fetch('/notify-hide.php', {
@@ -18,7 +27,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'X-Requested-With': 'XMLHttpRequest'
                 },
-                // Важно: отправляем cookie с запросом, чтобы сервер увидел сессию
                 credentials: 'same-origin',
                 body: 'id=' + encodeURIComponent(notifyId)
             })
@@ -38,8 +46,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.log('Notification removed successfully');
                 } else {
                     console.log('Failed to hide notification:', data);
-                    // В крайнем случае сообщим пользователю
-                    // alert('Не удалось скрыть уведомление. Обновите страницу.');
                 }
             })
             .catch(function(error) {

@@ -8,79 +8,75 @@
 /** @var int $totalCount */
 ?>
 
-<div class="body">
-    <div class="pt">
-        <h2>История пополнений</h2>
-        <div class="section-sep"></div>
+<div class="cabinet-page">
+    <h1>История начислений</h1>
 
-        <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
-            <thead>
-                <tr>
-                    <td style="padding: 10px; font-weight: bold; font-size: 14px;">Дата</td>
-                    <td style="padding: 10px; font-weight: bold; text-align: center; font-size: 14px;">Сумма</td>
-                    <td style="padding: 10px; font-weight: bold; font-size: 14px;">Причина</td>
-                </tr>
-            </thead>
-            <tbody>
-            <?php if (empty($history)): ?>
-                <tr>
-                    <td colspan="3" style="padding: 12px; text-align: center; color: #777;">Нет начислений</td>
-                </tr>
-            <?php else: ?>
-                <?php foreach ($history as $row): ?>
-                    <?php
-                        $raw = $row['created_at'] ?? '';
-                        $ts = is_numeric($raw) ? (int)$raw : strtotime((string)$raw);
-                        $dateText = $ts ? date('d.m.Y H:i:s', $ts) : htmlspecialchars((string)$raw, ENT_QUOTES, 'UTF-8');
-                        // Нормализуем причину к дружелюбному виду
-                        $rawReason = (string)($row['reason'] ?? '');
-                        $safeReason = htmlspecialchars($rawReason, ENT_QUOTES, 'UTF-8');
-                        $lower = function_exists('mb_strtolower') ? mb_strtolower($rawReason, 'UTF-8') : strtolower($rawReason);
-                        if (strpos($lower, 'голос') !== false || strpos($lower, 'vote') !== false || strpos($lower, 'mmotop') !== false) {
-                            $reasonText = 'Голосование MMOTOP';
-                        } else {
-                            // Просто отображаем полную причину без изменений
-                            $reasonText = $safeReason;
-                        }
-                    ?>
+    <div class="cabinet-card">
+        <div class="cabinet-card-title">
+            <img src="/images/icons/journal_12.png" width="24" height="24" alt="*">
+            История пополнений
+        </div>
+
+        <div class="table-responsive">
+            <table class="premium-table">
+                <thead>
                     <tr>
-                        <td style="padding: 8px;"><?= $dateText ?></td>
-                        <?php $amount = (int)($row['coins'] ?? 0); $color = $amount >= 0 ? '#2c7' : '#d33'; ?>
-                        <td style="padding: 8px; text-align: center;"><strong style="color:<?= $color ?>;"><?= $amount >= 0 ? '+' : '' ?><?= $amount ?></strong></td>
-                        <td style="padding: 8px;"><?= $reasonText ?></td>
+                        <th>Дата</th>
+                        <th style="text-align:center">Сумма</th>
+                        <th>Причина</th>
                     </tr>
-                <?php endforeach; ?>
-            <?php endif; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                <?php if (empty($history)): ?>
+                    <tr>
+                        <td colspan="3" style="text-align:center; color:#9aa3ff; padding:12px">Нет начислений</td>
+                    </tr>
+                <?php else: ?>
+                    <?php foreach ($history as $row): ?>
+                        <?php
+                            $raw = $row['created_at'] ?? '';
+                            $ts = is_numeric($raw) ? (int)$raw : strtotime((string)$raw);
+                            $dateText = $ts ? date('d.m.Y H:i:s', $ts) : htmlspecialchars((string)$raw, ENT_QUOTES, 'UTF-8');
+                            $rawReason = (string)($row['reason'] ?? '');
+                            $safeReason = htmlspecialchars($rawReason, ENT_QUOTES, 'UTF-8');
+                            $lower = function_exists('mb_strtolower') ? mb_strtolower($rawReason, 'UTF-8') : strtolower($rawReason);
+                            if (strpos($lower, 'голос') !== false || strpos($lower, 'vote') !== false || strpos($lower, 'mmotop') !== false) {
+                                $reasonText = 'Голосование MMOTOP';
+                            } else {
+                                $reasonText = $safeReason;
+                            }
+                        ?>
+                        <tr>
+                            <td><?= $dateText ?></td>
+                            <?php $amount = (int)($row['coins'] ?? 0); $color = $amount >= 0 ? '#79e27d' : '#ff6b6b'; ?>
+                            <td style="text-align:center"><strong style="color:<?= $color ?>;"><?= $amount >= 0 ? '+' : '' ?><?= $amount ?></strong></td>
+                            <td><?= $reasonText ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
 
         <?php if (($totalPages ?? 1) > 1): ?>
-        <div class="pt">
             <?php
                 $shownFrom = ($pageIndex - 1) * $perPage + (empty($history) ? 0 : 1);
                 $shownTo = ($pageIndex - 1) * $perPage + count($history);
             ?>
-            <div style="margin-bottom:6px; color:#777; font-size:12px;">Показано <?= $shownFrom ?>–<?= $shownTo ?> из <?= (int)$totalCount ?></div>
-            <div>
+            <div class="minor" style="margin:10px 0 6px;">Показано <?= $shownFrom ?>–<?= $shownTo ?> из <?= (int)$totalCount ?></div>
+            <div class="login-links" style="justify-content:flex-start; gap:10px; flex-wrap:wrap;">
                 <?php if ($pageIndex > 1): ?>
-                    <a class="pag" href="?pageIndex=<?= $pageIndex - 1 ?>" data-on-click-sound="ui profile-open">&lt;Предыдущая</a>
-                    &nbsp;
+                    <a class="link-item" href="?pageIndex=<?= $pageIndex - 1 ?>">&lt; Предыдущая</a>
                 <?php endif; ?>
                 <?php if ($pageIndex < $totalPages): ?>
-                    <a class="pag" href="?pageIndex=<?= $pageIndex + 1 ?>" data-on-click-sound="ui profile-open">Следующая&gt;</a>
+                    <a class="link-item" href="?pageIndex=<?= $pageIndex + 1 ?>">Следующая &gt;</a>
                 <?php else: ?>
-                    <span class="pag" data-on-click-sound="ui profile-open" style="opacity:.5; cursor: default;">Следующая&gt;</span>
+                    <span class="link-item" style="opacity:.6; cursor: default;">Следующая &gt;</span>
                 <?php endif; ?>
             </div>
-            <div style="margin-top:6px;">
-                <?php if ($pageIndex > 1): ?>
-                    <a class="pag" href="?pageIndex=1" data-on-click-sound="ui profile-open" title="Перейти на первую">&lt;&lt;</a>
-                <?php else: ?>
-                    <span class="pag" data-on-click-sound="ui profile-open" style="opacity:.5; cursor: default;">&lt;&lt;</span>
-                <?php endif; ?>
-                |
+            <div class="login-links" style="justify-content:flex-start; gap:6px; flex-wrap:wrap;">
+                <span class="minor">Страницы:</span>
                 <?php
-                    // Окно страниц вокруг текущей (до 5 номеров)
                     $window = 5;
                     $start = max(1, $pageIndex - 2);
                     $end = min($totalPages, max($start + $window - 1, $pageIndex + 2));
@@ -89,29 +85,18 @@
                     }
                     for ($i = $start; $i <= $end; $i++):
                 ?>
-                    <span>
-                        <?php if ($i == $pageIndex): ?>
-                            <span class="pag" data-on-click-sound="ui profile-open" title="Текущая страница"><span><?= $i ?></span></span>
-                        <?php else: ?>
-                            <a href="?pageIndex=<?= $i ?>" class="pag" data-on-click-sound="ui profile-open" title="Перейти на страницу <?= $i ?>"><span><?= $i ?></span></a>
-                        <?php endif; ?>
-                    </span><?= $i < $end ? '|' : '' ?>
+                    <?php if ($i == $pageIndex): ?>
+                        <span class="link-item" style="opacity:.9; cursor: default;">[<?= $i ?>]</span>
+                    <?php else: ?>
+                        <a href="?pageIndex=<?= $i ?>" class="link-item"><?= $i ?></a>
+                    <?php endif; ?>
                 <?php endfor; ?>
-                |
-                <?php if ($pageIndex < $totalPages): ?>
-                    <a class="pag" href="?pageIndex=<?= $totalPages ?>" data-on-click-sound="ui profile-open" title="Перейти на последнюю">&gt;&gt;</a>
-                <?php else: ?>
-                    <span class="pag" data-on-click-sound="ui profile-open" style="opacity:.5; cursor: default;">&gt;&gt;</span>
-                <?php endif; ?>
             </div>
-        </div>
         <?php endif; ?>
     </div>
-</div>
 
-<div class="footer nav block-border-top">
-    <ol>
-        <li><img class="i12img" src="/images/icons/home.png" alt="." width="12" height="12"> <a href="/">На главную</a></li>
-        <li><img class="i12img" src="/images/icons/arr_left.png" alt="." width="12" height="12"> <a href="/cabinet">В кабинет</a></li>
-    </ol>
+    <div class="login-links" style="margin-top:16px">
+        <a class="link-item" href="/"><img class="i12img" src="/images/icons/home.png" alt="." width="12" height="12"> На главную</a>
+        <a class="link-item" href="/cabinet"><img class="i12img" src="/images/icons/arr_left.png" alt="." width="12" height="12"> В кабинет</a>
+    </div>
 </div>

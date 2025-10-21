@@ -1,246 +1,162 @@
-    <head>
-        <title>Кабинет пользователя <?= htmlspecialchars($userInfo['username']) ?></title>      
-    </head>
-      
+<div class="cabinet-page">
+    <h1>Личный кабинет — <?= htmlspecialchars($userInfo['username']) ?></h1>
 
-<div class="body">
-                  <h2>Игровой кабинет</h2>
-
-
-
-                  
-    <div class="pt" style="text-align:center">
-        <div class="block-border">
-            <img src="/images/taverna.jpg" width="725" height="227" alt="таверна">
-        </div>
+    <div class="cabinet-hero block-border" style="text-align:center">
+        <img src="/images/taverna.jpg" width="725" height="227" alt="Таверна">
     </div>
- <div class="section-sep"></div>
 
- 
-                 <?php if ($userAccessLevel >= 4): ?>
-        <ol>
-           <li><img src="/images/icons/settings.png" width="12" height="12" alt="*"> <a href="/admin-panel">Админ Панель</a></li>
-        </ol>
-                 <?php endif; ?>
-
-<div class="section-sep"></div>
-
-  
-<div class="pt">
-
-    <img src="/images/icons/menialo.png" alt="*" style="float:left;margin-right:8px; " class="ic32" width="32" height="32">
-
-        <div class="small">
-            Продолжи свое путешествие и стань легендарным героем!<br/>
-            Выбери персонажа, которым ты хочешь управлять:
+    <?php if ($userAccessLevel >= 4): ?>
+        <div class="info-alert" style="margin-top:15px">
+            <img src="/images/icons/settings.png" width="12" height="12" alt="*"> 
+            У вас есть доступ в <a href="/admin-panel">админ-панель</a>.
         </div>
-        <br>
+    <?php endif; ?>
 
-        <div class="pt">
-        <h2>Информация учетной записи</h2>
-        <div class="section-sep"></div>
-        <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
-            <tr>
-                <td style="padding: 8px; width: 30%; vertical-align: top;">
-                    <img src="/images/icons/message_incoming.png" width="12" height="12" alt="*"> 
-                    <span class="minor">Email:</span>
-                </td>
-                <td style="padding: 8px;">
-                    <?= htmlspecialchars($userInfo['email'] ?? 'Не указан', ENT_QUOTES, 'UTF-8') ?>
-                </td>
-            </tr>
-            <tr>
-                <td style="padding: 8px; vertical-align: top;">
-                    <img src="/images/icons/clock.png" width="12" height="12" alt="*"> 
-                    <span class="minor">Дата регистрации:</span>
-                </td>
-                <td style="padding: 8px;">
-                    <?= $userInfo['joindate'] ? date('d.m.Y H:i:s', strtotime($userInfo['joindate'])) : 'Не указана' ?>
-                </td>
-            </tr>
-            <tr>
-                <td style="padding: 8px; vertical-align: top;">
-                    <img src="/images/icons/portal_green.png" width="12" height="12" alt="*"> 
-                    <span class="minor">Последний вход:</span>
-                </td>
-                <td style="padding: 8px;">
-                    <?= $userInfo['last_login'] ? date('d.m.Y H:i:s', strtotime($userInfo['last_login'])) : 'Никогда не входил' ?>
-                </td>
-            </tr>
-            <tr>
-                <td style="padding: 8px; vertical-align: top;">
-                    <img src="/images/icons/eye.png" width="12" height="12" alt="*"> 
-                    <span class="minor">Последний IP:</span>
-                </td>
-                <td style="padding: 8px;">
-                    <?= htmlspecialchars($userInfo['last_ip'] ?? 'Не определён', ENT_QUOTES, 'UTF-8') ?: 'Не определён' ?>
-                </td>
-            </tr>
-            <tr>
-                <td style="padding: 8px; vertical-align: top;">
-                    <img src="/images/icons/skull_blue.png" width="12" height="12" alt="*"> 
-                    <span class="minor">Статус бана:</span>
-                </td>
-                <td style="padding: 8px;">
+    <div class="cabinet-card">
+        <div class="cabinet-card-title">
+            <img src="/images/icons/menialo.png" width="24" height="24" alt="*">
+            Информация учетной записи
+        </div>
+        <div class="cabinet-info-list">
+            <div class="info-row">
+                <div class="label"><img src="/images/icons/message_incoming.png" width="12" height="12" alt="*"> Email</div>
+                <div class="value"><?= htmlspecialchars($userInfo['email'] ?? 'Не указан', ENT_QUOTES, 'UTF-8') ?></div>
+            </div>
+            <div class="info-row">
+                <div class="label"><img src="/images/icons/clock.png" width="12" height="12" alt="*"> Дата регистрации</div>
+                <div class="value"><?= $userInfo['joindate'] ? date('d.m.Y H:i:s', strtotime($userInfo['joindate'])) : 'Не указана' ?></div>
+            </div>
+            <div class="info-row">
+                <div class="label"><img src="/images/icons/portal_green.png" width="12" height="12" alt="*"> Последний вход</div>
+                <div class="value"><?= $userInfo['last_login'] ? date('d.m.Y H:i:s', strtotime($userInfo['last_login'])) : 'Никогда не входил' ?></div>
+            </div>
+            <div class="info-row">
+                <div class="label"><img src="/images/icons/eye.png" width="12" height="12" alt="*"> Последний IP</div>
+                <div class="value"><?= htmlspecialchars($userInfo['last_ip'] ?? 'Не определён', ENT_QUOTES, 'UTF-8') ?: 'Не определён' ?></div>
+            </div>
+            <div class="info-row">
+                <div class="label"><img src="/images/icons/skull_blue.png" width="12" height="12" alt="*"> Статус бана</div>
+                <div class="value">
                     <?php if ($banInfo): ?>
-                        <span style="color: red;">Забанен</span>
+                        <span class="status-bad">Забанен</span>
                         <?php if (!empty($banInfo['banreason'])): ?>
-                            <br><span class="minor">Причина: <?= htmlspecialchars($banInfo['banreason'], ENT_QUOTES, 'UTF-8') ?></span>
+                            <span class="minor">Причина: <?= htmlspecialchars($banInfo['banreason'], ENT_QUOTES, 'UTF-8') ?></span>
                         <?php endif; ?>
                     <?php else: ?>
-                        <span style="color: green;">Не забанен</span>
+                        <span class="status-ok">Не забанен</span>
                     <?php endif; ?>
-                </td>
-            </tr>
-            <tr>
-                <td style="padding: 8px; vertical-align: top;">
-                    <img src="/images/icons/cross.png" width="12" height="12" alt="*"> 
-                    <span class="minor">Статус мута:</span>
-                </td>
-                <td style="padding: 8px;">
+                </div>
+            </div>
+            <div class="info-row">
+                <div class="label"><img src="/images/icons/cross.png" width="12" height="12" alt="*"> Статус мута</div>
+                <div class="value">
                     <?php if ($muteInfo): ?>
-                        <span style="color: red;">Заглушен</span> 
+                        <span class="status-bad">Заглушен</span> 
                         <span class="minor">(до <?= date('d.m.Y H:i:s', $muteInfo['mute_end_time']) ?>)</span>
                         <?php if (!empty($muteInfo['mutereason'])): ?>
                             <br><span class="minor">Причина: <?= htmlspecialchars($muteInfo['mutereason'], ENT_QUOTES, 'UTF-8') ?></span>
                         <?php endif; ?>
                     <?php else: ?>
-                        <span style="color: green;">Не заглушен</span>
+                        <span class="status-ok">Не заглушен</span>
                     <?php endif; ?>
-                </td>
-            </tr>
-            <tr>
-                <td style="padding: 8px; vertical-align: top;">
-                    <img src="/images/icons/health.png" width="12" height="12" alt="*"> 
-                    <span class="minor">В игре:</span>
-                </td>
-                <td style="padding: 8px;">
-                    <?php if ($userInfo['online'] > 0): ?>
-                        <span style="color: green;"> онлайн</span>
+                </div>
+            </div>
+            <div class="info-row">
+                <div class="label"><img src="/images/icons/health.png" width="12" height="12" alt="*"> В игре</div>
+                <div class="value">
+                    <?php if (!empty($userInfo['online']) && $userInfo['online'] > 0): ?>
+                        <span class="status-ok">онлайн</span>
                     <?php else: ?>
-                        <span style="color: red;"> оффлайн</span>
+                        <span class="status-bad">оффлайн</span>
                     <?php endif; ?>
-                </td>
-            </tr>
-            <tr>
-                <td style="padding: 8px; vertical-align: top;">
-                    <img src="/images/icons/money.png" width="12" height="12" alt="*"> 
-                    <span class="minor">Баланс:</span>
-                </td>
-                <td style="padding: 8px;">
-                    <strong><?= $bonusBalance ?> бонусов</strong>
-                    <span class="ml10">
-                        <img src="/images/icons/money.png" alt="." width="12" height="12" class="i12img">
-                        <a href="/payment/create">Пополнить</a>
-                    </span>
-                </td>
-            </tr>
-        </table>
+                </div>
+            </div>
+            <div class="info-row">
+                <div class="label"><img src="/images/icons/money.png" width="12" height="12" alt="*"> Баланс</div>
+                <div class="value">
+                    <strong><?= (int)$bonusBalance ?> бонусов</strong>
+                    <a class="cabinet-small-button" href="/payment/create">Пополнить</a>
+                </div>
+            </div>
+        </div>
     </div>
-   <div class="section-sep"></div>
 
-
-
-<div class="small">
-<h2>Ваши персонажи</h2>
-<div class="section-sep"></div>
-
-<?php if (empty($characters)): ?>
-    <p>У вас нет созданных персонажей.</p>
-<?php else: ?>
-    <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
-        <thead>
-            <tr>
-                <td style="padding: 10px; font-weight: bold; text-align: center; font-size: 14px;">Фракция</td>
-                <td style="padding: 10px; font-weight: bold; text-align: center; font-size: 14px;">Расса</td>
-                <td style="padding: 10px; font-weight: bold; text-align: center; font-size: 14px;">Класс</td>
-                <td style="padding: 10px; font-weight: bold; font-size: 14px;">Имя персонажа</td>
-                <td style="padding: 10px; font-weight: bold; text-align: center; font-size: 14px;">Уровень</td>
-                <td style="padding: 10px; font-weight: bold; text-align: center; font-size: 14px;">Время игры</td>
-                <td style="padding: 10px; font-weight: bold; text-align: center; font-size: 14px;">Действие</td>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($characters as $char): ?>
-                <tr>
-                    <td style="padding: 8px; text-align: center;">
-                        <img src="<?= $char['factionImage'] ?>" alt="Фракция">
-                    </td>
-                    <td style="padding: 8px; text-align: center;">
-                        <img src="/images/small/<?= $char['race'].'-'.$char['gender'].'.gif' ?>" alt="расса" class="u12img">
-                    </td>
-                    <td style="padding: 8px; text-align: center;">
-                        <img src="/images/small/<?= $char['class'].'.gif' ?>" alt="класс">
-                    </td>
-                    <td style="padding: 8px;">
-                        <strong style="color: <?= $char['classColor'] ?>;"><?= htmlspecialchars($char['name'], ENT_QUOTES, 'UTF-8') ?></strong>
-                        <?php if (!empty($char['roleTextShort'])): ?>
-                            <br><span class="bluepost">[<?= htmlspecialchars($char['roleTextShort'], ENT_QUOTES, 'UTF-8') ?>]</span>
-                        <?php endif; ?>
-                    </td>
-                    <td style="padding: 8px; text-align: center;">
-                        <strong><?= $char['level'] ?></strong> ур.
-                    </td>
-                    <td style="padding: 8px; text-align: center;">
-                        <span style="color: #6cf; font-size: 11px;"><?= $char['playtime'] ?></span>
-                    </td>
-                    <td style="padding: 8px; text-align: center;">
-                        <a class="btn" href="<?= '/play?id='.$char['guid'] ?>">Управлять</a>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-<?php endif; ?>
-
-</div>
-
-<div class="pt">
-    <h2>Голосование</h2>
-        <div class="section-sep"></div>
-        <ol>
-            <li><img src="/images/icons/feather.png" width="12" height="12" alt="*"> <a href="/vote"  width="12" height="12" alt="*">Голосовать за проект</a></li>
-            <li><img class="i12img" src="/images/icons/journal_12.png" alt="." width="12px" height="12px"> <a href="/cabinet/coins-history">История начислений</a></li>
-            <li><img src="/images/icons/shop.png" width="12" height="12" alt="*"> <a href="/shop">Магазин</a></li>
-            <li><img src="/images/icons/vip_icon.png" width="12" height="12" alt="*"> <a href="/vote/top">Топ голосующих</a></li>
-        </ol>
+    <div class="cabinet-card">
+        <div class="cabinet-card-title">
+            <img src="/images/icons/addfriends.png" width="24" height="24" alt="*">
+            Ваши персонажи
+        </div>
+        <?php if (empty($characters)): ?>
+            <p class="minor">У вас нет созданных персонажей.</p>
+        <?php else: ?>
+            <div class="table-responsive">
+                <table class="premium-table">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center">Фракция</th>
+                            <th style="text-align:center">Расса</th>
+                            <th style="text-align:center">Класс</th>
+                            <th>Имя персонажа</th>
+                            <th style="text-align:center">Уровень</th>
+                            <th style="text-align:center">Время игры</th>
+                            <th style="text-align:center">Действие</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($characters as $char): ?>
+                            <tr>
+                                <td class="tc"><img src="<?= $char['factionImage'] ?>" alt="Фракция"></td>
+                                <td class="tc"><img src="/images/small/<?= $char['race'].'-'.$char['gender'].'.gif' ?>" alt="расса" class="u12img"></td>
+                                <td class="tc"><img src="/images/small/<?= $char['class'].'.gif' ?>" alt="класс"></td>
+                                <td>
+                                    <strong style="color: <?= $char['classColor'] ?>;"><?= htmlspecialchars($char['name'], ENT_QUOTES, 'UTF-8') ?></strong>
+                                    <?php if (!empty($char['roleTextShort'])): ?>
+                                        <br><span class="bluepost">[<?= htmlspecialchars($char['roleTextShort'], ENT_QUOTES, 'UTF-8') ?>]</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td class="tc"><strong><?= (int)$char['level'] ?></strong> ур.</td>
+                                <td class="tc"><span class="minor"><?= htmlspecialchars($char['playtime'], ENT_QUOTES, 'UTF-8') ?></span></td>
+                                <td class="tc"><a class="cabinet-small-button" href="<?= '/play?id='.$char['guid'] ?>">Управлять</a></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php endif; ?>
     </div>
-<div class="section-sep"></div>
 
-    <div class="pt">
-        <h2>Настройки</h2>
-        
-           <ol>
-               <li><img src="/images/icons/arr.png" width="12" height="12" alt="*"> <a href="#"> Изменить email</a></li>
-               <li><img src="/images/icons/arr.png" width="12" height="12" alt="*"> <a href="#">Изменить телефон</a></li>
-               <li><img src="/images/icons/question_blue.png" width="12" height="12" alt="*"> <a href="#">Сменить пароль</a></li>
-            </ol>
+    <div class="cabinet-grid">
+        <div class="cabinet-card">
+            <div class="cabinet-card-title">
+                <img src="/images/icons/feather.png" width="24" height="24" alt="*">
+                Голосование и бонусы
+            </div>
+            <ul class="action-list">
+                <li><img src="/images/icons/feather.png" width="12" height="12" alt="*"> <a href="/vote">Голосовать за проект</a></li>
+                <li><img class="i12img" src="/images/icons/journal_12.png" alt="." width="12" height="12"> <a href="/cabinet/coins-history">История начислений</a></li>
+                <li><img src="/images/icons/bazaar.png" width="12" height="12" alt="*"> <a href="/shop">Магазин</a></li>
+                <li><img src="/images/icons/vip_icon.png" width="12" height="12" alt="*"> <a href="/vote/top">Топ голосующих</a></li>
+            </ul>
+        </div>
+
+        <div class="cabinet-card">
+            <div class="cabinet-card-title">
+                <img src="/images/icons/question_blue.png" width="24" height="24" alt="*">
+                Настройки аккаунта
+            </div>
+            <ul class="action-list">
+                <li><img src="/images/icons/arr.png" width="12" height="12" alt="*"> <a href="#">Изменить email</a></li>
+                <li><img src="/images/icons/arr.png" width="12" height="12" alt="*"> <a href="#">Изменить телефон</a></li>
+                <li><img src="/images/icons/question_blue.png" width="12" height="12" alt="*"> <a href="#">Сменить пароль</a></li>
+            </ul>
+        </div>
     </div>
-    <div class="section-sep"></div>
+
+    <div class="login-links" style="margin-top:20px">
+        <a href="/" class="link-item"><img class="i12img" src="/images/icons/home.png" alt="." width="12" height="12"> На главную</a>
+        <a href="/logout" class="link-item" ignorewebview="true"><img src="/images/icons/cross.png" alt="." width="12" height="12"> Выйти</a>
+        <a href="/help" class="link-item"><img class="i12img" src="/images/icons/question_blue.png" alt="." width="12" height="12"> Помощь</a>
+        <a href="https://yoomoney.ru/fundraise/1D220FUHMKN.250928" target="_blank" class="link-item"><img src="/images/icons/addfriends.png" alt="." width="12" height="12"> Поддержать сервер</a>
+    </div>
 </div>
-
-</div>
-
-<div class="footer nav block-border-top">
-    <ol>
-       <li><img class="i12img" src="/images/icons/home.png" alt="." width="12px" height="12px"> <a href="/">На главную</a></li>
-      
-       <li><img src="/images/icons/cross.png" alt="." width="12" height="12"> <a ignorewebview="true" href="/logout">Выйти из кабинета</a></li>
-       <li> <img class="i12img" src="/images/icons/question_blue.png" alt="." width="12px" height="12px"> <a href="#">Первая помощь</a></li>
-
-    </ol>
-</div>
-
-
-<div class="footer nav block-border-top">
-    <ol>
-        <li>
-            <img src="/images/icons/addfriends.png" alt="." width="12" height="12" class="i12img">
-    <a href="https://yoomoney.ru/fundraise/1D220FUHMKN.250928" class=""><span>Поддержать сервер</span></a>
-        </li>
-        
-    </ol>
-</div>
-
-</body>
 

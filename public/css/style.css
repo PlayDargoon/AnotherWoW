@@ -16,10 +16,10 @@ h1, h2, form, html, p, div, span, table, tbody, td, tr, img {
 body {
     color: #FFFFFF;
     margin: 0 auto;
-    max-width: 740px;
+    max-width: 1300px; /* 280px (left) + 740px (center) + 280px (right) */
     background-color: #333333;
     overflow-x: hidden;
-    position: relative; /* Нужно для абсолютного позиционирования дочерних элементов */
+    position: relative;
 }
 
 body, table, td, th, input, textarea, select {
@@ -47,6 +47,62 @@ a {
     color: #ffff33;
     outline: none;
     text-decoration: underline;
+}
+
+/* === THEME SWITCHER === */
+.theme-switcher {
+    position: fixed;
+    left: 10px;
+    bottom: 10px;
+    z-index: 1000;
+}
+
+.theme-toggle-btn {
+    background: rgba(26, 58, 90, 0.95);
+    border: 1px solid #4a7a9a;
+    border-radius: 20px;
+    padding: 8px 16px;
+    color: #ffff99;
+    font-size: 12px;
+    font-weight: normal;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.theme-toggle-btn:hover {
+    background: rgba(42, 90, 122, 0.98);
+    border-color: #5a8aaa;
+    box-shadow: 0 4px 12px rgba(90, 138, 170, 0.4);
+    transform: translateX(3px);
+}
+
+.theme-toggle-btn:active {
+    transform: translateX(1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+.theme-icon {
+    font-size: 16px;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+}
+
+.theme-text {
+    letter-spacing: 0.3px;
+    font-size: 11px;
+}
+
+.theme-text strong {
+    color: #ffd700;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+}
+
+body {
+    transition: opacity 0.2s ease;
 }
 
 table {
@@ -118,32 +174,92 @@ li {
 
 .header-navigation {
     background-color: #333366;
-    width: calc(100% + 600px); /* Увеличение ширины блока */
-    margin-left: -300px; /* Компенсируем увеличение слева */
-    margin-right: -300px; /* Компенсируем увеличение справа */
+    width: 100%; /* На всю ширину body (1300px) */
+    margin-left: 0;
+    margin-right: 0;
     padding: 0px;
     color: white; 
     height: 62px; 
 }
+
+/* === LAYOUT CONTAINER - НОВАЯ СТРУКТУРА === */
+.layout-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  gap: 10px;
+    width: 100%;
+}
+
+/* Левая боковая панель (test3) */
+.layout-sidebar-left {
+    background-color: #000033;
+    width: 280px;
+    flex-shrink: 0;
+    order: 1;
+    margin-top: 20px;
+    padding: 8px;
+}
+
+/* Центральный контент */
+.layout-content {
+    width: 740px;
+    max-width: 740px;
+    flex-shrink: 0;
+    order: 2;
+}
+
+/* Правая боковая панель (test2) */
+.layout-sidebar-right {
+    background-color: #000033;
+    width: 280px;
+    flex-shrink: 0;
+    order: 3;
+    padding: 8px;
+}
+
+/* Элементы меню в левом блоке */
+.layout-sidebar-left h1 {
+  margin-bottom: 8px;
+}
+
+/* Разделительная линия добавляется только в премиум-стилях */
+
+.layout-sidebar-left .info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+}
+
+.layout-sidebar-left .info + .info {
+  margin-top: 6px;
+}
+
+/* Скругления только в премиум-стилях */
+
+.layout-sidebar-left .i12img {
+  flex: 0 0 auto;
+}
+
+.layout-sidebar-left a {
+  text-decoration: none;
+}
+
+.layout-sidebar-left a:hover span {
+  text-decoration: underline;
+}
+
+/* Анимации и эффекты только в премиум-стилях */
+
+/* === СТАРЫЕ СТИЛИ (для совместимости) === */
 /*Правый*/
 .test2 {
     background-color: #000033;
-    width: 280px;
-    height: 200px;
-    position: absolute;
-    right: -290px; /* Выходит за правую границу на 100px */
-    top: 10px; /* Смещаем блок чуть ниже верхнего уровня родительского элемента */
-    z-index: 1;
 }
 /*Левый*/
 .test3 {
     background-color: #000033;
-    width: 280px;
-    height: 200px;
-    position: absolute;
-    right: 748px; /* Выходит за правую границу на 100px */
-    top: 10px; /* Смещаем блок чуть ниже верхнего уровня родительского элемента */
-    z-index: 1;
 }
 
 a.headerButton {
@@ -442,6 +558,7 @@ input.headerButton, button.headerButton {
 .mt10 {
     margin-top: 10px;
 }
+.mb10 { margin-bottom: 10px; }
 .mt20 {
     margin-top: 20px;
 }
@@ -678,8 +795,173 @@ input[type="password"] {background: #fff;}
 .section-sep {
     padding: 15px 0 0 0;
 }
+.hidden { display: none; }
 
-::-webkit-scrollbar {
+/* Shop page */
+.shop-items {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.shop-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    margin: 15px auto;
+    max-width: 600px;
+    width: 100%;
+    border: 2px solid #4a4a70;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(25, 25, 72, 0.95) 0%, rgba(0, 0, 51, 0.95) 100%);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+.shop-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+.shop-item:hover {
+    border-color: #6666aa;
+    box-shadow: 0 6px 20px rgba(102, 102, 170, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+.shop-item:hover::before {
+    left: 100%;
+}
+.shop-item-info { 
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.shop-item-info img {
+    padding: 8px;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(51, 51, 102, 0.3) 100%);
+    border: 2px solid #5a5a80;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+}
+.shop-item:hover .shop-item-info img {
+    border-color: #7a7aaa;
+    box-shadow: 0 4px 12px rgba(90, 90, 128, 0.6);
+    transform: scale(1.05);
+}
+.shop-item-info h3 {
+    margin: 0 0 5px 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffff99;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    letter-spacing: 0.5px;
+}
+.shop-item-price {
+    text-align: right;
+    min-width: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+}
+.shop-item-price strong {
+    display: block;
+    color: #ffd700;
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5), 0 2px 4px rgba(0, 0, 0, 0.7);
+    letter-spacing: 1px;
+}
+.shop-buy-btn {
+    padding: 10px 24px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #2a5a7a 0%, #1a3a5a 100%);
+    border: 2px solid #4a7a9a;
+    border-radius: 6px;
+    color: #ffff99;
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+.shop-buy-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+}
+.shop-buy-btn:hover {
+    background: linear-gradient(135deg, #3a6a8a 0%, #2a4a6a 100%);
+    border-color: #5a8aaa;
+    box-shadow: 0 5px 15px rgba(90, 138, 170, 0.5);
+    transform: translateY(-2px);
+}
+.shop-buy-btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+.shop-buy-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+/* Modal animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+@keyframes slideIn {
+    from { 
+        opacity: 0;
+        transform: translateY(-30px) scale(0.95);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+@keyframes slideOut {
+    from { 
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    to { 
+        opacity: 0;
+        transform: translateY(-30px) scale(0.95);
+    }
+}
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+}::-webkit-scrollbar {
   display: none;
 }
 

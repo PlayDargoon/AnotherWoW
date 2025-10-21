@@ -49,11 +49,11 @@ $pageTitle = $pageTitle ?? 'Прогрессия контента';
 $updatedAt = null;
 ?>
 
-<div class="body" id="top">
+<div class="cabinet-page" id="top">
     <h2>📜 Прогрессия контента (Classic → TBC → WotLK)</h2>
 
         <?php if (!empty($intro ?? [])): ?>
-            <div class="pt">
+            <div class="cabinet-card">
                 <div class="info">
                     <?php foreach ($intro as $p): ?>
                         <p class="small"><?= htmlspecialchars($p) ?></p>
@@ -63,7 +63,7 @@ $updatedAt = null;
         <?php endif; ?>
 
         <?php if (!empty($phases ?? [])): ?>
-            <div class="pt">
+            <div class="cabinet-card">
                 <div class="minor" style="margin-bottom: 8px;">
                     🔗 Быстрые ссылки по фазам:
                 </div>
@@ -77,7 +77,7 @@ $updatedAt = null;
                 <?php endif; ?>
             </div>
 
-            <div class="pt" style="margin-top:8px;">
+            <div class="cabinet-card" style="margin-top:8px;">
                 <div class="minor" style="margin-bottom: 6px;">Кнопки управления:</div>
                 <div>
                     <a href="#" class="headerButtonMy mr5" data-action="filter" data-era="all">Показать все</a>
@@ -92,7 +92,7 @@ $updatedAt = null;
             <br>
 
             <?php foreach ($phases as $ph): ?>
-                <div class="pt phase-block" id="phase-<?= (int)$ph['number'] ?>" data-era="<?= htmlspecialchars($ph['era'] ?? 'unknown') ?>">
+                <div class="cabinet-card phase-block" id="phase-<?= (int)$ph['number'] ?>" data-era="<?= htmlspecialchars($ph['era'] ?? 'unknown') ?>">
                     <div style="display:flex; align-items:center; justify-content:space-between; gap:6px;">
                         <h3 style="color:#ff6600; margin-right:8px;">Фаза <?= (int)$ph['number'] ?> — <?= htmlspecialchars($ph['title']) ?></h3>
                         <div style="white-space:nowrap;">
@@ -111,20 +111,19 @@ $updatedAt = null;
     <br>
 </div>
 
-<div class="footer nav block-border-top">
-    <ol>
-        <li>
-            <img src="/images/icons/home.png" alt="." width="12" height="12" class="i12img"> <a href="/" class=""><span>На главную</span></a>
-        </li>
-        <li>
-            <img src="/images/icons/arr_left.png" alt="." width="12" height="12" class="i12img"> <a href="/news" class=""><span>К новостям</span></a>
-        </li>
-    </ol>
+<div class="login-links" style="margin-top: 20px;">
+    <a href="/" class="login-link">
+        <img src="/images/icons/home.png" alt="">
+        На главную
+    </a>
+    <span class="link-separator">•</span>
+    <a href="/news" class="login-link">
+        К новостям
+    </a>
     <?php if ($updatedAt): ?>
-        <div class="minor">Версия: <?= $updatedAt ?></div>
+        <span class="link-separator">•</span>
+        <span style="opacity: 0.7;">Версия: <?= $updatedAt ?></span>
     <?php endif; ?>
-   
-    
 </div>
 
 <script>
