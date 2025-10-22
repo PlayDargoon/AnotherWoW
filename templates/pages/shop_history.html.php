@@ -1,4 +1,16 @@
 <div class="cabinet-page">
+    
+    <!-- Хлебные крошки -->
+    <nav class="breadcrumbs">
+        <a href="/" class="breadcrumb-item">Главная</a>
+        <span class="breadcrumb-separator">›</span>
+        <a href="/cabinet" class="breadcrumb-item">Личный кабинет</a>
+        <span class="breadcrumb-separator">›</span>
+        <a href="/shop" class="breadcrumb-item">Магазин</a>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-item active">История покупок</span>
+    </nav>
+
     <h1>История покупок</h1>
 
     <div class="cabinet-card">
@@ -13,7 +25,7 @@
                     <thead>
                         <tr>
                             <th style="text-align:center"><img src="/images/icons/clock.png" width="12" height="12" alt="*"> Дата и время</th>
-                            <th><img src="/images/icons/service.png" width="12" height="12" alt="*"> Операция</th>
+                            <th><img src="/images/icons/forum_scroll.png" width="12" height="12" alt="*"> Операция</th>
                             <th style="text-align:center"><img src="/images/icons/money.png" width="12" height="12" alt="*"> Сумма</th>
                         </tr>
                     </thead>
@@ -37,9 +49,22 @@
         <?php endif; ?>
     </div>
 
-    <div class="login-links" style="margin-top:16px">
-        <a class="link-item" href="/"><img class="i12img" src="/images/icons/home.png" alt="." width="12" height="12"> На главную</a>
-        <a class="link-item" href="/cabinet"><img class="i12img" src="/images/icons/menialo.png" alt="." width="12" height="12"> В кабинет</a>
-        <a class="link-item" href="/shop"><img class="i12img" src="/images/icons/shop.png" alt="." width="12" height="12"> Назад в магазин</a>
+    <!-- Дополнительные ссылки -->
+    <div class="login-links">
+        <a href="/" class="login-link">
+            <img src="/images/icons/home.png" alt="">
+            На главную
+        </a>
+        <span class="link-separator">•</span>
+        <a href="/cabinet" class="login-link">
+            <img src="/images/icons/arr_left.png" alt="">
+            В кабинет
+        </a>
+        <span class="link-separator">•</span>
+        <a href="/shop" class="login-link">
+            <img src="/images/icons/arr1.png" alt="" style="transform: scaleX(-1);">
+            Назад в магазин
+        </a>
     </div>
+
 </div>

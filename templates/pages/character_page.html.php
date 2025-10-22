@@ -1,4 +1,19 @@
 <div class="cabinet-page">
+    <!-- Хлебные крошки -->
+    <nav class="breadcrumbs">
+        <span class="breadcrumb-item">
+            <a href="/">Главная</a>
+        </span>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-item">
+            <a href="/cabinet">Личный кабинет</a>
+        </span>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-item active">
+            <?= htmlspecialchars($character['name'] ?? 'Персонаж') ?>
+        </span>
+    </nav>
+    
     <h1>Профиль персонажа</h1>
 
     <div class="cabinet-card" style="margin-bottom:12px;">

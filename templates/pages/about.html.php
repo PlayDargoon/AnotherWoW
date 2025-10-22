@@ -1,5 +1,14 @@
 ﻿<!-- templates/pages/about.html.php (premium) -->
 <div class="cabinet-page">
+    <!-- Хлебные крошки -->
+    <nav class="breadcrumbs">
+        <span class="breadcrumb-item">
+            <a href="/">Главная</a>
+        </span>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-item active">О сервере</span>
+    </nav>
+    
     <h1>О сервере Azeroth</h1>
 
     <div class="cabinet-card">
@@ -145,7 +154,14 @@
     </div>
 
     <div class="login-links">
-        <a class="link-item" href="/"><img src="/images/icons/home.png" width="12" height="12" alt="*"> На главную</a>
-        <a class="link-item" href="/register"><img src="/images/icons/user.png" width="12" height="12" alt="*"> Регистрация</a>
+        <a href="/" class="login-link">
+            <img src="/images/icons/home.png" alt="">
+            На главную
+        </a>
+        <span class="link-separator">•</span>
+        <a href="/register" class="login-link">
+            <img src="/images/icons/arr_left.png" alt="">
+            Регистрация
+        </a>
     </div>
 </div>

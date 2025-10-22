@@ -1,6 +1,15 @@
 <!-- Страница помощи новичкам -->
 <div class="document-page">
     
+    <!-- Хлебные крошки -->
+    <nav class="breadcrumbs">
+        <span class="breadcrumb-item">
+            <a href="/">Главная</a>
+        </span>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-item active">Помощь новичкам</span>
+    </nav>
+    
     <!-- Заголовок документа -->
     <div class="document-header">
         <h1 class="document-title">Помощь новичкам</h1>
@@ -153,10 +162,12 @@
         </a>
         <span class="link-separator">•</span>
         <a href="/rules" class="login-link">
+            <img src="/images/icons/arr_left.png" alt="">
             Правила сервера
         </a>
         <span class="link-separator">•</span>
         <a href="/help/bot-commands" class="login-link register-link">
+            <img src="/images/icons/arr1.png" alt="" style="transform: scaleX(-1);">
             Команды ботов
         </a>
     </div>

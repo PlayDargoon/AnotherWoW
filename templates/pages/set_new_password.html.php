@@ -1,5 +1,18 @@
 <!-- Контент страницы установки нового пароля -->
 
+<!-- Хлебные крошки -->
+<nav class="breadcrumbs">
+    <span class="breadcrumb-item">
+        <a href="/">Главная</a>
+    </span>
+    <span class="breadcrumb-separator">›</span>
+    <span class="breadcrumb-item">
+        <a href="/restore-password">Восстановление пароля</a>
+    </span>
+    <span class="breadcrumb-separator">›</span>
+    <span class="breadcrumb-item active">Новый пароль</span>
+</nav>
+
 <!-- Заголовок -->
 <div class="login-header">
     <h1 class="login-title">Новый пароль</h1>
@@ -22,11 +35,6 @@
     </div>
 <?php endif; ?>
 
-<!-- Изображение персонажа -->
-<div class="login-character">
-    <img src="/images/lavka_redkostey_blue_310.jpg" alt="Character">
-</div>
-
 <!-- Информация -->
 <div class="restore-info">
     <p>🔐 Создайте надёжный пароль для защиты вашего аккаунта</p>
@@ -40,7 +48,6 @@
     
     <div class="form-group">
         <label for="password" class="form-label">
-            <img src="/images/icons/a008.png" alt="" class="label-icon">
             Новый пароль
         </label>
         <div class="password-input-wrapper">
@@ -52,7 +59,6 @@
 
     <div class="form-group">
         <label for="confirm_password" class="form-label">
-            <img src="/images/icons/a008.png" alt="" class="label-icon">
             Подтвердите пароль
         </label>
         <div class="password-input-wrapper">
@@ -64,18 +70,18 @@
 
     <button id="submit" type="submit" class="login-button restore-button">
         <span class="button-text">Сменить пароль</span>
-        <span class="button-icon">🔑</span>
     </button>
 </form>
 
 <!-- Дополнительные ссылки -->
 <div class="login-links">
     <a href="/login" class="login-link">
-        <img src="/images/icons/a001.png" alt="">
+        <img src="/images/icons/arr1.png" alt="" style="transform: scaleX(-1);">
         Войти в аккаунт
     </a>
     <span class="link-separator">•</span>
     <a href="/" class="login-link">
+        <img src="/images/icons/home.png" alt="">
         На главную
     </a>
 </div>

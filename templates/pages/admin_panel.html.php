@@ -9,6 +9,19 @@ if ($userId && class_exists('User')) {
 ?>
 
 <div class="cabinet-page">
+    <!-- Хлебные крошки -->
+    <nav class="breadcrumbs">
+        <span class="breadcrumb-item">
+            <a href="/">Главная</a>
+        </span>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-item">
+            <a href="/cabinet">Личный кабинет</a>
+        </span>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-item active">Админ-панель</span>
+    </nav>
+    
     <h1>Административная панель</h1>
 
     <?php if ($accessLevel >= 4): ?>

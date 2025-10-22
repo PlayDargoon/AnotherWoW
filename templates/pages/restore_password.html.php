@@ -1,5 +1,18 @@
 <!-- Контент страницы восстановления пароля -->
 
+<!-- Хлебные крошки -->
+<nav class="breadcrumbs">
+    <span class="breadcrumb-item">
+        <a href="/">Главная</a>
+    </span>
+    <span class="breadcrumb-separator">›</span>
+    <span class="breadcrumb-item">
+        <a href="/login">Вход</a>
+    </span>
+    <span class="breadcrumb-separator">›</span>
+    <span class="breadcrumb-item active">Восстановление пароля</span>
+</nav>
+
 <!-- Заголовок -->
 <div class="login-header">
     <h1 class="login-title">Восстановление пароля</h1>
@@ -22,11 +35,6 @@
     </div>
 <?php endif; ?>
 
-<!-- Изображение персонажа -->
-<div class="login-character">
-    <img src="/images/kollekzioner_310_blue.jpg" alt="Character">
-</div>
-
 <!-- Информация -->
 <div class="restore-info">
     <p>Чтобы восстановить пароль, введите email, указанный при регистрации.</p>
@@ -36,29 +44,28 @@
 <!-- Форма восстановления -->
 <form id="restoreForm" class="login-form" action="/restore-password" method="post">
     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generate_csrf_token()) ?>">
-    
+
     <div class="form-group">
         <label for="email" class="form-label">
-            <img src="/images/icons/a009.png" alt="" class="label-icon">
-            Email адрес
+            Email
         </label>
         <input id="email" type="email" name="email" class="form-input" placeholder="example@example.com" required autofocus>
     </div>
 
     <button id="submit" type="submit" class="login-button restore-button">
         <span class="button-text">Восстановить пароль</span>
-        <span class="button-icon">📧</span>
     </button>
 </form>
 
 <!-- Дополнительные ссылки -->
 <div class="login-links">
     <a href="/login" class="login-link">
-        <img src="/images/icons/a001.png" alt="">
+        <img src="/images/icons/arr1.png" alt="" style="transform: scaleX(-1);">
         Вспомнили пароль?
     </a>
     <span class="link-separator">•</span>
     <a href="/register" class="login-link register-link">
+        <img src="/images/icons/arr_left.png" alt="">
         Регистрация
     </a>
 </div>

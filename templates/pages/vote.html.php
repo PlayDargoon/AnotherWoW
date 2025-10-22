@@ -2,10 +2,17 @@
 // templates/pages/vote.html.php (premium)
 ?>
 <div class="cabinet-page">
+    <!-- Хлебные крошки -->
+    <nav class="breadcrumbs">
+        <a href="/" class="breadcrumb-item">Главная</a>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-item active">Голосование</span>
+    </nav>
+    
     <h1>Голосование</h1>
 
     <div class="cabinet-hero block-border" style="text-align:center; margin-bottom: 10px;">
-        <img src="/images/lavka_redkostey_blue_310.jpg" width="310" height="103" alt="MMOTOP">
+        <img src="/images/vote.jpg" width="310" height="103" alt="Голосование">
     </div>
 
     <div class="cabinet-card" style="margin-bottom:12px;">
@@ -16,9 +23,11 @@
         <div class="info-main-text" style="margin-top:6px;">
             Голосуйте за Azeroth на рейтингах и получайте внутриигровые бонусы. Сейчас доступен MMOTOP.
         </div>
-        <div class="login-links" style="margin-top:10px;">
-            <a class="link-item" href="https://wow.mmotop.ru/servers/36327/votes/new" target="_blank">
-                Я голосую за AZEROTH!
+        
+        <!-- Кнопка голосования -->
+        <div style="text-align: center; margin: 20px 0;">
+            <a href="https://wow.mmotop.ru/servers/36327/votes/new" target="_blank" class="login-button" style="display: inline-block; text-decoration: none; max-width: 400px; margin: 0 auto;">
+                <span class="button-text">Я голосую за AZEROTH!</span>
             </a>
         </div>
     </div>
@@ -51,9 +60,21 @@
         </ul>
     </div>
 
+    <!-- Дополнительные ссылки -->
     <div class="login-links" style="margin-top:16px">
-        <a class="link-item" href="/"><img class="i12img" src="/images/icons/home.png" alt="." width="12" height="12"> На главную</a>
-        <a class="link-item" href="/vote/top"><img class="i12img" src="/images/icons/arr.png" alt="." width="12" height="12"> Топ голосующих</a>
-        <a class="link-item" href="/support"><img class="i12img" src="/images/icons/question_blue.png" alt="." width="12" height="12"> Поддержка</a>
+        <a href="/" class="login-link">
+            <img src="/images/icons/home.png" alt="">
+            На главную
+        </a>
+        <span class="link-separator">•</span>
+        <a href="/cabinet" class="login-link">
+            <img src="/images/icons/arr_left.png" alt="">
+            В кабинет
+        </a>
+        <span class="link-separator">•</span>
+        <a href="/vote/top" class="login-link">
+            <img src="/images/icons/arr.png" alt="">
+            Топ голосующих
+        </a>
     </div>
 </div>

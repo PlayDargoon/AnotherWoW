@@ -435,24 +435,20 @@ a.iLegendary h1 {
     padding: 12px 32px !important;
     font-size: 14px !important;
     font-weight: 700 !important;
-    color: #1a1a3a !important;
+    color: #ffd700 !important;
     letter-spacing: 0.3px !important;
     text-transform: uppercase !important;
     white-space: nowrap !important;
     min-width: auto !important;
-    background: linear-gradient(145deg, #ffd700 0%, #ffeb3b 25%, #ffd700 50%, #ffeb3b 75%, #ffd700 100%) !important;
+    background: linear-gradient(135deg, rgba(25, 25, 72, 0.95) 0%, rgba(0, 0, 51, 0.95) 100%) !important;
     background-size: 200% 100% !important;
     border: none !important;
     border-radius: 10px !important;
     box-shadow: 
-        0 4px 6px rgba(0, 0, 0, 0.3),
-        0 1px 3px rgba(0, 0, 0, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.15),
-        0 0 20px rgba(255, 215, 0, 0.4) !important;
+        0 4px 15px rgba(255, 215, 0, 0.3),
+        0 0 20px rgba(120, 140, 255, 0.4) !important;
     text-shadow: 
-        0 1px 1px rgba(255, 255, 255, 0.6),
-        0 -1px 1px rgba(0, 0, 0, 0.15) !important;
+        0 1px 2px rgba(0, 0, 0, 0.8) !important;
     text-align: center !important;
     cursor: pointer !important;
     position: relative !important;
@@ -475,14 +471,12 @@ a.iLegendary h1::before {
 
 .action-buttons-container .iLegendary:hover h1,
 a.iLegendary:hover h1 {
-    background-position: -100% 0 !important;
-    transform: translateY(-2px) !important;
+    background: linear-gradient(135deg, rgba(40, 40, 92, 0.98) 0%, rgba(15, 15, 71, 0.98) 100%) !important;
+    transform: translateY(-2px) scale(1.05) !important;
     box-shadow: 
-        0 6px 12px rgba(0, 0, 0, 0.4),
-        0 2px 4px rgba(0, 0, 0, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.5),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.2),
-        0 0 30px rgba(255, 215, 0, 0.6) !important;
+        0 6px 25px rgba(255, 215, 0, 0.5),
+        0 0 30px rgba(120, 140, 255, 0.6) !important;
+    color: #ffed4e !important;
 }
 
 .action-buttons-container .iLegendary:hover h1::before,
@@ -492,13 +486,10 @@ a.iLegendary:hover h1::before {
 
 .action-buttons-container .iLegendary:active h1,
 a.iLegendary:active h1 {
-    transform: translateY(0px) !important;
+    transform: translateY(0px) scale(1.02) !important;
     box-shadow: 
-        0 2px 6px rgba(0, 0, 0, 0.3),
-        0 1px 2px rgba(0, 0, 0, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.15),
-        0 0 15px rgba(255, 215, 0, 0.5) !important;
+        0 4px 15px rgba(255, 215, 0, 0.4),
+        0 0 20px rgba(120, 140, 255, 0.5) !important;
 }
 
 /* Анимация пульсации свечения */
@@ -998,46 +989,48 @@ a.iLegendary:hover h1 {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
 }
 
-/* Текст по центру слайда - крупный и по середине */
+/* Текст по центру слайда - крупный и по middleside */
 .slide-caption.center-text {
-    top: 50%;
-    bottom: auto;
-    left: 50%;
-    right: auto;
-    transform: translate(-50%, -50%);
-    background: rgba(0, 0, 0, 0.7);
-    padding: 30px 40px;
+    position: absolute !important;
+    top: 50% !important;
+    bottom: auto !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translate(-50%, -50%) !important;
+    background: rgba(0, 0, 0, 0.7) !important;
+    padding: 30px 40px !important;
     font-size: 32px !important;
     font-weight: 700 !important;
-    border-radius: 12px;
-    border: 4px solid rgba(255, 215, 0, 0.7);
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
-    text-shadow: 0 0 15px rgba(255, 215, 0, 0.8), 0 2px 8px rgba(0, 0, 0, 1);
-    max-width: 80%;
-    line-height: 1.4;
+    border-radius: 12px !important;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8) !important;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.8), 0 2px 8px rgba(0, 0, 0, 1) !important;
+    max-width: 95% !important;
+    width: 65% !important;
+    line-height: 1.4 !important;
 }
 
 /* Кнопка регистрации в слайдере */
 .slider-register-btn {
     display: inline-block;
     padding: 12px 30px;
-    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
-    color: #000033 !important;
+    background: linear-gradient(135deg, rgba(25, 25, 72, 0.95) 0%, rgba(0, 0, 51, 0.95) 100%);
+    color: #ffd700 !important;
     text-decoration: none !important;
     font-size: 20px;
     font-weight: 700;
     border-radius: 8px;
-    border: 2px solid rgba(255, 215, 0, 0.8);
-    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    border: none;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3), 0 0 20px rgba(120, 140, 255, 0.4);
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 .slider-register-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 25px rgba(255, 215, 0, 0.6);
-    background: linear-gradient(135deg, #ffed4e 0%, #ffd700 100%);
+    transform: scale(1.05);
+    box-shadow: 0 6px 25px rgba(255, 215, 0, 0.5), 0 0 30px rgba(120, 140, 255, 0.6);
+    background: linear-gradient(135deg, rgba(40, 40, 92, 0.98) 0%, rgba(15, 15, 71, 0.98) 100%);
+    color: #ffed4e !important;
 }
 
 .slider-btn {
@@ -1801,22 +1794,11 @@ ul, ol {
 
 /* Изображение персонажа */
 .login-character {
-    text-align: center !important;
-    margin: 20px auto !important;
-    max-width: 480px !important;
-    position: relative !important;
-    z-index: 1 !important;
+    display: none !important;
 }
 
 .login-character img {
-    width: 100% !important;
-    max-width: 310px !important;
-    height: auto !important;
-    border-radius: 12px !important;
-    border: 2px solid rgba(120, 140, 255, 0.4) !important;
-    box-shadow: 
-        0 4px 20px rgba(0, 0, 0, 0.5),
-        0 0 30px rgba(120, 140, 255, 0.2) !important;
+    display: none !important;
 }
 
 /* Форма */
@@ -1850,7 +1832,8 @@ ul, ol {
 
 .form-input {
     width: 100% !important;
-    padding: 14px 18px !important;
+    max-width: 100% !important;
+    padding: 10px 16px !important;
     font-size: 15px !important;
     color: #ffffff !important;
     background: linear-gradient(135deg, rgba(30, 30, 60, 0.6) 0%, rgba(20, 20, 40, 0.6) 100%) !important;
@@ -1882,17 +1865,15 @@ ul, ol {
     font-weight: 700 !important;
     text-transform: uppercase !important;
     letter-spacing: 1px !important;
-    color: #1a1a3a !important;
-    background: linear-gradient(145deg, #ffd700 0%, #ffeb3b 25%, #ffd700 50%, #ffeb3b 75%, #ffd700 100%) !important;
-    background-size: 200% 100% !important;
-    border: none !important;
+    color: #ffd700 !important;
+    background: linear-gradient(135deg, rgba(25, 25, 72, 0.95) 0%, rgba(0, 0, 51, 0.95) 100%) !important;
+    border: 2px solid rgba(120, 140, 255, 0.7) !important;
     border-radius: 12px !important;
     cursor: pointer !important;
     transition: all 0.3s ease !important;
     box-shadow: 
-        0 4px 15px rgba(0, 0, 0, 0.4),
-        0 0 30px rgba(255, 215, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+        0 4px 15px rgba(255, 215, 0, 0.3),
+        0 0 20px rgba(120, 140, 255, 0.4) !important;
     position: relative !important;
     overflow: hidden !important;
     display: flex !important;
@@ -1908,17 +1889,17 @@ ul, ol {
     left: -100% !important;
     width: 100% !important;
     height: 100% !important;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent) !important;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent) !important;
     transition: left 0.5s ease !important;
 }
 
 .login-button:hover {
-    background-position: -100% 0 !important;
-    transform: translateY(-2px) !important;
+    background: linear-gradient(135deg, rgba(40, 40, 92, 0.98) 0%, rgba(15, 15, 71, 0.98) 100%) !important;
+    transform: translateY(-2px) scale(1.02) !important;
     box-shadow: 
-        0 6px 20px rgba(0, 0, 0, 0.5),
-        0 0 40px rgba(255, 215, 0, 0.6),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+        0 6px 25px rgba(255, 215, 0, 0.5),
+        0 0 30px rgba(120, 140, 255, 0.6) !important;
+    color: #ffed4e !important;
 }
 
 .login-button:hover::before {
@@ -1926,10 +1907,10 @@ ul, ol {
 }
 
 .login-button:active {
-    transform: translateY(0) !important;
+    transform: translateY(0) scale(1.01) !important;
     box-shadow: 
-        0 2px 10px rgba(0, 0, 0, 0.4),
-        0 0 20px rgba(255, 215, 0, 0.4) !important;
+        0 4px 15px rgba(255, 215, 0, 0.4),
+        0 0 20px rgba(120, 140, 255, 0.5) !important;
 }
 
 .button-icon {
@@ -2080,16 +2061,15 @@ ul, ol {
 
 /* Кнопка регистрации */
 .register-button {
-    background: linear-gradient(145deg, #4CAF50 0%, #45a049 25%, #4CAF50 50%, #45a049 75%, #4CAF50 100%) !important;
-    background-size: 200% 100% !important;
+    background: linear-gradient(135deg, rgba(25, 25, 72, 0.95) 0%, rgba(0, 0, 51, 0.95) 100%) !important;
+    border: 2px solid rgba(120, 140, 255, 0.7) !important;
 }
 
 .register-button:hover {
-    background-position: 100% 0 !important;
+    background: linear-gradient(135deg, rgba(40, 40, 92, 0.98) 0%, rgba(15, 15, 71, 0.98) 100%) !important;
     box-shadow: 
-        0 6px 25px rgba(76, 175, 80, 0.4),
-        0 0 30px rgba(76, 175, 80, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+        0 6px 25px rgba(255, 215, 0, 0.5),
+        0 0 30px rgba(120, 140, 255, 0.6) !important;
 }
 
 /* === СТРАНИЦА ВОССТАНОВЛЕНИЯ ПАРОЛЯ === */
@@ -2161,16 +2141,15 @@ ul, ol {
 
 /* Кнопка восстановления */
 .restore-button {
-    background: linear-gradient(145deg, #2196F3 0%, #1976D2 25%, #2196F3 50%, #1976D2 75%, #2196F3 100%) !important;
-    background-size: 200% 100% !important;
+    background: linear-gradient(135deg, rgba(25, 25, 72, 0.95) 0%, rgba(0, 0, 51, 0.95) 100%) !important;
+    border: 2px solid rgba(120, 140, 255, 0.7) !important;
 }
 
 .restore-button:hover {
-    background-position: 100% 0 !important;
+    background: linear-gradient(135deg, rgba(40, 40, 92, 0.98) 0%, rgba(15, 15, 71, 0.98) 100%) !important;
     box-shadow: 
-        0 6px 25px rgba(33, 150, 243, 0.4),
-        0 0 30px rgba(33, 150, 243, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+        0 6px 25px rgba(255, 215, 0, 0.5),
+        0 0 30px rgba(120, 140, 255, 0.6) !important;
 }
 
 /* === СТИЛИ ДЛЯ ДОКУМЕНТНЫХ СТРАНИЦ (privacy, terms, rules и т.д.) === */
@@ -2494,4 +2473,123 @@ ul, ol {
         right: 10px;
     }
 }
+
+/* === ХЛЕБНЫЕ КРОШКИ (BREADCRUMBS) === */
+.breadcrumbs {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin: 0 0 8x 0 !important;
+    max-width: 480px !important;
+    padding: 10px 0 !important;
+    background: transparent !important;
+    border: none !important;
+    font-size: 13px !important;
+}
+
+.breadcrumb-item {
+    display: flex !important;
+    align-items: center !important;
+    color: rgba(160, 176, 255, 0.7) !important;
+    text-decoration: none !important;
+    transition: color 0.2s ease !important;
+}
+
+.breadcrumb-item a {
+    color: rgba(160, 176, 255, 0.7) !important;
+    text-decoration: none !important;
+    transition: color 0.2s ease !important;
+}
+
+.breadcrumb-item a:hover {
+    color: #ffd700 !important;
+}
+
+.breadcrumb-separator {
+    color: rgba(120, 140, 255, 0.5) !important;
+    font-size: 11px !important;
+}
+
+.breadcrumb-item.active {
+    color: #ffd700 !important;
+    font-weight: 500 !important;
+}
+
+/* ========================================
+   СТРАНИЦА 404 - Специальные стили
+   ======================================== */
+
+/* Показываем изображение дракона только на странице 404 */
+.error-404-page .login-character {
+    display: block !important;
+    text-align: center !important;
+    margin: 30px auto !important;
+    padding: 0 !important;
+}
+
+.error-404-page .login-character img {
+    display: inline-block !important;
+    max-width: 500px !important;
+    width: 100% !important;
+    height: auto !important;
+    border-radius: 15px !important;
+    
+    /* Свечение дракона */
+    box-shadow: 
+        0 0 30px rgba(255, 99, 71, 0.5),
+        0 0 60px rgba(255, 99, 71, 0.3),
+        0 0 90px rgba(255, 99, 71, 0.2),
+        0 10px 40px rgba(0, 0, 0, 0.5) !important;
+    
+    /* Анимация пульсации свечения */
+    animation: dragonGlow 3s ease-in-out infinite !important;
+}
+
+/* Анимация пульсирующего свечения */
+@keyframes dragonGlow {
+    0%, 100% {
+        box-shadow: 
+            0 0 30px rgba(255, 99, 71, 0.5),
+            0 0 60px rgba(255, 99, 71, 0.3),
+            0 0 90px rgba(255, 99, 71, 0.2),
+            0 10px 40px rgba(0, 0, 0, 0.5);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 
+            0 0 40px rgba(255, 99, 71, 0.7),
+            0 0 80px rgba(255, 99, 71, 0.5),
+            0 0 120px rgba(255, 99, 71, 0.3),
+            0 15px 50px rgba(0, 0, 0, 0.6);
+        transform: scale(1.02);
+    }
+}
+
+/* Эффект при наведении */
+.error-404-page .login-character img:hover {
+    animation: dragonHover 0.6s ease-in-out !important;
+    cursor: pointer !important;
+}
+
+/* Анимация при наведении - дракон "рычит" */
+@keyframes dragonHover {
+    0%, 100% {
+        transform: scale(1) rotate(0deg);
+    }
+    25% {
+        transform: scale(1.05) rotate(-2deg);
+    }
+    75% {
+        transform: scale(1.05) rotate(2deg);
+    }
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+    .error-404-page .login-character img {
+        max-width: 100% !important;
+        padding: 0 20px !important;
+    }
+}
+
 

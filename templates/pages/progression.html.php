@@ -50,6 +50,15 @@ $updatedAt = null;
 ?>
 
 <div class="cabinet-page" id="top">
+    <!-- Хлебные крошки -->
+    <nav class="breadcrumbs">
+        <span class="breadcrumb-item">
+            <a href="/">Главная</a>
+        </span>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-item active">Прогрессия</span>
+    </nav>
+    
     <h2>📜 Прогрессия контента (Classic → TBC → WotLK)</h2>
 
         <?php if (!empty($intro ?? [])): ?>
@@ -118,6 +127,7 @@ $updatedAt = null;
     </a>
     <span class="link-separator">•</span>
     <a href="/news" class="login-link">
+        <img src="/images/icons/arr_left.png" alt="">
         К новостям
     </a>
     <?php if ($updatedAt): ?>

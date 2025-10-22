@@ -1,4 +1,17 @@
 <div class="cabinet-page">
+    <!-- Хлебные крошки -->
+    <nav class="breadcrumbs">
+        <span class="breadcrumb-item">
+            <a href="/">Главная</a>
+        </span>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-item">
+            <a href="/cabinet">Личный кабинет</a>
+        </span>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-item active">Магазин</span>
+    </nav>
+    
     <h1>Магазин</h1>
 
     <div class="cabinet-hero block-border" style="text-align:center; margin-bottom:10px;">

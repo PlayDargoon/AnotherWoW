@@ -1,4 +1,13 @@
 <div class="cabinet-page">
+    <!-- Хлебные крошки -->
+    <nav class="breadcrumbs">
+        <span class="breadcrumb-item">
+            <a href="/">Главная</a>
+        </span>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-item active">Личный кабинет</span>
+    </nav>
+
     <h1>Личный кабинет — <?= htmlspecialchars($userInfo['username']) ?></h1>
 
     <div class="cabinet-hero block-border" style="text-align:center">
@@ -7,7 +16,7 @@
 
     <?php if ($userAccessLevel >= 4): ?>
         <div class="info-alert" style="margin-top:15px">
-            <img src="/images/icons/settings.png" width="12" height="12" alt="*"> 
+            <img src="/images/icons/settings.png" width="12" height="12" alt="*">
             У вас есть доступ в <a href="/admin-panel">админ-панель</a>.
         </div>
     <?php endif; ?>
@@ -51,7 +60,7 @@
                 <div class="label"><img src="/images/icons/cross.png" width="12" height="12" alt="*"> Статус мута</div>
                 <div class="value">
                     <?php if ($muteInfo): ?>
-                        <span class="status-bad">Заглушен</span> 
+                        <span class="status-bad">Заглушен</span>
                         <span class="minor">(до <?= date('d.m.Y H:i:s', $muteInfo['mute_end_time']) ?>)</span>
                         <?php if (!empty($muteInfo['mutereason'])): ?>
                             <br><span class="minor">Причина: <?= htmlspecialchars($muteInfo['mutereason'], ENT_QUOTES, 'UTF-8') ?></span>
@@ -106,8 +115,8 @@
                         <?php foreach ($characters as $char): ?>
                             <tr>
                                 <td class="tc"><img src="<?= $char['factionImage'] ?>" alt="Фракция"></td>
-                                <td class="tc"><img src="/images/small/<?= $char['race'].'-'.$char['gender'].'.gif' ?>" alt="расса" class="u12img"></td>
-                                <td class="tc"><img src="/images/small/<?= $char['class'].'.gif' ?>" alt="класс"></td>
+                                <td class="tc"><img src="/images/small/<?= $char['race'] . '-' . $char['gender'] . '.gif' ?>" alt="расса" class="u12img"></td>
+                                <td class="tc"><img src="/images/small/<?= $char['class'] . '.gif' ?>" alt="класс"></td>
                                 <td>
                                     <strong style="color: <?= $char['classColor'] ?>;"><?= htmlspecialchars($char['name'], ENT_QUOTES, 'UTF-8') ?></strong>
                                     <?php if (!empty($char['roleTextShort'])): ?>
@@ -116,7 +125,7 @@
                                 </td>
                                 <td class="tc"><strong><?= (int)$char['level'] ?></strong> ур.</td>
                                 <td class="tc"><span class="minor"><?= htmlspecialchars($char['playtime'], ENT_QUOTES, 'UTF-8') ?></span></td>
-                                <td class="tc"><a class="cabinet-small-button" href="<?= '/play?id='.$char['guid'] ?>">Управлять</a></td>
+                                <td class="tc"><a class="cabinet-small-button" href="<?= '/play?id=' . $char['guid'] ?>">Управлять</a></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -153,10 +162,15 @@
     </div>
 
     <div class="login-links" style="margin-top:20px">
-        <a href="/" class="link-item"><img class="i12img" src="/images/icons/home.png" alt="." width="12" height="12"> На главную</a>
-        <a href="/logout" class="link-item" ignorewebview="true"><img src="/images/icons/cross.png" alt="." width="12" height="12"> Выйти</a>
-        <a href="/help" class="link-item"><img class="i12img" src="/images/icons/question_blue.png" alt="." width="12" height="12"> Помощь</a>
-        <a href="https://yoomoney.ru/fundraise/1D220FUHMKN.250928" target="_blank" class="link-item"><img src="/images/icons/addfriends.png" alt="." width="12" height="12"> Поддержать сервер</a>
+        <a href="/" class="login-link">
+            <img src="/images/icons/home.png" alt="">
+            На главную
+        </a>
+        
+        <span class="link-separator">•</span>
+        <a href="/logout" class="login-link" ignorewebview="true">
+            <img src="/images/icons/cross.png" alt="">
+            Выйти
+        </a>
     </div>
 </div>
-

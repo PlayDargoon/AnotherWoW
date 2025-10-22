@@ -1,5 +1,14 @@
 ﻿<!-- templates/pages/bot-commands.html.php (premium) -->
 <div class="cabinet-page document-page">
+    <!-- Хлебные крошки -->
+    <nav class="breadcrumbs">
+        <span class="breadcrumb-item">
+            <a href="/">Главная</a>
+        </span>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-item active">Команды ботов</span>
+    </nav>
+    
     <h1>Команды игровых ботов</h1>
 
     <div class="cabinet-card">
@@ -380,8 +389,19 @@
     </div>
 
     <div class="login-links">
-        <a class="link-item" href="/"><img src="/images/icons/home.png" width="12" height="12" alt="*"> На главную</a>
-        <a class="link-item" href="/help"><img src="/images/icons/arr_left.png" width="12" height="12" alt="*"> Назад к помощи</a>
-        <a class="link-item" href="/support"><img src="/images/icons/question_blue.png" width="12" height="12" alt="*"> Поддержка</a>
+        <a href="/" class="login-link">
+            <img src="/images/icons/home.png" alt="">
+            На главную
+        </a>
+        <span class="link-separator">•</span>
+        <a href="/help" class="login-link">
+            <img src="/images/icons/arr1.png" alt="" style="transform: scaleX(-1);">
+            Назад к помощи
+        </a>
+        <span class="link-separator">•</span>
+        <a href="/support" class="login-link">
+            <img src="/images/icons/arr_left.png" alt="">
+            Поддержка
+        </a>
     </div>
 </div>

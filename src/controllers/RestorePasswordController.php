@@ -28,6 +28,12 @@ class RestorePasswordController
      */
     public function index()
     {
+        // Если пользователь уже залогинен, перенаправляем в кабинет
+        if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
+            header('Location: /cabinet');
+            exit;
+        }
+        
         renderTemplate('layout.html.php', [
             'contentFile' => 'pages/restore_password.html.php',
             'pageTitle' => 'Восстановление пароля',
@@ -39,6 +45,12 @@ class RestorePasswordController
      */
     public function sendResetLink()
     {
+        // Если пользователь уже залогинен, перенаправляем в кабинет
+        if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
+            header('Location: /cabinet');
+            exit;
+        }
+        
         $email = $_POST['email'];
 
         // Проверяем, существует ли такой email
@@ -348,6 +360,12 @@ throw new \Exception('Ошибка отправки письма. Обратит
      */
     public function verifyToken()
     {
+        // Если пользователь уже залогинен, перенаправляем в кабинет
+        if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
+            header('Location: /cabinet');
+            exit;
+        }
+        
         $token = $_POST['token'];
 
         // Проверяем токен на валидность
@@ -371,6 +389,12 @@ throw new \Exception('Ошибка отправки письма. Обратит
 
     public function showVerifyTokenForm()
     {
+        // Если пользователь уже залогинен, перенаправляем в кабинет
+        if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
+            header('Location: /cabinet');
+            exit;
+        }
+        
         renderTemplate('layout.html.php', [
             'contentFile' => 'pages/verify_token.html.php',
             'pageTitle' => 'Восстановление пароля',
@@ -379,6 +403,12 @@ throw new \Exception('Ошибка отправки письма. Обратит
 
     public function showSetPasswordForm($token)
     {
+        // Проверяем, авторизован ли пользователь
+        if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
+            header('Location: /cabinet');
+            exit;
+        }
+
         renderTemplate('layout.html.php', [
             'contentFile' => 'pages/set_new_password.html.php',
             'token' => $token,
@@ -388,6 +418,12 @@ throw new \Exception('Ошибка отправки письма. Обратит
 
    public function setNewPassword($token)
 {
+    // Проверяем, авторизован ли пользователь
+    if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
+        header('Location: /cabinet');
+        exit;
+    }
+
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirm_password'];
 

@@ -3,10 +3,18 @@
 
 // Массив русских названий месяцев
 $months = [
-    'January' => 'Январь', 'February' => 'Февраль', 'March' => 'Март',
-    'April' => 'Апрель', 'May' => 'Май', 'June' => 'Июнь',
-    'July' => 'Июль', 'August' => 'Август', 'September' => 'Сентябрь',
-    'October' => 'Октябрь', 'November' => 'Ноябрь', 'December' => 'Декабрь'
+    'January' => 'Январь',
+    'February' => 'Февраль',
+    'March' => 'Март',
+    'April' => 'Апрель',
+    'May' => 'Май',
+    'June' => 'Июнь',
+    'July' => 'Июль',
+    'August' => 'Август',
+    'September' => 'Сентябрь',
+    'October' => 'Октябрь',
+    'November' => 'Ноябрь',
+    'December' => 'Декабрь'
 ];
 $currentMonthEn = date('F');
 $currentMonthRu = $months[$currentMonthEn] ?? $currentMonthEn;
@@ -14,7 +22,17 @@ $currentYear = date('Y');
 ?>
 
 <div class="cabinet-page">
-    <h1>🏆 Топ голосующих — <?= htmlspecialchars($currentMonthRu) ?> <?= htmlspecialchars($currentYear) ?></h1>
+
+    <!-- Хлебные крошки -->
+    <nav class="breadcrumbs">
+        <a href="/" class="breadcrumb-item">Главная</a>
+        <span class="breadcrumb-separator">›</span>
+        <a href="/vote" class="breadcrumb-item">Голосование</a>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-item active">Топ голосующих</span>
+    </nav>
+
+    <h1>Топ голосующих — <?= htmlspecialchars($currentMonthRu) ?> <?= htmlspecialchars($currentYear) ?></h1>
 
     <?php if (empty($topVoters)): ?>
         <div class="cabinet-card">
@@ -26,13 +44,16 @@ $currentYear = date('Y');
                 Пока никто не голосовал за сервер. Станьте первым!
             </div>
             <div class="login-links" style="margin-top:10px;">
-                <a class="link-item" href="/vote">Перейти к голосованию</a>
+                <a href="/vote" class="login-link">
+                    <img src="/images/icons/arr1.png" alt="" style="transform: scaleX(-1);">
+                    Перейти к голосованию
+                </a>
             </div>
         </div>
     <?php else: ?>
         <div class="cabinet-card" style="margin-bottom:12px;">
             <div class="cabinet-card-title">
-                <img src="/images/icons/journal_12.png" width="20" height="20" alt="*">
+
                 Статистика за <?= htmlspecialchars($currentMonthRu) ?>
             </div>
             <div class="cabinet-info-list">
@@ -45,17 +66,17 @@ $currentYear = date('Y');
                     <span class="info-value"><?= (int)($monthlyStats['total_vote_records'] ?? 0) ?></span>
                 </div>
                 <?php if (!empty($monthlyStats['last_vote'])): ?>
-                <div class="info-row">
-                    <span class="info-label">Последний голос</span>
-                    <span class="info-value"><?= date('d.m.Y H:i', strtotime($monthlyStats['last_vote'])) ?></span>
-                </div>
+                    <div class="info-row">
+                        <span class="info-label">Последний голос</span>
+                        <span class="info-value"><?= date('d.m.Y H:i', strtotime($monthlyStats['last_vote'])) ?></span>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>
 
         <div class="cabinet-card">
             <div class="cabinet-card-title">
-                <img src="/images/icons/Gold.webp" width="20" height="20" alt="*">
+
                 Текущий рейтинг
             </div>
             <div class="table-responsive">
@@ -70,19 +91,34 @@ $currentYear = date('Y');
                     </thead>
                     <tbody>
                         <?php foreach ($topVoters as $index => $voter): ?>
-                            <?php 
-                                $place = $index + 1;
-                                $placeIcon = '';
-                                switch ($place) {
-                                    case 1: $placeIcon = '🥇'; break;
-                                    case 2: $placeIcon = '🥈'; break;
-                                    case 3: $placeIcon = '🥉'; break;
-                                    default: $placeIcon = '🏅 ' . $place; break;
-                                }
+                            <?php
+                            $place = $index + 1;
+                            $placeDisplay = $place . '.';
+                            $medalImg = '';
+                            $rowStyle = '';
+                            $nameStyle = '';
+                            
+                            switch ($place) {
+                                case 1:
+                                    $medalImg = ' <img src="/images/icons/Gold.webp" width="16" height="16" alt="Золото" style="vertical-align: middle;">';
+                                    $rowStyle = 'background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.05));';
+                                    $nameStyle = 'color: #ffd700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);';
+                                    break;
+                                case 2:
+                                    $medalImg = ' <img src="/images/icons/Silver.webp" width="16" height="16" alt="Серебро" style="vertical-align: middle;">';
+                                    $rowStyle = 'background: linear-gradient(135deg, rgba(192, 192, 192, 0.15), rgba(192, 192, 192, 0.05));';
+                                    $nameStyle = 'color: #c0c0c0; text-shadow: 0 0 10px rgba(192, 192, 192, 0.5);';
+                                    break;
+                                case 3:
+                                    $medalImg = ' <img src="/images/icons/Copper.webp" width="16" height="16" alt="Бронза" style="vertical-align: middle;">';
+                                    $rowStyle = 'background: linear-gradient(135deg, rgba(205, 127, 50, 0.15), rgba(205, 127, 50, 0.05));';
+                                    $nameStyle = 'color: #cd7f32; text-shadow: 0 0 10px rgba(205, 127, 50, 0.5);';
+                                    break;
+                            }
                             ?>
-                            <tr>
-                                <td><strong><?= $placeIcon ?></strong></td>
-                                <td><strong><?= htmlspecialchars($voter['username']) ?></strong></td>
+                            <tr style="<?= $rowStyle ?>">
+                                <td><strong><?= $placeDisplay . $medalImg ?></strong></td>
+                                <td><strong style="<?= $nameStyle ?>"><?= htmlspecialchars($voter['username']) ?></strong></td>
                                 <td style="text-align:center" class="gold"><strong><?= (int)$voter['vote_count'] ?></strong></td>
                                 <td style="text-align:center" class="minor">
                                     <?= $voter['last_vote'] ? date('d.m.Y H:i', strtotime($voter['last_vote'])) : '-' ?>
@@ -107,13 +143,29 @@ $currentYear = date('Y');
                 <li>Рейтинг обновляется в реальном времени.</li>
             </ul>
             <div class="login-links" style="margin-top:10px;">
-                <a class="link-item" href="/vote">Перейти к голосованию</a>
+                <a href="/vote" class="login-link">
+                    <img src="/images/icons/arr1.png" alt="" style="transform: scaleX(-1);">
+                    Перейти к голосованию
+                </a>
             </div>
         </div>
     <?php endif; ?>
 
+    <!-- Дополнительные ссылки -->
     <div class="login-links" style="margin-top:16px">
-        <a class="link-item" href="/"><img class="i12img" src="/images/icons/home.png" alt="." width="12" height="12"> На главную</a>
-        <a class="link-item" href="/cabinet"><img class="i12img" src="/images/icons/arr_left.png" alt="." width="12" height="12"> В кабинет</a>
+        <a href="/" class="login-link">
+            <img src="/images/icons/home.png" alt="">
+            На главную
+        </a>
+        <span class="link-separator">•</span>
+        <a href="/cabinet" class="login-link">
+            <img src="/images/icons/arr_left.png" alt="">
+            В кабинет
+        </a>
+        <span class="link-separator">•</span>
+        <a href="/vote" class="login-link">
+            <img src="/images/icons/arr1.png" alt="" style="transform: scaleX(-1);">
+            К голосованию
+        </a>
     </div>
 </div>

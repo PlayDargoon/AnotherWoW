@@ -1,5 +1,14 @@
 <div class="document-page">
     
+    <!-- Хлебные крошки -->
+    <nav class="breadcrumbs">
+        <span class="breadcrumb-item">
+            <a href="/">Главная</a>
+        </span>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-item active">Политика конфиденциальности</span>
+    </nav>
+    
     <!-- Заголовок документа -->
     <div class="document-header">
         <h1 class="document-title">Политика конфиденциальности</h1>
@@ -219,10 +228,12 @@
         </a>
         <span class="link-separator">•</span>
         <a href="/terms" class="login-link">
+            <img src="/images/icons/arr_left.png" alt="">
             Пользовательское соглашение
         </a>
         <span class="link-separator">•</span>
         <a href="/rules" class="login-link">
+            <img src="/images/icons/arr_left.png" alt="">
             Правила игровых миров
         </a>
     </div>
