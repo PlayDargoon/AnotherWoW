@@ -35,6 +35,7 @@ require_once __DIR__ . '/src/services/CacheService.php';
 require_once __DIR__ . '/src/services/OptimizedDatabaseConnection.php';
 require_once __DIR__ . '/src/services/CachedModel.php';
 require_once __DIR__ . '/src/services/CaptchaService.php';
+require_once __DIR__ . '/src/services/SelfworkService.php';
 
 // Подключаем PHPMailer
 require_once __DIR__ . '/src/libs/phpmailer/Exception.php';
@@ -66,6 +67,7 @@ require_once __DIR__ . '/src/models/CachedAccountCoins.php';
 require_once __DIR__ . '/src/models/Notification.php';
 require_once __DIR__ . '/src/models/Uptime.php';
 require_once __DIR__ . '/src/models/VoteTop.php';
+require_once __DIR__ . '/src/models/Payment.php';
 
 // Определение переменной $site_url
 $GLOBALS['site_url'] = 'https://azeroth.su'; // Замените на ваш реальный домен

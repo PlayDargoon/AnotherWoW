@@ -62,6 +62,7 @@ require_once __DIR__ . '/src/controllers/HelpController.php';
 require_once __DIR__ . '/src/controllers/SupportController.php';
 require_once __DIR__ . '/src/controllers/PaymentController.php';
 require_once __DIR__ . '/src/controllers/YooKassaWebhookController.php';
+require_once __DIR__ . '/src/controllers/SelfworkWebhookController.php';
 require_once __DIR__ . '/src/controllers/MigrationController.php';
 require_once __DIR__ . '/src/controllers/ProgressionController.php';
 require_once __DIR__ . '/src/controllers/ShopController.php';
@@ -288,6 +289,13 @@ switch ($uri) {
         $controller->return();
         break;
 
+    case '/payment/success': // Успешная оплата (Selfwork)
+        renderTemplate('layout.html.php', [
+            'contentFile' => 'pages/payment_success.html.php',
+            'pageTitle' => 'Оплата успешно выполнена',
+        ]);
+        break;
+
     case '/payment/error': // Страница ошибки оплаты (редирект из ЮKassa)
         $controller = new PaymentController();
         $controller->error();
@@ -296,6 +304,16 @@ switch ($uri) {
     case '/yookassa/webhook': // Вебхук ЮKassa
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $controller = new YooKassaWebhookController();
+            $controller->handle();
+        } else {
+            http_response_code(405);
+            echo 'Method Not Allowed';
+        }
+        break;
+
+    case '/selfwork/webhook': // Вебхук Selfwork
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $controller = new SelfworkWebhookController();
             $controller->handle();
         } else {
             http_response_code(405);

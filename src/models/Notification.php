@@ -94,6 +94,21 @@ class Notification
     }
 
     /**
+     * Создать уведомление о зачислении монет за покупку (Selfwork)
+     */
+    public function createPaymentCreditNotification($userId, $coinsAmount)
+    {
+        $message = "Вам начислена {$coinsAmount} монет за покупку, спасибо что поддерживаете наш проект.";
+
+        $data = [
+            'coins' => $coinsAmount,
+            'type' => 'payment_credit'
+        ];
+
+        return $this->create($userId, 'payment_credit', $message, $data);
+    }
+
+    /**
      * Удалить старые прочитанные уведомления (старше 30 дней)
      */
     public function cleanupOldNotifications()

@@ -1,0 +1,6 @@
+[2025-10-23 02:51:22]
+{"event":"payment.succeeded","object":{"id":"SW_TEST_001","amount":150,"currency":"RUB","metadata":{"user_id":123,"coins":150}}}
+
+[2025-10-23 02:52:58]
+{"event":"payment.succeeded","object":{"id":"SW_TEST_001","amount":150,"currency":"RUB","metadata":{"user_id":123,"coins":150}}}
+

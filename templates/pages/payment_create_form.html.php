@@ -9,19 +9,19 @@
     <div class="cabinet-card">
         <div class="cabinet-card-title">
             <img src="/images/icons/money.png" width="24" height="24" alt="*">
-            Оплата через ЮКасса
+            Оплата через Selfwork
         </div>
         <div class="info-main-text" style="margin-bottom:12px;">
             Пополните баланс бонусов для покупок в игровом магазине. После оплаты бонусы автоматически зачислятся на ваш аккаунт.
         </div>
 
-        <form method="post" action="/payment/create" class="login-form" style="margin-top:8px;">
+        <form method="post" action="/payment/create" class="login-form" style="margin-top:8px;" target="_blank">
             <label for="amount" class="form-label" style="display:block; margin-bottom:6px; color:#c9d1ff;">
                 Сумма пополнения (RUB)
             </label>
             <input id="amount" class="form-input" type="number" step="0.01" min="1" name="amount" value="100.00" style="max-width:240px;">
 
-            <div class="form-hint">1 RUB = 1 бонус. Способ оплаты: ЮКасса (карты, кошельки).</div>
+            <div class="form-hint">1 RUB = 1 бонус. Безопасная оплата через Selfwork.</div>
 
             <button type="submit" class="restore-button" style="margin-top:10px;">
                 <img src="/images/icons/money.png" width="16" height="16" alt="*" style="vertical-align: middle; margin-right: 6px;">

@@ -42,14 +42,11 @@ class CachedAccountCoins extends CachedModel
      */
     public function getBalance($accountId): int
     {
-        $cacheKey = $this->getCacheKey("balance_{$accountId}");
-        
-        return $this->cache->remember($cacheKey, function() use ($accountId) {
-            $stmt = $this->db->prepare("SELECT SUM(coins) as total FROM account_coins WHERE account_id = ?");
-            $stmt->execute([$accountId]);
-            $row = $stmt->fetch();
-            return $row && $row['total'] !== null ? (int)$row['total'] : 0;
-        }, $this->defaultCacheTtl);
+        // Без кеша: всегда свежие данные
+        $stmt = $this->db->prepare("SELECT SUM(coins) as total FROM account_coins WHERE account_id = ?");
+        $stmt->execute([$accountId]);
+        $row = $stmt->fetch();
+        return $row && $row['total'] !== null ? (int)$row['total'] : 0;
     }
     
     /**
@@ -57,22 +54,19 @@ class CachedAccountCoins extends CachedModel
      */
     public function getVoteBalance($accountId): int
     {
-        $cacheKey = $this->getCacheKey("vote_balance_{$accountId}");
-        
-        return $this->cache->remember($cacheKey, function() use ($accountId) {
-            $stmt = $this->db->prepare("
-                SELECT SUM(coins) as total 
-                FROM account_coins 
-                WHERE account_id = ? AND (
-                    reason LIKE '%голос%' OR 
-                    reason LIKE '%vote%' OR 
-                    reason LIKE '%MMOTOP%'
-                )
-            ");
-            $stmt->execute([$accountId]);
-            $row = $stmt->fetch();
-            return $row && $row['total'] !== null ? (int)$row['total'] : 0;
-        }, $this->defaultCacheTtl);
+        // Без кеша: всегда свежие данные
+        $stmt = $this->db->prepare("
+            SELECT SUM(coins) as total 
+            FROM account_coins 
+            WHERE account_id = ? AND (
+                reason LIKE '%голос%' OR 
+                reason LIKE '%vote%' OR 
+                reason LIKE '%MMOTOP%'
+            )
+        ");
+        $stmt->execute([$accountId]);
+        $row = $stmt->fetch();
+        return $row && $row['total'] !== null ? (int)$row['total'] : 0;
     }
     
     /**
@@ -80,18 +74,15 @@ class CachedAccountCoins extends CachedModel
      */
     public function getHistory($accountId, $limit = 20): array
     {
-        $cacheKey = $this->getCacheKey("history_{$accountId}_{$limit}");
-        
-        return $this->cache->remember($cacheKey, function() use ($accountId, $limit) {
-            $stmt = $this->db->prepare("
-                SELECT * FROM account_coins 
-                WHERE account_id = ? 
-                ORDER BY created_at DESC 
-                LIMIT ?
-            ");
-            $stmt->execute([$accountId, $limit]);
-            return $stmt->fetchAll();
-        }, 300); // История кешируется на 5 минут
+        // Без кеша: всегда свежие данные
+        $stmt = $this->db->prepare("
+            SELECT * FROM account_coins 
+            WHERE account_id = ? 
+            ORDER BY created_at DESC 
+            LIMIT ?
+        ");
+        $stmt->execute([$accountId, $limit]);
+        return $stmt->fetchAll();
     }
 
     /**
@@ -99,13 +90,11 @@ class CachedAccountCoins extends CachedModel
      */
     public function countHistory($accountId): int
     {
-        $cacheKey = $this->getCacheKey("history_count_{$accountId}");
-        return $this->cache->remember($cacheKey, function() use ($accountId) {
-            $stmt = $this->db->prepare("SELECT COUNT(*) as cnt FROM account_coins WHERE account_id = ?");
-            $stmt->execute([$accountId]);
-            $row = $stmt->fetch();
-            return (int)($row['cnt'] ?? 0);
-        }, 300);
+        // Без кеша: всегда свежие данные
+        $stmt = $this->db->prepare("SELECT COUNT(*) as cnt FROM account_coins WHERE account_id = ?");
+        $stmt->execute([$accountId]);
+        $row = $stmt->fetch();
+        return (int)($row['cnt'] ?? 0);
     }
 
     /**
@@ -115,17 +104,15 @@ class CachedAccountCoins extends CachedModel
     {
         $limit = max(1, (int)$limit);
         $offset = max(0, (int)$offset);
-        $cacheKey = $this->getCacheKey("history_page_{$accountId}_{$limit}_{$offset}");
-        return $this->cache->remember($cacheKey, function() use ($accountId, $limit, $offset) {
-            $stmt = $this->db->prepare("
-                SELECT * FROM account_coins 
-                WHERE account_id = ? 
-                ORDER BY created_at DESC 
-                LIMIT ? OFFSET ?
-            ");
-            $stmt->execute([$accountId, $limit, $offset]);
-            return $stmt->fetchAll();
-        }, 300);
+        // Без кеша: всегда свежие данные
+        $stmt = $this->db->prepare("
+            SELECT * FROM account_coins 
+            WHERE account_id = ? 
+            ORDER BY created_at DESC 
+            LIMIT ? OFFSET ?
+        ");
+        $stmt->execute([$accountId, $limit, $offset]);
+        return $stmt->fetchAll();
     }
     
     /**
